@@ -1,0 +1,213 @@
+/* SINTACTICO */
+
+/* 1. package o importaciones */
+package Analizadores;
+import java_cup.runtime.*;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import Errores.Excepcion;
+
+import Instruccion.Aritmetica;
+import Instruccion.Estadistica;
+import Instruccion.Variable;
+import Instruccion.Imprimir;  
+
+
+import TablaSimbolos.TablaInfo;
+
+
+/* 2. código para el parser, variables, métodos */
+
+// PARSER
+parser code
+{:   
+
+    //clases, objetos, variables, listas, etc.
+    Variable vari = new Variable();
+    Aritmetica Ari = new Aritmetica();
+    Estadistica Est = new Estadistica();
+    Imprimir imp = new Imprimir();
+
+
+    // salida consola
+    public List<String> salidas = new ArrayList<String>();
+
+    public ArrayList<TablaInfo> tabla = new ArrayList<TablaInfo>();
+    // errores
+    public ArrayList<Excepcion> Errores = new ArrayList();
+
+    // Método al que se llama automáticamente ante algún error sintáctico.
+    public void syntax_error(Symbol s){ 
+        Errores.add(new Excepcion("Sintáctico", "Error de sintaxis detectado. Se detectó: " + s.value, s.left + "", s.right + ""));
+    } 
+
+    // Método al que se llama automáticamente ante algún error sintáctico, en el que ya no es posible una recuperación de errores.
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error sintactico irrecuperable en la Linea " + (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido."); 
+    }
+
+    public ArrayList<Excepcion> getErrores(){
+        return Errores;
+    }
+
+    public ArrayList<TablaInfo> getTabla(){
+        return tabla;
+    }
+
+
+:}
+
+/* 3. terminales */
+terminal String PTCOMA, PAR_IZQ, PAR_DER, LLAV_IZQ, LLAV_DER, PT, DOS_PT, COMA, COR_IZQ, COR_DER;
+terminal String ASIGNACION, ACCESO, ASIGNA;
+terminal String INICIALIZACION, ARROBA;
+
+terminal String PROGRAM;
+terminal String END;
+
+terminal String CONSOLE;
+terminal String PRINT;
+
+terminal String CADENA;
+terminal String ID;
+terminal String DOUBLE;
+terminal String NUMERO;
+
+terminal String VAR;
+terminal String CHAR_ARRAY;
+terminal String ARR;
+
+terminal String SUM;
+terminal String RES;
+terminal String MUL;
+terminal String DIV;
+terminal String MOD;
+
+terminal String MEDIA;
+terminal String MEDIANA;
+terminal String MODA;
+terminal String VARIANZA;
+terminal String MAX;
+terminal String MIN;
+
+terminal String COLUMN;
+
+terminal String BAR;
+terminal String PIE;
+terminal String LINE;
+terminal String HISTOGRAM;
+
+terminal String EXEC;
+terminal String TITULO;
+terminal String X;
+terminal String Y;
+terminal String TITULOX;
+terminal String TITULOY;
+terminal String VALUES;
+terminal String LABEL;
+
+
+/* 4. No terminales */
+non terminal String ini;
+non terminal String declaraciones;
+non terminal String declaracion;
+non terminal String imprimir;
+non terminal String expresion;
+non terminal String expresiones;
+non terminal String tipo_dato;
+non terminal String declaracion_variable;
+non terminal String declaracion_arreglo;
+non terminal String op_aritmetica;
+non terminal String operacion;
+non terminal String funcion_estadistica;
+
+non terminal String funcion_graficacion;
+non terminal String atributos_bar;
+non terminal String atributos_line;
+non terminal String atributos_pie;
+non terminal String atributos_histogram;
+
+non terminal String graficaBarras;
+non terminal String graficaPie;
+non terminal String graficaLine;
+non terminal String datosHistogram;
+
+
+/* 5. precedencias operadores */
+
+
+/* 6. Reglas de producción para expresiones */
+start with ini;
+
+ini ::= PROGRAM declaraciones:a END PROGRAM 
+;
+
+declaraciones ::= declaraciones declaracion
+            | declaracion
+            | error PTCOMA {::}
+;
+
+declaracion ::= imprimir
+            | declaracion_variable
+            | declaracion_arreglo
+            | op_aritmetica 
+; 
+
+imprimir ::=  CONSOLE ACCESO PRINT  ASIGNACION expresiones:exp END PTCOMA {: RESULT = exp; salidas.add(exp); :}
+            | CONSOLE ACCESO COLUMN ASIGNACION expresiones:id ASIGNA expresiones:exp END PTCOMA {: salidas.add(imp.imprimirValores(id, exp)); :}
+;
+
+declaracion_variable ::= VAR DOS_PT tipo_dato:dato ACCESO ID:id INICIALIZACION expresion:exp END PTCOMA {: vari.asignar(id , exp);  
+    tabla.add(new TablaInfo(id, dato, exp , 0, 0)); :}
+;
+
+
+declaracion_arreglo ::= ARR DOS_PT tipo_dato:dato ACCESO ARROBA ID:id INICIALIZACION COR_IZQ expresiones:exp COR_DER END PTCOMA {: vari.asignar(id , exp); 
+    tabla.add(new TablaInfo(id, dato, exp , 0, 0)); :}
+;
+
+/*=========op aritmeticas=========*/
+op_aritmetica ::= VAR DOS_PT ID:id DOUBLE ACCESO operacion:exp END PTCOMA {: RESULT = exp;  vari.asignar(id , exp); :}
+;
+
+/*=========funciones estadisticas=========*/
+funcion_estadistica ::= MEDIA PAR_IZQ expresion:exp PAR_DER {: RESULT = Est.operacionEstadistica(exp, "media");    :}
+                | MEDIANA     PAR_IZQ expresion:exp PAR_DER {: RESULT = Est.operacionEstadistica(exp, "mediana");  :}
+                | MODA        PAR_IZQ expresion:exp PAR_DER {: RESULT = Est.operacionEstadistica(exp, "moda");     :}
+                | VARIANZA    PAR_IZQ expresion:exp PAR_DER {: RESULT = Est.operacionEstadistica(exp, "varianza"); :}
+                | MAX         PAR_IZQ expresion:exp PAR_DER {: RESULT = Est.operacionEstadistica(exp, "max");      :}
+                | MIN         PAR_IZQ expresion:exp PAR_DER {: RESULT = Est.operacionEstadistica(exp, "min");      :}
+; 
+
+/*=========expresiones=========*/
+expresion ::= operacion:a                   {:RESULT = a;                                           :}
+        | ID:id                             {:RESULT = vari.obtener(id.replace("\"", ""));          :}
+        | CADENA:str                        {:RESULT = str.replace("\"", "");                       :}
+        | NUMERO:num                        {:RESULT = num;                                         :}
+        | PAR_IZQ expresion:exp PAR_DER     {:RESULT = exp;                                         :}
+        | funcion_estadistica:a             {:RESULT = a;                                           :}
+        | COR_IZQ expresiones:exp COR_DER   {:RESULT = exp;                                         :}
+        | ARROBA:a ID:id                    {:RESULT = vari.obtener(id);                            :}
+;
+
+expresiones ::= expresion:b                   {: RESULT = b;     :}
+            | expresiones:b COMA expresion:e  {: RESULT = b + "," + e; :}
+            | /* */
+;
+
+
+tipo_dato ::= DOUBLE:d      {: RESULT = "variable double"; :}
+            | CHAR_ARRAY:c  {: RESULT = "variable string"; :}
+;
+
+
+operacion ::= SUM PAR_IZQ expresiones:b PAR_DER  {: RESULT = Ari.realizarOperacion(b, "SUM"); :}
+            | RES PAR_IZQ expresiones:b PAR_DER  {: RESULT = Ari.realizarOperacion(b, "RES"); :}
+            | MUL PAR_IZQ expresiones:b PAR_DER  {: RESULT = Ari.realizarOperacion(b, "MUL"); :} 
+            | DIV PAR_IZQ expresiones:b PAR_DER  {: RESULT = Ari.realizarOperacion(b, "DIV"); :}  
+            | MOD PAR_IZQ expresiones:b PAR_DER  {: RESULT = Ari.realizarOperacion(b, "MOD"); :} 
+;
+
+
+
