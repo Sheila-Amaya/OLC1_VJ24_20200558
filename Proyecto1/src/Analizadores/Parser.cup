@@ -64,7 +64,6 @@ terminal String DISTINTO, IGUAL, MAYOR, MENOR, MAYORIGUAL, MENORIGUAL;
 terminal String NUMERO, ID,  BOOLEANO;
 terminal String CADENA;
 
-
 terminal String VAR;
 terminal String CONST;
 
