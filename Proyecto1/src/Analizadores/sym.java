@@ -8,111 +8,113 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PT = 7;
-  public static final int PAR_DER = 4;
-  public static final int NUMERO = 24;
-  public static final int Y = 47;
-  public static final int X = 46;
-  public static final int RES = 29;
-  public static final int CHAR_ARRAY = 26;
-  public static final int DOUBLE = 23;
-  public static final int PIE = 41;
+  public static final int PAR_DER = 5;
+  public static final int NUMERO = 25;
+  public static final int DISTINTO = 19;
+  public static final int CONST = 30;
+  public static final int FIND = 51;
+  public static final int REMOVE = 44;
+  public static final int XOR = 16;
+  public static final int CONTINUE = 39;
+  public static final int PRINTLN = 47;
   public static final int COR_DER = 11;
-  public static final int TITULOY = 49;
-  public static final int TITULOX = 48;
-  public static final int BAR = 40;
-  public static final int COLUMN = 39;
-  public static final int ARROBA = 16;
-  public static final int TITULO = 45;
-  public static final int DIV = 31;
-  public static final int ASIGNA = 14;
-  public static final int MIN = 38;
-  public static final int LLAV_IZQ = 5;
-  public static final int ID = 22;
-  public static final int MEDIANA = 34;
+  public static final int FOR = 36;
+  public static final int MATCH = 34;
+  public static final int NOT = 15;
+  public static final int MENORIGUAL = 24;
+  public static final int AND = 13;
+  public static final int APPEND = 43;
+  public static final int ELSEIF = 33;
+  public static final int IGUAL = 20;
+  public static final int OR = 14;
+  public static final int INCREMENTO = 17;
+  public static final int IF = 31;
+  public static final int LLAV_IZQ = 7;
+  public static final int ID = 26;
+  public static final int MAYORIGUAL = 23;
   public static final int EOF = 0;
-  public static final int DOS_PT = 8;
+  public static final int RETURN = 40;
+  public static final int NEW = 42;
+  public static final int DECREMENTO = 18;
+  public static final int DOS_PT = 3;
   public static final int error = 1;
-  public static final int PROGRAM = 17;
-  public static final int MUL = 30;
   public static final int COMA = 9;
-  public static final int CADENA = 21;
-  public static final int VALUES = 50;
-  public static final int LINE = 42;
-  public static final int MODA = 35;
-  public static final int MOD = 32;
-  public static final int PAR_IZQ = 3;
-  public static final int INICIALIZACION = 15;
+  public static final int CADENA = 28;
+  public static final int MENOR = 22;
+  public static final int TOSTRING = 50;
+  public static final int BREAK = 38;
+  public static final int PAR_IZQ = 4;
+  public static final int VOID = 46;
   public static final int ASIGNACION = 12;
-  public static final int ACCESO = 13;
+  public static final int MAYOR = 21;
+  public static final int ELSE = 32;
+  public static final int PUNTO = 8;
+  public static final int START_WITH = 52;
+  public static final int WHILE = 35;
+  public static final int LIST = 41;
   public static final int COR_IZQ = 10;
-  public static final int VARIANZA = 36;
-  public static final int END = 18;
-  public static final int SUM = 28;
   public static final int PTCOMA = 2;
-  public static final int ARR = 27;
-  public static final int MEDIA = 33;
+  public static final int BOOLEANO = 27;
   public static final int LLAV_DER = 6;
-  public static final int EXEC = 44;
-  public static final int LABEL = 51;
-  public static final int MAX = 37;
-  public static final int HISTOGRAM = 43;
-  public static final int VAR = 25;
-  public static final int PRINT = 20;
-  public static final int CONSOLE = 19;
+  public static final int STRUCT = 45;
+  public static final int VAR = 29;
+  public static final int LENGTH = 49;
+  public static final int ROUND = 48;
+  public static final int DO = 37;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "PTCOMA",
+  "DOS_PT",
   "PAR_IZQ",
   "PAR_DER",
-  "LLAV_IZQ",
   "LLAV_DER",
-  "PT",
-  "DOS_PT",
+  "LLAV_IZQ",
+  "PUNTO",
   "COMA",
   "COR_IZQ",
   "COR_DER",
   "ASIGNACION",
-  "ACCESO",
-  "ASIGNA",
-  "INICIALIZACION",
-  "ARROBA",
-  "PROGRAM",
-  "END",
-  "CONSOLE",
-  "PRINT",
-  "CADENA",
-  "ID",
-  "DOUBLE",
+  "AND",
+  "OR",
+  "NOT",
+  "XOR",
+  "INCREMENTO",
+  "DECREMENTO",
+  "DISTINTO",
+  "IGUAL",
+  "MAYOR",
+  "MENOR",
+  "MAYORIGUAL",
+  "MENORIGUAL",
   "NUMERO",
+  "ID",
+  "BOOLEANO",
+  "CADENA",
   "VAR",
-  "CHAR_ARRAY",
-  "ARR",
-  "SUM",
-  "RES",
-  "MUL",
-  "DIV",
-  "MOD",
-  "MEDIA",
-  "MEDIANA",
-  "MODA",
-  "VARIANZA",
-  "MAX",
-  "MIN",
-  "COLUMN",
-  "BAR",
-  "PIE",
-  "LINE",
-  "HISTOGRAM",
-  "EXEC",
-  "TITULO",
-  "X",
-  "Y",
-  "TITULOX",
-  "TITULOY",
-  "VALUES",
-  "LABEL"
+  "CONST",
+  "IF",
+  "ELSE",
+  "ELSEIF",
+  "MATCH",
+  "WHILE",
+  "FOR",
+  "DO",
+  "BREAK",
+  "CONTINUE",
+  "RETURN",
+  "LIST",
+  "NEW",
+  "APPEND",
+  "REMOVE",
+  "STRUCT",
+  "VOID",
+  "PRINTLN",
+  "ROUND",
+  "LENGTH",
+  "TOSTRING",
+  "FIND",
+  "START_WITH"
   };
 }
 
