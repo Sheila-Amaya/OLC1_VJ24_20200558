@@ -32,7 +32,7 @@ import Token.TokenInfo;
 %cup            //integrarse con cup
 %char           //conteo de caracteres reconocidos 
 %column
-%full
+%debug
 %line           //conteo de lineas
 %unicode        //tipo de codf. que acepta carat. especiales 
 %ignorecase     //no importa si son mayus o mins 
@@ -48,9 +48,11 @@ import Token.TokenInfo;
 
 //Expresiones regulares
 EVITAR=[ \r\t]+
-NUMERO = [0-9]+(\.[0-9]*)?|\.[0-9]+ //reconoce num con pt decimal y entero
+DECIMAL = [0-9]+\.[0-9]+
+ENTERO = [0-9]+
 ID = (\_)*[a-zA-Z][a-zA-Z0-9\_]* //dentificadores (nombres de variables, funciones, etc.) 
 CADENA =  \"[^\"]*\"
+CHAR = \'[^\']\'
 BOOL = "true"| "false"
 comentarioMultilineal = "/*" [^*]*"*"+([^/*][^*]*"*"+)*"/"
 comentarioSimple = \/\/[^\n\r]*[\n\r]?  
@@ -110,6 +112,7 @@ MENORIGUAL = "<="
 //-------------------
 
 {CADENA} {TokenInfo token = new TokenInfo(yytext(), "CADENA", yyline, yychar); tokens.add(token); return new Symbol(sym.CADENA, yyline, yychar, yytext()); }
+{CHAR}   {TokenInfo token = new TokenInfo(yytext(), "CHAR", yyline, yychar); tokens.add(token); return new Symbol(sym.CHAR, yyline, yychar, yytext()); }	
 
 ";"  {TokenInfo token = new TokenInfo(yytext(), "PT_COMA", yyline, yychar); tokens.add(token); return new Symbol(sym.PTCOMA,yyline,yychar, yytext());} 
 ":"  {TokenInfo token = new TokenInfo(yytext(), "DOS_PT", yyline, yychar);  tokens.add(token); return new Symbol(sym.DOS_PT,yyline,yychar, yytext());} 
@@ -123,13 +126,17 @@ MENORIGUAL = "<="
 "]"  {TokenInfo token = new TokenInfo(yytext(), "COR_DER", yyline, yychar);  tokens.add(token); return new Symbol(sym.COR_DER,yyline,yychar, yytext());} 
 "="  {TokenInfo token = new TokenInfo(yytext(), "ASIGNACION", yyline, yychar);  tokens.add(token); return new Symbol(sym.ASIGNACION,yyline,yychar, yytext());}
 
+"+"  {TokenInfo token = new TokenInfo(yytext(), "MAS", yyline, yychar); tokens.add(token); return new Symbol(sym.MAS, yyline, yychar, yytext());}
+"-"  {TokenInfo token = new TokenInfo(yytext(), "MENOS", yyline, yychar); tokens.add(token); return new Symbol(sym.MENOS, yyline, yychar, yytext());}
+"*"  {TokenInfo token = new TokenInfo(yytext(), "POR", yyline, yychar); tokens.add(token); return new Symbol(sym.POR, yyline, yychar, yytext());}
+"/"  {TokenInfo token = new TokenInfo(yytext(), "DIV", yyline, yychar); tokens.add(token); return new Symbol(sym.DIV, yyline, yychar, yytext());}
+"%"  {TokenInfo token = new TokenInfo(yytext(), "MOD", yyline, yychar); tokens.add(token); return new Symbol(sym.MOD, yyline, yychar, yytext());}
+"**" {TokenInfo token = new TokenInfo(yytext(), "POTENCIA", yyline, yychar); tokens.add(token); return new Symbol(sym.POTENCIA, yyline, yychar, yytext());}
+
 {AND} {TokenInfo token = new TokenInfo(yytext(), "AND", yyline, yychar);  tokens.add(token); return new Symbol(sym.AND, yyline, yychar, yytext()); }
 {OR}  {TokenInfo token = new TokenInfo(yytext(), "OR", yyline, yychar);  tokens.add(token); return new Symbol(sym.OR, yyline, yychar, yytext()); }
 {NOT} {TokenInfo token = new TokenInfo(yytext(), "NOT", yyline, yychar);  tokens.add(token); return new Symbol(sym.NOT, yyline, yychar, yytext()); }
 {XOR} {TokenInfo token = new TokenInfo(yytext(), "XOR", yyline, yychar);  tokens.add(token); return new Symbol(sym.XOR, yyline, yychar, yytext()); }
-
-"++"  {TokenInfo token = new TokenInfo(yytext(), "INCREMENTO", yyline, yychar); tokens.add(token); return new Symbol(sym.INCREMENTO, yyline, yychar, yytext());}
-"--"  {TokenInfo token = new TokenInfo(yytext(), "DECREMENTO", yyline, yychar); tokens.add(token); return new Symbol(sym.DECREMENTO, yyline, yychar, yytext());}
 
 {DIFERENCIACION} {TokenInfo token = new TokenInfo(yytext(), "DISTINTO", yyline, yychar);  tokens.add(token); return new Symbol(sym.DISTINTO, yyline, yychar, yytext()); }
 {IGUALACION}     {TokenInfo token = new TokenInfo(yytext(), "IGUAL", yyline, yychar);  tokens.add(token); return new Symbol(sym.IGUAL, yyline, yychar, yytext()); }
@@ -138,8 +145,8 @@ MENORIGUAL = "<="
 {MAYORIGUAL}     {TokenInfo token = new TokenInfo(yytext(), "MAYORIGUAL", yyline, yychar);  tokens.add(token); return new Symbol(sym.MAYORIGUAL, yyline, yychar, yytext()); }
 {MENORIGUAL}     {TokenInfo token = new TokenInfo(yytext(), "MENORIGUAL", yyline, yychar);  tokens.add(token); return new Symbol(sym.MENORIGUAL, yyline, yychar, yytext()); }
 
-
-{NUMERO} {TokenInfo token = new TokenInfo(yytext(), "NUMERO", yyline, yychar); tokens.add(token);return new Symbol(sym.NUMERO,yyline,yychar,yytext());}
+{ENTERO} {TokenInfo token = new TokenInfo(yytext(), "NUMERO", yyline, yychar); tokens.add(token);return new Symbol(sym.NUMERO,yyline,yychar,yytext());}
+{DECIMAL} {TokenInfo token = new TokenInfo(yytext(), "DECIMAL", yyline, yychar); tokens.add(token);return new Symbol(sym.DECIMAL,yyline,yychar,yytext());}
 {ID}     {TokenInfo token = new TokenInfo(yytext(), "ID", yyline, yychar); tokens.add(token); return new Symbol(sym.ID,yyline,yychar,yytext());}
 {BOOL}   {TokenInfo token = new TokenInfo(yytext(), "BOOLEANO", yyline, yychar); tokens.add(token); return new Symbol(sym.BOOLEANO,yyline,yychar,yytext());}
 

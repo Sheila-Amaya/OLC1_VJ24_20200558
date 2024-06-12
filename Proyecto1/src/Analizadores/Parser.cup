@@ -59,10 +59,10 @@ parser code
 /* 3. terminales */
 terminal String PTCOMA, DOS_PT, PAR_IZQ, PAR_DER, LLAV_DER, LLAV_IZQ, PUNTO, COMA, COR_IZQ, COR_DER, ASIGNACION;
 terminal String AND, OR, NOT, XOR;
-terminal String INCREMENTO, DECREMENTO;
+terminal String MAS, MENOS, POR, DIV, MOD, POTENCIA, UMENOS;
 terminal String DISTINTO, IGUAL, MAYOR, MENOR, MAYORIGUAL, MENORIGUAL;
-terminal String NUMERO, ID,  BOOLEANO;
-terminal String CADENA;
+terminal String ENTERO, DECIMAL, ID,  BOOLEANO;
+terminal String CHAR, CADENA;
 
 terminal String VAR;
 terminal String CONST;
@@ -103,8 +103,16 @@ non terminal String instruccion;
 non terminal String imprimir;
 non terminal String expresion;
 
-
 /* 5. precedencias operadores */
+precedence left OR;
+precedence left AND;
+precedence left XOR;
+precedence left NOT;
+precedence left IGUAL, DISTINTO, MENOR, MENORIGUAL, MAYOR, MAYORIGUAL;
+precedence left MAS, MENOS;
+precedence left POR, DIV, MOD;
+precedence left POTENCIA;
+precedence left UMENOS;
 
 
 /* 6. Reglas de producción para expresiones */
@@ -124,6 +132,18 @@ instruccion ::= imprimir
 imprimir ::=  PRINTLN PAR_IZQ expresion PAR_DER PTCOMA
 ;
 
-expresion ::= CADENA
+expresion ::= MENOS expresion %prec UMENOS
+            | expresion MAS expresion
+            | NUMERO
+            | CADENA
 ;
+
+tipo_datos ::= ENTERO
+            | DECIMAL
+            | BOOLEANO
+            | CHAR
+            | CADENA
+;
+
+
 
