@@ -6,14 +6,19 @@ import java_cup.runtime.*;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 import Errores.Excepcion;
 
-import Instruccion.Aritmetica;
-import Instruccion.Variable;
-import Instruccion.Imprimir;  
+import abstracto.*;
+import simbolo.*;
+
+//=========INSTRUCCIONES=========
+import instrucciones.Print;
 
 
-import TablaSimbolos.TablaInfo;
+//=========EXPRESIONES=========
+import expresiones.Nativo;
+
 
 
 /* 2. código para el parser, variables, métodos */
@@ -23,15 +28,11 @@ parser code
 {:   
 
     //clases, objetos, variables, listas, etc.
-    Variable vari = new Variable();
-    Aritmetica Ari = new Aritmetica();
-    Imprimir imp = new Imprimir();
 
 
     // salida consola
     public List<String> salidas = new ArrayList<String>();
 
-    public ArrayList<TablaInfo> tabla = new ArrayList<TablaInfo>();
     // errores
     public ArrayList<Excepcion> Errores = new ArrayList();
 
@@ -49,20 +50,25 @@ parser code
         return Errores;
     }
 
-    public ArrayList<TablaInfo> getTabla(){
-        return tabla;
-    }
+    //========================
+
 
 
 :}
 
 /* 3. terminales */
-terminal String PTCOMA, DOS_PT, PAR_IZQ, PAR_DER, LLAV_DER, LLAV_IZQ, PUNTO, COMA, COR_IZQ, COR_DER, ASIGNACION;
+terminal String PT_COMA, DOS_PT, PAR_IZQ, PAR_DER, LLAV_DER, LLAV_IZQ, PUNTO, COMA, COR_IZQ, COR_DER, ASIGNACION;
 terminal String AND, OR, NOT, XOR;
-terminal String MAS, MENOS, POR, DIV, MOD, POTENCIA, UMENOS;
-terminal String DISTINTO, IGUAL, MAYOR, MENOR, MAYORIGUAL, MENORIGUAL;
+terminal String MAS, MENOS, POR, DIV, MOD, POTENCIA, UMENOS, INC, DEC;
+terminal String DISTINTO, IGUAL, IGUALIGUAL, MAYOR, MENOR, MAYORIGUAL, MENORIGUAL;
 terminal String ENTERO, DECIMAL, ID,  BOOLEANO;
-terminal String CHAR, CADENA;
+terminal String CARACTER, CADENA;
+
+terminal String INT;
+terminal String DOUBLE;
+terminal String STRING;
+terminal String CHAR;
+terminal String BOOL;
 
 terminal String VAR;
 terminal String CONST;
@@ -78,6 +84,9 @@ terminal String DO;
 terminal String BREAK;
 terminal String CONTINUE;
 terminal String RETURN;
+
+terminal String CASE;
+terminal String DEFAULT;
 
 terminal String LIST;
 terminal String NEW;
@@ -97,18 +106,44 @@ terminal String FIND;
 terminal String START_WITH;
 
 /* 4. No terminales */
-non terminal String ini;
-non terminal String instrucciones;
-non terminal String instruccion;
-non terminal String imprimir;
-non terminal String expresion;
+non terminal LinkedList<Instruccion> ini, instrucciones;
+non terminal Instruccion instruccion;
+non terminal Instruccion imprimir;
+non terminal Instruccion expresion;
+
+non terminal String tipo_datos;
+non terminal String declaracion_id;
+non terminal String asignacion_id;
+non terminal String sentencia_if;
+non terminal String sentencia_match;
+non terminal String entornos;
+non terminal String cases_default;
+non terminal String cases;
+non terminal String case;
+non terminal String default;
+non terminal String sentencia_while;
+non terminal String sentencia_for;
+non terminal String argumentos_for;
+non terminal String inicializar_for;
+non terminal String iniciar_ids_for;
+non terminal String iniciar_id_for;
+non terminal String reasignaciones;
+non terminal String reasignacion;
+non terminal String sentencia_do_while;
+non terminal String entorno;
+non terminal String mutabilidad;
+non terminal String aritmeticos;
+non terminal String relacionales;
+non terminal String logicos;
+non terminal String casteo;
+non terminal String inc_dec;
 
 /* 5. precedencias operadores */
 precedence left OR;
 precedence left AND;
 precedence left XOR;
 precedence left NOT;
-precedence left IGUAL, DISTINTO, MENOR, MENORIGUAL, MAYOR, MAYORIGUAL;
+precedence left IGUALIGUAL, DISTINTO, MENOR, MENORIGUAL, MAYOR, MAYORIGUAL;
 precedence left MAS, MENOS;
 precedence left POR, DIV, MOD;
 precedence left POTENCIA;
@@ -118,32 +153,162 @@ precedence left UMENOS;
 /* 6. Reglas de producción para expresiones */
 start with ini;
 
-ini ::= instrucciones
+ini ::= instrucciones:a                             {: RESULT = a; :}
 ;
 
-instrucciones ::= instrucciones instruccion
-            | instruccion
-            | error PTCOMA  {::}
+instrucciones ::= instrucciones:a instruccion:b     {: RESULT = a; RESULT.add(b); :}
+            | instruccion:a                         {: RESULT = new LinkedList<>(); RESULT.add(a); :}
 ;
 
-instruccion ::= imprimir
-; 
-
-imprimir ::=  PRINTLN PAR_IZQ expresion PAR_DER PTCOMA
+instruccion ::= declaracion_id PT_COMA
+                | asignacion_id PT_COMA
+                | sentencia_if
+                | sentencia_match
+                | sentencia_while
+                | sentencia_for
+                | sentencia_do_while
+                | inc_dec PT_COMA
+                | imprimir:a                          {: RESULT = a; :}
+                | RETURN expresion PT_COMA
+                | RETURN PT_COMA
+                | CONTINUE PT_COMA
+                | BREAK PT_COMA
+                | error
 ;
 
-expresion ::= MENOS expresion %prec UMENOS
-            | expresion MAS expresion
-            | NUMERO
-            | CADENA
+// ===== DECLARACION =====
+declaracion_id ::= mutabilidad ID DOS_PT tipo_datos IGUAL expresion
+                    | mutabilidad ID DOS_PT tipo_datos
 ;
 
-tipo_datos ::= ENTERO
-            | DECIMAL
-            | BOOLEANO
+mutabilidad ::= VAR
+                | CONST
+;
+
+// ===== ASIGNACION =====
+asignacion_id ::= ID IGUAL expresion 
+;
+
+// ===== SENTENCIAS DE CONTROL =====
+// ===== SENTENCIA IF =====
+sentencia_if ::= IF PAR_IZQ expresion PAR_DER entorno ELSE sentencia_if
+                | IF PAR_IZQ expresion PAR_DER entorno ELSE entorno
+                | IF PAR_IZQ expresion PAR_DER entorno
+;
+
+// ===== SENTENCIA MATCH =====
+sentencia_match ::= MATCH expresion entornos ;
+
+entornos ::= LLAV_IZQ cases_default LLAV_DER
+            | LLAV_IZQ LLAV_DER
+;
+
+cases_default ::= cases default
+                | cases
+                | default
+;
+
+cases ::= cases case
+        | case
+;
+
+case ::= expresion CASE entorno
+;
+
+default ::= DEFAULT CASE entorno
+;
+
+// ===== SENTENCIAS CICLICAS =====
+// ===== SENTENCIA WHILE =====
+sentencia_while ::= WHILE PAR_IZQ expresion PAR_DER entorno
+;
+
+// ===== SENTENCIA FOR =====
+sentencia_for ::= FOR PAR_IZQ argumentos_for PAR_DER entorno
+;
+
+argumentos_for ::= inicializar_for PT_COMA expresion PT_COMA inc_dec
+;
+
+inicializar_for ::= tipo_datos iniciar_ids_for
+                    | reasignaciones
+;
+
+iniciar_ids_for ::= iniciar_ids_for iniciar_id_for
+                    | iniciar_id_for
+;
+
+iniciar_id_for ::= ID IGUAL expresion ;
+
+reasignaciones ::= reasignaciones COMA reasignacion
+                    | reasignacion
+;
+
+reasignacion ::= ID IGUAL expresion ;
+
+// ===== SENTENCIA DO WHILE =====
+sentencia_do_while ::= DO entorno WHILE PAR_IZQ expresion PAR_DER
+;
+
+// ===== ENTORNO =====
+entorno ::= LLAV_IZQ instrucciones LLAV_DER
+            | LLAV_IZQ LLAV_DER
+;
+
+// ===== PRINT =====
+imprimir ::=  PRINTLN PAR_IZQ expresion:a PAR_DER PT_COMA     {: RESULT = new Print(a,aleft, aright); :}
+;
+
+// ===== EXPRESIONES =====
+expresion ::= aritmeticos
+            | relacionales
+            | logicos
+            | casteo    
+            | ID        
+            | ENTERO    :a              {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO),aleft, aright  ); :}
+            | DECIMAL   :a              {: RESULT = new Nativo(Double.parseDouble(a), new Tipo(tipoDato.DECIMAL),aleft, aright  ); :}
+            | BOOLEANO                  
+            | CADENA    :a              {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
+            | CARACTER  :a              {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
+            | PAR_IZQ expresion PAR_DER
+;
+
+aritmeticos ::= expresion MAS expresion
+                | expresion MENOS expresion
+                | expresion POR expresion
+                | expresion DIV expresion
+                | expresion MOD expresion
+                | expresion POTENCIA expresion
+                | MENOS expresion %prec UMENOS
+;
+
+relacionales ::= expresion IGUALIGUAL expresion
+                | expresion DISTINTO expresion
+                | expresion MAYOR expresion
+                | expresion MENOR expresion
+                | expresion MAYORIGUAL expresion
+                | expresion MENORIGUAL expresion
+;
+
+logicos ::= expresion OR expresion
+            | expresion AND expresion
+            | expresion XOR expresion
+            | NOT expresion
+;
+
+// ===== CASTEOS =====
+casteo ::= PAR_IZQ tipo_datos PAR_DER expresion 
+;
+
+// ===== INCREMENTO/DECREMENTO =====
+inc_dec ::= expresion INC
+            | expresion DEC
+;
+
+// ===== TIPOS DE DATOS =====
+tipo_datos ::= INT
+            | DOUBLE
+            | BOOL
+            | STRING
             | CHAR
-            | CADENA
 ;
-
-
-

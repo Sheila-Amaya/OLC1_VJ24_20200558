@@ -9,67 +9,79 @@ package Analizadores;
 public class sym {
   /* terminals */
   public static final int PAR_DER = 5;
-  public static final int NUMERO = 30;
-  public static final int DISTINTO = 24;
-  public static final int CONST = 35;
+  public static final int DISTINTO = 26;
+  public static final int CONST = 45;
+  public static final int CHAR = 42;
   public static final int POR = 19;
-  public static final int FIND = 56;
-  public static final int REMOVE = 49;
+  public static final int PT_COMA = 2;
+  public static final int FIND = 68;
+  public static final int REMOVE = 61;
+  public static final int ENTERO = 33;
+  public static final int CASE = 56;
   public static final int XOR = 16;
-  public static final int CONTINUE = 44;
-  public static final int PRINTLN = 52;
+  public static final int DOUBLE = 40;
+  public static final int CONTINUE = 54;
+  public static final int INT = 39;
+  public static final int PRINTLN = 64;
   public static final int COR_DER = 11;
-  public static final int FOR = 41;
-  public static final int MATCH = 39;
+  public static final int FOR = 51;
+  public static final int MATCH = 49;
   public static final int NOT = 15;
-  public static final int MENORIGUAL = 29;
+  public static final int MENORIGUAL = 32;
   public static final int AND = 13;
-  public static final int APPEND = 48;
-  public static final int ELSEIF = 38;
-  public static final int IGUAL = 25;
+  public static final int APPEND = 60;
+  public static final int ELSEIF = 48;
+  public static final int IGUAL = 27;
+  public static final int CARACTER = 37;
   public static final int OR = 14;
+  public static final int BOOL = 43;
+  public static final int INC = 24;
   public static final int DIV = 20;
-  public static final int IF = 36;
+  public static final int IF = 46;
   public static final int UMENOS = 23;
   public static final int LLAV_IZQ = 7;
-  public static final int ID = 31;
-  public static final int MAYORIGUAL = 28;
+  public static final int ID = 35;
+  public static final int MAYORIGUAL = 31;
   public static final int EOF = 0;
-  public static final int RETURN = 45;
-  public static final int NEW = 47;
+  public static final int DECIMAL = 34;
+  public static final int RETURN = 55;
+  public static final int NEW = 59;
   public static final int DOS_PT = 3;
   public static final int error = 1;
   public static final int COMA = 9;
-  public static final int CADENA = 33;
+  public static final int CADENA = 38;
   public static final int MENOS = 18;
-  public static final int MENOR = 27;
+  public static final int MENOR = 30;
   public static final int MOD = 21;
-  public static final int TOSTRING = 55;
-  public static final int BREAK = 43;
+  public static final int TOSTRING = 67;
+  public static final int BREAK = 53;
   public static final int PAR_IZQ = 4;
-  public static final int VOID = 51;
+  public static final int VOID = 63;
   public static final int ASIGNACION = 12;
-  public static final int MAYOR = 26;
+  public static final int MAYOR = 29;
   public static final int POTENCIA = 22;
-  public static final int ELSE = 37;
+  public static final int ELSE = 47;
   public static final int PUNTO = 8;
-  public static final int START_WITH = 57;
-  public static final int WHILE = 40;
-  public static final int LIST = 46;
+  public static final int START_WITH = 69;
+  public static final int IGUALIGUAL = 28;
+  public static final int WHILE = 50;
+  public static final int LIST = 58;
+  public static final int DEFAULT = 57;
   public static final int COR_IZQ = 10;
-  public static final int PTCOMA = 2;
-  public static final int BOOLEANO = 32;
+  public static final int BOOLEANO = 36;
+  public static final int STRING = 41;
   public static final int LLAV_DER = 6;
-  public static final int STRUCT = 50;
-  public static final int VAR = 34;
-  public static final int LENGTH = 54;
-  public static final int ROUND = 53;
-  public static final int DO = 42;
+  public static final int DEC = 25;
+  public static final int STRUCT = 62;
+  public static final int VAR = 44;
+  public static final int LENGTH = 66;
+  public static final int ROUND = 65;
+  public static final int DO = 52;
   public static final int MAS = 17;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "PTCOMA",
+  "PT_COMA",
   "DOS_PT",
   "PAR_IZQ",
   "PAR_DER",
@@ -91,16 +103,26 @@ public class sym {
   "MOD",
   "POTENCIA",
   "UMENOS",
+  "INC",
+  "DEC",
   "DISTINTO",
   "IGUAL",
+  "IGUALIGUAL",
   "MAYOR",
   "MENOR",
   "MAYORIGUAL",
   "MENORIGUAL",
-  "NUMERO",
+  "ENTERO",
+  "DECIMAL",
   "ID",
   "BOOLEANO",
+  "CARACTER",
   "CADENA",
+  "INT",
+  "DOUBLE",
+  "STRING",
+  "CHAR",
+  "BOOL",
   "VAR",
   "CONST",
   "IF",
@@ -113,6 +135,8 @@ public class sym {
   "BREAK",
   "CONTINUE",
   "RETURN",
+  "CASE",
+  "DEFAULT",
   "LIST",
   "NEW",
   "APPEND",

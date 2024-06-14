@@ -11,8 +11,6 @@ import Token.TokenInfo;
 import proyecto1.GeneradorL;
 import proyecto1.GeneradorS;
 
-import TablaSimbolos.TablaInfo;
-
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -32,7 +30,10 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-
+import abstracto.Instruccion;
+import java.util.LinkedList;
+import simbolo.Arbol;
+import simbolo.tablaSimbolos;
 
 /**
  *
@@ -224,25 +225,25 @@ public class principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 892, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("DataForge");
@@ -407,28 +408,46 @@ public class principal extends javax.swing.JFrame {
         Analizadores.Sintactico parse;
         ArrayList<Excepcion> errores = new ArrayList(); //agregar errores
         ArrayList<TokenInfo> tokens = new ArrayList();
-        ArrayList<TablaInfo> tabla = new ArrayList();
-        
-        try {
 
+        try {
             scanner = new scanner(new BufferedReader(new StringReader(jTextArea1.getText())));
             parse = new Sintactico(scanner);
-            parse.parse(); 
-            
+            var resultado = parse.parse(); 
+
             errores.addAll(scanner.Errores); //errores lexicos
             errores.addAll(parse.getErrores()); //errores sintacticos
             generarReporteHTML(errores);   //generar reporte de errores lexicos y sintacticos
             tokens.addAll(scanner.getTokens()); 
             generarReporteTokensHTML(tokens); //generar reporte de tokens
 
-            tabla = parse.getTabla();
-            generarTablaSimbolos(tabla,tokens);  //generar tabla de simbolos
+            if (resultado.value instanceof LinkedList) {
+                var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
+                var tabla = new tablaSimbolos();
+                tabla.setNombre("GLOBAL");
+                ast.setConsola("");
+                LinkedList<Excepcion> lista = new LinkedList<>();
+                lista.addAll(scanner.Errores);
+                lista.addAll(parse.Errores);
+                for (var a : ast.getInstrucciones()) {
+                    if (a == null) {
+                        continue;
+                    }
 
-            String result = "";
-            for (int i = 0; i < parse.salidas.size(); i++) {
-                result += parse.salidas.get(i) + '\n';
+                    var res = a.interpretar(ast, tabla);
+                    if (res instanceof Excepcion) {
+                        lista.add((Excepcion) res);
+                    }
+                }
+
+                StringBuilder result = new StringBuilder();
+                result.append(ast.getConsola()).append("\n");
+                for (var i : lista) {
+                    result.append(i.toString()).append("\n");
+                }
+                this.jTextArea2.setText(result.toString());
+            } else {
+                throw new Exception("El resultado del análisis no es una lista de instrucciones");
             }
-            this.jTextArea2.setText(result);
 
         } catch (Exception ex) {
             Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -436,94 +455,6 @@ public class principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
-
-
-public static void generarTablaSimbolos(ArrayList<TablaInfo> tabla, ArrayList<TokenInfo> tokens) { 
-    Set<String> addedSymbols = new HashSet<>();
-    for (TokenInfo token : tokens) {
-        for (TablaInfo tablaInfo : tabla) {
-            if (!addedSymbols.contains(tablaInfo.getNombre()) && tablaInfo.getNombre().equals(token.getLexema())) {
-                tablaInfo.setLinea(token.getLinea());
-                tablaInfo.setColumna(token.getColumna());
-                
-                // Imprimir los datos de tablaInfo en la consola
-                //System.out.println( tablaInfo.getNombre() +tablaInfo.getTipo() + tablaInfo.getValor() + ", Linea: " + tablaInfo.getLinea() + ", Columna: " + tablaInfo.getColumna());
-                
-                addedSymbols.add(tablaInfo.getNombre());
-                break;
-            }
-        }
-    }
-    FileWriter fichero = null; //escribir el archivo
-    PrintWriter pw = null; //escribir texto dentro del archivo
-    
-    try {
-        
-        String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Reportes/ReporteTabla.html";
-        fichero = new FileWriter(path);
-        pw = new PrintWriter(fichero);
-        
-        //Comenzamos a escribir el html
-        pw.println("<html>");
-        pw.println("<head>");
-        pw.println("<title>TABLA DE SIMBOLOS</title>");
-        pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">");
-        pw.println("</head>");
-        pw.println("<body>");
-        pw.println("<div class=\"container\">"); // Agregamos una clase container de Bootstrap
-        pw.println("<h1 class=\"mt-5\">Tabla de Simbolos</h1>"); // Agregamos clases de margen superior (mt-5) de Bootstrap
-        pw.println("<br></br>");
-
-         // Agregamos la tabla con clases de Bootstrap
-        pw.println("<table class=\"table\">");
-        pw.println("<thead class=\"thead-dark\">"); // Aplicamos la clase thead-dark para el encabezado oscuro
-        pw.println("<tr>");
-        pw.println("<th scope=\"col\">#</th>"); // New column for numbering
-        pw.println("<th scope=\"col\">NOMBRE</th>");
-        pw.println("<th scope=\"col\">TIPO</th>");
-        pw.println("<th scope=\"col\">VALOR</th>");
-        pw.println("<th scope=\"col\">FILA</th>");
-        pw.println("<th scope=\"col\">COLUMNA</th>");
-        pw.println("</tr>");
-        pw.println("</thead>");
-        pw.println("<tbody>");
-
-        // Iteramos sobre la lista de tabla de simbolos y los agregamos a la tabla
-        int count = 1; // Initialize counter
-        for (TablaInfo tablaInfo : tabla) {
-            pw.println("<tr>");
-            pw.println("<td>" + count + "</td>"); // Print counter value
-            pw.println("<td>" + tablaInfo.getNombre() + "</td>");
-            pw.println("<td>" + tablaInfo.getTipo() + "</td>");
-            pw.println("<td>" + tablaInfo.getValor() + "</td>");
-            pw.println("<td>" + tablaInfo.getLinea() + "</td>");
-            pw.println("<td>" + tablaInfo.getColumna() + "</td>");
-            pw.println("</tr>");
-            count++; // Increment counter
-        }
-
-            pw.println("</tbody>");
-            pw.println("</table>");
-
-            // Continuamos con el resto del contenido HTML
-            pw.println("</div>");
-            pw.println("</body>");
-            pw.println("</html>");
-            //Desktop.getDesktop().open(new File(path));  //abrir archivo despues de generalo
-            
-
-        } catch (Exception e) {
-        } finally {
-            try {
-                if (fichero != null) {
-                    fichero.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-}
 
 
     public static void generarReporteHTML(ArrayList<Excepcion> errores) throws IOException {
