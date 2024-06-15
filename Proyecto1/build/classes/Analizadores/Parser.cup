@@ -20,6 +20,8 @@ import instrucciones.Print;
 import expresiones.Nativo;
 import expresiones.Aritmeticas;
 import expresiones.OperadoresAritmeticos;
+import expresiones.Relacionales;
+import expresiones.OperadoresRelacionales;
 
 
 
@@ -136,7 +138,7 @@ non terminal String sentencia_do_while;
 non terminal String entorno;
 non terminal String mutabilidad;
 non terminal Instruccion aritmeticos;
-non terminal String relacionales;
+non terminal Instruccion relacionales;
 non terminal String logicos;
 non terminal String casteo;
 non terminal String inc_dec;
@@ -264,7 +266,7 @@ imprimir ::=  PRINTLN PAR_IZQ expresion:a PAR_DER PT_COMA     {: RESULT = new Pr
 
 // ===== EXPRESIONES =====
 expresion ::= aritmeticos:a             {: RESULT = a; :}        
-            | relacionales
+            | relacionales:a            {: RESULT = a; :}
             | logicos
             | casteo    
             | ID        
@@ -286,7 +288,7 @@ aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmetica
                 | MENOS expresion:a                   {: RESULT = new Aritmeticas(a   , OperadoresAritmeticos.NEGACION,aleft, aright); :}   %prec UMENOS 
 ;
 
-relacionales ::= expresion IGUALIGUAL expresion
+relacionales ::= expresion:a IGUALIGUAL expresion:b   {: RESULT = new Relacionales(a,b , OperadoresRelacionales.EQUALS,aleft, aright); :}    %prec IGUALIGUAL
                 | expresion DISTINTO expresion
                 | expresion MAYOR expresion
                 | expresion MENOR expresion
