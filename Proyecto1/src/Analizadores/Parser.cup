@@ -289,11 +289,11 @@ aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmetica
 ;
 
 relacionales ::= expresion:a IGUALIGUAL expresion:b   {: RESULT = new Relacionales(a,b , OperadoresRelacionales.EQUALS,aleft, aright); :}    %prec IGUALIGUAL
-                | expresion DISTINTO expresion
-                | expresion MAYOR expresion
-                | expresion MENOR expresion
-                | expresion MAYORIGUAL expresion
-                | expresion MENORIGUAL expresion
+                | expresion:a DISTINTO expresion:b    {: RESULT = new Relacionales(a,b , OperadoresRelacionales.NOT_EQUALS,aleft, aright); :}
+                | expresion:a MAYOR expresion:b       {: RESULT = new Relacionales(a,b , OperadoresRelacionales.GREATER_THAN,aleft, aright); :}
+                | expresion:a MENOR expresion:b       {: RESULT = new Relacionales(a,b , OperadoresRelacionales.LESS_THAN,aleft, aright); :}
+                | expresion:a MAYORIGUAL expresion:b  {: RESULT = new Relacionales(a,b , OperadoresRelacionales.GREATER_THAN_OR_EQUALS,aleft, aright); :}
+                | expresion:a MENORIGUAL expresion:b  {: RESULT = new Relacionales(a,b , OperadoresRelacionales.LESS_THAN_OR_EQUALS,aleft, aright); :}
 ;
 
 logicos ::= expresion OR expresion
