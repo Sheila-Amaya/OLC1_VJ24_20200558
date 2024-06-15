@@ -18,6 +18,8 @@ import instrucciones.Print;
 
 //=========EXPRESIONES=========
 import expresiones.Nativo;
+import expresiones.Aritmeticas;
+import expresiones.OperadoresAritmeticos;
 
 
 
@@ -38,8 +40,8 @@ parser code
 
     // Método al que se llama automáticamente ante algún error sintáctico.
     public void syntax_error(Symbol s){ 
-        Errores.add(new Excepcion("Sintáctico", "Error de sintaxis detectado. Se detectó: " + s.value, s.left + "", s.right + ""));
-    } 
+        Errores.add(new Excepcion("Sintáctico", "Error de sintaxis detectado. Se detectó: " + s.value, s.left, s.right));
+        } 
 
     // Método al que se llama automáticamente ante algún error sintáctico, en el que ya no es posible una recuperación de errores.
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
@@ -69,6 +71,7 @@ terminal String DOUBLE;
 terminal String STRING;
 terminal String CHAR;
 terminal String BOOL;
+terminal String TRUE, FALSE;
 
 terminal String VAR;
 terminal String CONST;
@@ -132,7 +135,7 @@ non terminal String reasignacion;
 non terminal String sentencia_do_while;
 non terminal String entorno;
 non terminal String mutabilidad;
-non terminal String aritmeticos;
+non terminal Instruccion aritmeticos;
 non terminal String relacionales;
 non terminal String logicos;
 non terminal String casteo;
@@ -260,26 +263,27 @@ imprimir ::=  PRINTLN PAR_IZQ expresion:a PAR_DER PT_COMA     {: RESULT = new Pr
 ;
 
 // ===== EXPRESIONES =====
-expresion ::= aritmeticos
+expresion ::= aritmeticos:a             {: RESULT = a; :}        
             | relacionales
             | logicos
             | casteo    
             | ID        
             | ENTERO    :a              {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO),aleft, aright  ); :}
             | DECIMAL   :a              {: RESULT = new Nativo(Double.parseDouble(a), new Tipo(tipoDato.DECIMAL),aleft, aright  ); :}
-            | BOOLEANO                  
+            | TRUE      :a              {: RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO),aleft, aright  ); :}
+            | FALSE     :a              {: RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO),aleft, aright  ); :}    
             | CADENA    :a              {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
             | CARACTER  :a              {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
             | PAR_IZQ expresion PAR_DER
 ;
 
-aritmeticos ::= expresion MAS expresion
-                | expresion MENOS expresion
-                | expresion POR expresion
-                | expresion DIV expresion
-                | expresion MOD expresion
-                | expresion POTENCIA expresion
-                | MENOS expresion %prec UMENOS
+aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.SUMA,aleft, aright); :}
+                | expresion:a MENOS expresion:b       {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.RESTA,aleft, aright); :}
+                | expresion:a POR expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.MULTIPLICACION,aleft, aright); :}
+                | expresion:a DIV expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.DIVISION,aleft, aright); :}
+                | expresion:a MOD expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.MODULO,aleft, aright); :}
+                | expresion:a POTENCIA expresion:b    {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.POTENCIA,aleft, aright); :}
+                | MENOS expresion:a                   {: RESULT = new Aritmeticas(a   , OperadoresAritmeticos.NEGACION,aleft, aright); :}   %prec UMENOS 
 ;
 
 relacionales ::= expresion IGUALIGUAL expresion

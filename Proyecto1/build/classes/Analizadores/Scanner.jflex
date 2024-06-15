@@ -53,7 +53,6 @@ ENTERO = [0-9]+
 ID = (\_)*[a-zA-Z][a-zA-Z0-9\_]* //dentificadores (nombres de variables, funciones, etc.) 
 CADENA =  \"[^\"]*\"
 CHAR = \'[^\']\'
-BOOL = "true"| "false"
 comentarioMultilineal = "/*" [^*]*"*"+([^/*][^*]*"*"+)*"/"
 comentarioSimple = \/\/[^\n\r]*[\n\r]?  
 
@@ -79,7 +78,10 @@ MENORIGUAL = "<="
 "double"     {TokenInfo token = new TokenInfo(yytext(), "DOUBLE", yyline, yychar);  tokens.add(token); return new Symbol(sym.DOUBLE,yyline,yychar,yytext());}
 "string"     {TokenInfo token = new TokenInfo(yytext(), "STRING", yyline, yychar);  tokens.add(token); return new Symbol(sym.STRING,yyline,yychar,yytext());}
 "char"       {TokenInfo token = new TokenInfo(yytext(), "CHAR", yyline, yychar);  tokens.add(token); return new Symbol(sym.CHAR,yyline,yychar,yytext());}
-"bool"       {TokenInfo token = new TokenInfo(yytext(), "BOOL", yyline, yychar);  tokens.add(token); return new Symbol(sym.BOOL,yyline,yychar,yytext());}
+"bool"       {TokenInfo token = new TokenInfo(yytext(), "BOOLEANO", yyline, yychar);  tokens.add(token); return new Symbol(sym.BOOLEANO,yyline,yychar,yytext());}
+
+"true"       {TokenInfo token = new TokenInfo(yytext(), "TRUE", yyline, yychar);  tokens.add(token); return new Symbol(sym.TRUE,yyline,yychar,yytext());}
+"false"      {TokenInfo token = new TokenInfo(yytext(), "FALSE", yyline, yychar);  tokens.add(token); return new Symbol(sym.FALSE,yyline,yychar,yytext());}
 
 "var"        {TokenInfo token = new TokenInfo(yytext(), "VAR", yyline, yychar);  tokens.add(token); return new Symbol(sym.VAR,yyline,yychar,yytext());}
 "const"      {TokenInfo token = new TokenInfo(yytext(), "CONST", yyline, yychar);  tokens.add(token); return new Symbol(sym.CONST,yyline,yychar,yytext());}
@@ -172,7 +174,8 @@ MENORIGUAL = "<="
 {ENTERO}  {TokenInfo token = new TokenInfo(yytext(), "ENTERO", yyline, yychar); tokens.add(token);return new Symbol(sym.ENTERO,yyline,yychar,yytext());}
 {DECIMAL} {TokenInfo token = new TokenInfo(yytext(), "DECIMAL", yyline, yychar); tokens.add(token);return new Symbol(sym.DECIMAL,yyline,yychar,yytext());}
 {ID}      {TokenInfo token = new TokenInfo(yytext(), "ID", yyline, yychar); tokens.add(token); return new Symbol(sym.ID,yyline,yychar,yytext());}
-{BOOL}    {TokenInfo token = new TokenInfo(yytext(), "BOOLEANO", yyline, yychar); tokens.add(token); return new Symbol(sym.BOOLEANO,yyline,yychar,yytext());}
+
+
 
 \n {yychar=1;}
 
@@ -183,5 +186,5 @@ MENORIGUAL = "<="
 //Recuperar errores lexicos  
 . {
     //guarda los errores lexicos
-    Errores.add(new Excepcion("Lexico","Caracter no valido: "+ yytext(), yyline+"", yychar+""));
+    Errores.add(new Excepcion("Lexico","Caracter no valido: "+ yytext(), yyline, yychar));
 }

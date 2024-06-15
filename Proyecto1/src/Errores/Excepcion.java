@@ -4,11 +4,11 @@ public class Excepcion{
 
     public String tipo; //tipo de error
     public String descripcion; //descripcion del error
-    public String linea; //linea donde se produce el error
-    public String columna; //columna donde se produce el error
+    public int linea; //linea donde se produce el error
+    public int columna; //columna donde se produce el error
 
 
-    public Excepcion (String tipo, String descripcion, String linea, String columna){
+    public Excepcion (String tipo, String descripcion, int linea, int columna){
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.linea = linea;
