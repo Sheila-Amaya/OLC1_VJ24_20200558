@@ -22,6 +22,8 @@ import expresiones.Aritmeticas;
 import expresiones.OperadoresAritmeticos;
 import expresiones.Relacionales;
 import expresiones.OperadoresRelacionales;
+import expresiones.Logicos;
+import expresiones.OperadoresLogicos;
 
 
 
@@ -139,7 +141,7 @@ non terminal String entorno;
 non terminal String mutabilidad;
 non terminal Instruccion aritmeticos;
 non terminal Instruccion relacionales;
-non terminal String logicos;
+non terminal Instruccion logicos;
 non terminal String casteo;
 non terminal String inc_dec;
 
@@ -267,7 +269,7 @@ imprimir ::=  PRINTLN PAR_IZQ expresion:a PAR_DER PT_COMA     {: RESULT = new Pr
 // ===== EXPRESIONES =====
 expresion ::= aritmeticos:a             {: RESULT = a; :}        
             | relacionales:a            {: RESULT = a; :}
-            | logicos
+            | logicos:a                 {: RESULT = a; :}
             | casteo    
             | ID        
             | ENTERO    :a              {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO),aleft, aright  ); :}
@@ -296,10 +298,10 @@ relacionales ::= expresion:a IGUALIGUAL expresion:b   {: RESULT = new Relacional
                 | expresion:a MENORIGUAL expresion:b  {: RESULT = new Relacionales(a,b , OperadoresRelacionales.LESS_THAN_OR_EQUALS,aleft, aright); :}
 ;
 
-logicos ::= expresion OR expresion
-            | expresion AND expresion
-            | expresion XOR expresion
-            | NOT expresion
+logicos ::= expresion:a OR expresion:b                 {: RESULT = new Logicos(a, OperadoresLogicos.OR, b,aleft, aright); :}
+            | expresion:a AND expresion:b              {: RESULT = new Logicos(a, OperadoresLogicos.AND, b,aleft, aright); :}
+            | expresion:a XOR expresion:b              {: RESULT = new Logicos(a, OperadoresLogicos.XOR, b,aleft, aright); :}
+            | NOT expresion:a                          
 ;
 
 // ===== CASTEOS =====

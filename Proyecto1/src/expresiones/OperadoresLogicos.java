@@ -8,6 +8,9 @@ package expresiones;
  *
  * @author eliza
  */
-public class OperadoresLogicos {
-    
+public enum  OperadoresLogicos {
+    AND,    // &&
+    OR,     // ||
+    NOT,    // !
+    XOR     // ^
 }
