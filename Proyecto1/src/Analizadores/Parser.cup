@@ -167,7 +167,7 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | sentencia_for
                 | sentencia_do_while
                 | inc_dec PT_COMA
-                | imprimir:a                          {: RESULT = a; :}
+                | imprimir:a                         {: RESULT = a; :}
                 | RETURN expresion PT_COMA
                 | RETURN PT_COMA
                 | CONTINUE PT_COMA
