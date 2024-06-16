@@ -185,7 +185,7 @@ mutabilidad ::= VAR                 {: RESULT = "true"; :}
 ;
 
 // ===== ASIGNACION =====
-asignacion_id ::= ID IGUAL expresion 
+asignacion_id ::= ID:a IGUAL expresion:b        {: RESULT = new AsignacionVariables(a,b,aleft, aright); :}
 ;
 
 // ===== SENTENCIAS DE CONTROL =====
@@ -259,9 +259,9 @@ imprimir ::=  PRINTLN PAR_IZQ expresion:a PAR_DER PT_COMA     {: RESULT = new Pr
 ;
 
 // ===== EXPRESIONES =====
-expresion ::= aritmeticos:a             {: RESULT = a; :}        
-            | relacionales:a            {: RESULT = a; :}
-            | logicos:a                 {: RESULT = a; :}
+expresion ::= aritmeticos:a                {: RESULT = a; :}        
+            | relacionales:a               {: RESULT = a; :}
+            | logicos:a                    {: RESULT = a; :}
             | casteo    
             | ID        :a                 {: RESULT = new AccesoVariables(a,aleft, aright); :}
             | ENTERO    :a                 {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO),aleft, aright  ); :}

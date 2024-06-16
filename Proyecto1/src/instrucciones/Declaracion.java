@@ -18,20 +18,20 @@ import simbolo.tablaSimbolos;
 public class Declaracion extends Instruccion{
     public String Identificador;    // Identificador de la variable
     public Instruccion Valor;       // Valor de la variable
-    public boolean mutabilidad;     // Mutabilidad de la variable
+    public String mutabilidad;     // Mutabilidad de la variable
 
     
     public Declaracion(String mutabilidad,String Identificador,Tipo tipo, Instruccion Valor,  int linea, int columna) {
         super(tipo, linea, columna);
         this.Identificador = Identificador;
         this.Valor = Valor;
-        this.mutabilidad = Boolean.parseBoolean(mutabilidad); //convertir a boolean
+        this.mutabilidad = mutabilidad;
     }
 
     public Declaracion(String mutabilidad, String Identificador, Tipo tipo, int linea, int columna) {
         super(tipo, linea, columna);
         this.Identificador = Identificador;
-        this.mutabilidad = Boolean.parseBoolean(mutabilidad);
+        this.mutabilidad = mutabilidad;
     }
 
     @Override
@@ -46,7 +46,12 @@ public class Declaracion extends Instruccion{
             return new Excepcion("Semantico","Error de tipos de datos en la declaracion de la variable", linea, columna);
         }
 
-        Simbolo s = new Simbolo(this.tipo, this.Identificador, valorIn, this.mutabilidad);
+        Simbolo s = new Simbolo(this.tipo, this.Identificador, valorIn);
+        
+        if(this.mutabilidad.toLowerCase().equals("const")){ // si la variable es constante
+            s.setMutabilidad(true);
+        }
+
         boolean create = tabla.agregarVariable(s);
         if(!create){
             return new Excepcion("Semantico","La variable "+this.Identificador+" ya existe", linea, columna);
