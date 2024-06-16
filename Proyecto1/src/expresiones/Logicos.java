@@ -66,28 +66,28 @@ public class Logicos extends Instruccion {
 
     public boolean and(Object comp1, Object comp2) {
         if (comp1 instanceof Boolean && comp2 instanceof Boolean) {
-            return (boolean) comp1 && (boolean) comp2;
+            return Boolean.parseBoolean(((String) comp1).toLowerCase()) && Boolean.parseBoolean(((String) comp2).toLowerCase());
         }
         return false;
     }
 
     public boolean or(Object comp1, Object comp2) {
         if (comp1 instanceof Boolean && comp2 instanceof Boolean) {
-            return (boolean) comp1 || (boolean) comp2;
+            return Boolean.parseBoolean(((String) comp1).toLowerCase()) || Boolean.parseBoolean(((String) comp2).toLowerCase());
         }
         return false;
     }
 
     public boolean not(Object comp) {
         if (comp instanceof Boolean) {
-            return !(boolean) comp;
+            return !Boolean.parseBoolean(((String) comp).toLowerCase());
         }
         return false; // Manejar otro tipo de error 
     }
 
     public boolean xor(Object comp1, Object comp2) {
         if (comp1 instanceof Boolean && comp2 instanceof Boolean) {
-            return (boolean) comp1 ^ (boolean) comp2;
+            return Boolean.parseBoolean(((String) comp1).toLowerCase()) ^ Boolean.parseBoolean(((String) comp2).toLowerCase());
         }
         return false;
     }

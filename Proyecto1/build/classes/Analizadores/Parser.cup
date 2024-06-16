@@ -111,8 +111,8 @@ non terminal Instruccion imprimir;
 non terminal Instruccion expresion;
 non terminal Tipo tipo_datos;
 non terminal Instruccion declaracion_id;
+non terminal Instruccion asignacion_id;
 
-non terminal String asignacion_id;
 non terminal String sentencia_if;
 non terminal String sentencia_match;
 non terminal String entornos;
@@ -159,8 +159,8 @@ instrucciones ::= instrucciones:a instruccion:b     {: RESULT = a; RESULT.add(b)
             | instruccion:a                         {: RESULT = new LinkedList<>(); RESULT.add(a); :}
 ;
 
-instruccion ::= declaracion_id PT_COMA
-                | asignacion_id PT_COMA
+instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
+                | asignacion_id:a PT_COMA           {: RESULT = a; :}         
                 | sentencia_if
                 | sentencia_match
                 | sentencia_while
@@ -176,12 +176,12 @@ instruccion ::= declaracion_id PT_COMA
 ;
 
 // ===== DECLARACION =====
-declaracion_id ::= mutabilidad ID DOS_PT tipo_datos IGUAL expresion
-                    | mutabilidad ID DOS_PT tipo_datos
+declaracion_id ::= mutabilidad:a ID:b DOS_PT tipo_datos:c IGUAL expresion:d  {: RESULT = new Declaracion(a,b,c,d,aleft, aright); :}
+                    | mutabilidad:a ID:b DOS_PT tipo_datos:c                 {: RESULT = new Declaracion(a,b,c,aleft, aright); :}
 ;
 
-mutabilidad ::= VAR
-                | CONST
+mutabilidad ::= VAR                 {: RESULT = "true"; :}
+                | CONST             {: RESULT = "false"; :}
 ;
 
 // ===== ASIGNACION =====
@@ -263,14 +263,14 @@ expresion ::= aritmeticos:a             {: RESULT = a; :}
             | relacionales:a            {: RESULT = a; :}
             | logicos:a                 {: RESULT = a; :}
             | casteo    
-            | ID        
-            | ENTERO    :a              {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO),aleft, aright  ); :}
-            | DECIMAL   :a              {: RESULT = new Nativo(Double.parseDouble(a), new Tipo(tipoDato.DECIMAL),aleft, aright  ); :}
-            | TRUE      :a              {: RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO),aleft, aright  ); :}
-            | FALSE     :a              {: RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO),aleft, aright  ); :}    
-            | CADENA    :a              {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
-            | CARACTER  :a              {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
-            | PAR_IZQ expresion PAR_DER
+            | ID        :a                 {: RESULT = new AccesoVariables(a,aleft, aright); :}
+            | ENTERO    :a                 {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO),aleft, aright  ); :}
+            | DECIMAL   :a                 {: RESULT = new Nativo(Double.parseDouble(a), new Tipo(tipoDato.DECIMAL),aleft, aright  ); :}
+            | TRUE      :a                 {: RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO),aleft, aright  ); :}
+            | FALSE     :a                 {: RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO),aleft, aright  ); :}    
+            | CADENA    :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
+            | CARACTER  :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
+            | PAR_IZQ expresion:a PAR_DER  {: RESULT = a; :}
 ;
 
 aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.SUMA,aleft, aright); :}

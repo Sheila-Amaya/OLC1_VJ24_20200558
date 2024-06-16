@@ -52,4 +52,12 @@ public class tablaSimbolos {
         
     }
 
+    public Simbolo getVariable(String id){
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(id.toLowerCase()); //busca si ya existe la variable
+        if(busqueda != null){ //si no existe la variable
+            return busqueda;
+        }
+        return null;
+    }
+
 }

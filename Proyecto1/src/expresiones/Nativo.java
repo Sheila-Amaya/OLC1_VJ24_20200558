@@ -15,15 +15,28 @@ import simbolo.tablaSimbolos;
  */
 public class Nativo extends Instruccion{
     public Object valor;
+    public Tipo tipo;
 
     public Nativo(Object valor, Tipo tipo, int linea, int columna) {
         super(tipo, linea, columna);
         this.valor = valor;
+        this.tipo = tipo;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        return this.valor;
+        var tipo = this.tipo.getTipo();
+        switch (tipo) {
+            case CADENA:
+                this.valor = this.valor.toString().replace("\\n", "\n");
+                this.valor = this.valor.toString().replace("\\t", "\t");
+                this.valor = this.valor.toString().replace("\\\"", "\"");
+                this.valor = this.valor.toString().replace("\\'", "\'");
+                this.valor = this.valor.toString().replace("\\\\", "\\");
+                return this.valor;
+            default:
+                return this.valor;
+        }
     }
 
 }
