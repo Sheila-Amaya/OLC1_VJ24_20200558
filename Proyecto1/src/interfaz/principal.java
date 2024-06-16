@@ -438,7 +438,7 @@ public class principal extends javax.swing.JFrame {
 
                     var res = a.interpretar(ast, tabla);
                     if (res instanceof Excepcion) {
-                        lista.add((Excepcion) res);
+                        lista.add((Excepcion) res); //errores semanticos
                     }
                 }
 

@@ -301,7 +301,7 @@ relacionales ::= expresion:a IGUALIGUAL expresion:b   {: RESULT = new Relacional
 logicos ::= expresion:a OR expresion:b                 {: RESULT = new Logicos(a, OperadoresLogicos.OR, b,aleft, aright); :}
             | expresion:a AND expresion:b              {: RESULT = new Logicos(a, OperadoresLogicos.AND, b,aleft, aright); :}
             | expresion:a XOR expresion:b              {: RESULT = new Logicos(a, OperadoresLogicos.XOR, b,aleft, aright); :}
-            | NOT expresion:a                          
+            | NOT expresion:a                          {: RESULT = new Logicos(   OperadoresLogicos.NOT, a,aleft, aright); :}                     
 ;
 
 // ===== CASTEOS =====
