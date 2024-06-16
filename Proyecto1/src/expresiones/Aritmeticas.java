@@ -108,7 +108,7 @@ public class Aritmeticas extends Instruccion {
                 switch (tipo2) {
                     case tipoDato.ENTERO -> {                            //decimal + entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 + (double) op2;                //==retorna decimal
+                        return (double) op1 + (int) op2;                //==retorna decimal
                     }
                     case tipoDato.DECIMAL -> {                          //decimal + decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
@@ -333,7 +333,7 @@ public class Aritmeticas extends Instruccion {
                 switch (tipo2) {
                     case tipoDato.ENTERO -> {                            //decimal * entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 * (int) op2;                   //==retorna decimal
+                        return (double) op1 * (double) op2;                   //==retorna decimal
                     }
                     case tipoDato.DECIMAL -> {                          //decimal * decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);

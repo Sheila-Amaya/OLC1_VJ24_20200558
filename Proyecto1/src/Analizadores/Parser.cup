@@ -112,8 +112,8 @@ non terminal Instruccion expresion;
 non terminal Tipo tipo_datos;
 non terminal Instruccion declaracion_id;
 non terminal Instruccion asignacion_id;
+non terminal Instruccion sentencia_if;
 
-non terminal String sentencia_if;
 non terminal String sentencia_match;
 non terminal String entornos;
 non terminal String cases_default;
@@ -121,9 +121,10 @@ non terminal String cases;
 non terminal String case;
 non terminal String default;
 non terminal String sentencia_while;
+
 non terminal Instruccion sentencia_for;
 non terminal String sentencia_do_while;
-non terminal String entorno;
+non terminal Instruccion entorno;
 non terminal String mutabilidad;
 non terminal Instruccion aritmeticos;
 non terminal Instruccion relacionales;
@@ -165,7 +166,7 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | RETURN expresion PT_COMA
                 | RETURN PT_COMA
                 | CONTINUE PT_COMA
-                | BREAK PT_COMA
+                | BREAK:a PT_COMA                    {: RESULT = new Break(aleft, aright); :}
                 | error
 ;
 
@@ -186,7 +187,7 @@ asignacion_id ::= ID:a IGUAL expresion:b        {: RESULT = new AsignacionVariab
 // ===== SENTENCIA IF =====
 sentencia_if ::= IF PAR_IZQ expresion PAR_DER entorno ELSE sentencia_if
                 | IF PAR_IZQ expresion PAR_DER entorno ELSE entorno
-                | IF PAR_IZQ expresion PAR_DER entorno
+                | IF PAR_IZQ expresion:a PAR_DER LLAV_IZQ instrucciones:b LLAV_DER               {: RESULT = new SentenciaIf(a,b,aleft, aright); :}
 ;
 
 // ===== SENTENCIA MATCH =====

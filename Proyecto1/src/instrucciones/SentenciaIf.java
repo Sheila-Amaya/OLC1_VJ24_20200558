@@ -16,38 +16,45 @@ import simbolo.*;
 public class SentenciaIf extends Instruccion {
 
     private Instruccion condicion;
-    public LinkedList<Instruccion> instrucciones;
+    private LinkedList<Instruccion> instrucciones;
 
-    public SentenciaIf(Instruccion condicion, LinkedList<Instruccion> instrucciones, int linea, int columna) {
-        super(new Tipo(tipoDato.VOID), linea, columna);
+    public SentenciaIf(Instruccion condicion, LinkedList<Instruccion> instrucciones, int linea, int col) {
+        super(new Tipo(tipoDato.VOID), linea, col);
         this.condicion = condicion;
         this.instrucciones = instrucciones;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        var condicion = this.condicion.interpretar(arbol, tabla);
-        
-        if(condicion instanceof Excepcion){
-            return condicion;
+        var cond = this.condicion.interpretar(arbol, tabla);
+        if (cond instanceof Excepcion) {
+            return cond;
         }
-        
-        //validar que la condicion sea de tipo boolean
-        if(this.condicion.tipo.getTipo() != tipoDato.BOOLEANO){
-            return new Excepcion("Semantico", "La condicion del if debe ser de tipo boolean", this.linea, this.columna);
+
+        // ver que cond sea booleano
+        if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
+            return new Excepcion("SEMANTICO", "Expresion invalida",
+                    this.linea, this.columna);
         }
-        
-        var newTabla = new tablaSimbolos(tabla); //setea tabla anterior
-        if((boolean)condicion){
-            for(Instruccion var : this.instrucciones){
-                var result = var.interpretar(arbol, newTabla);
-                if(result instanceof Excepcion){
-                    return new Excepcion("Semantico", "", this.linea, this.columna); 
+
+        var newTabla = new tablaSimbolos(tabla);
+        if ((boolean) cond) {
+            for (var i : this.instrucciones) {
+                try {
+                    if (i instanceof Break) {
+                        return i;
+                    }
+                    var resultado = i.interpretar(arbol, newTabla);
+                    if (resultado instanceof Break) {
+                        return resultado;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error al interpretar la instrucción: " + e.getMessage());
                 }
-                
             }
         }
         return null;
     }
 
 }
+
