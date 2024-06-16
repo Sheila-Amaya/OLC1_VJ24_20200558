@@ -13,22 +13,14 @@ import abstracto.*;
 import simbolo.*;
 
 //=========INSTRUCCIONES=========
-import instrucciones.Print;
-
+import instrucciones.*;
 
 //=========EXPRESIONES=========
-import expresiones.Nativo;
-import expresiones.Aritmeticas;
-import expresiones.OperadoresAritmeticos;
-import expresiones.Relacionales;
-import expresiones.OperadoresRelacionales;
-import expresiones.Logicos;
-import expresiones.OperadoresLogicos;
+import expresiones.*;
 
 
 
 /* 2. código para el parser, variables, métodos */
-
 // PARSER
 parser code
 {:   
@@ -117,9 +109,9 @@ non terminal LinkedList<Instruccion> ini, instrucciones;
 non terminal Instruccion instruccion;
 non terminal Instruccion imprimir;
 non terminal Instruccion expresion;
+non terminal Tipo tipo_datos;
+non terminal Instruccion declaracion_id;
 
-non terminal String tipo_datos;
-non terminal String declaracion_id;
 non terminal String asignacion_id;
 non terminal String sentencia_if;
 non terminal String sentencia_match;
@@ -314,9 +306,9 @@ inc_dec ::= expresion INC
 ;
 
 // ===== TIPOS DE DATOS =====
-tipo_datos ::= INT
-            | DOUBLE
-            | BOOL
-            | STRING
-            | CHAR
+tipo_datos ::= INT   :a     {: RESULT = new Tipo(tipoDato.ENTERO);   :}
+            | DOUBLE :a     {: RESULT = new Tipo(tipoDato.DECIMAL);  :}
+            | BOOL   :a     {: RESULT = new Tipo(tipoDato.BOOLEANO); :}
+            | STRING :a     {: RESULT = new Tipo(tipoDato.CADENA);   :}
+            | CHAR   :a     {: RESULT = new Tipo(tipoDato.CARACTER); :}
 ;

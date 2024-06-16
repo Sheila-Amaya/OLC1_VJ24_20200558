@@ -40,5 +40,16 @@ public class tablaSimbolos {
         this.nombre = nombre;
     }
 
+    //para la declaracion de variables
+    public boolean agregarVariable(Simbolo simbolo){
+        Simbolo busqueda = (Simbolo) this.tablaActual.get(simbolo.getId().toLowerCase()); //busca si ya existe la variable
+
+        if(busqueda == null){ //si no existe la variable
+            this.tablaActual.put(simbolo.getId().toLowerCase(), simbolo); //agrega la variable
+            return true;
+        }
+        return false;
+        
+    }
 
 }
