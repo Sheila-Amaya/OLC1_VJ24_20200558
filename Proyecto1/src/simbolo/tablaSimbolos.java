@@ -11,15 +11,21 @@ import java.util.HashMap;
  * @author eliza
  */
 public class tablaSimbolos {
-    private tablaSimbolos tablaAneterior;
+    private tablaSimbolos tablaAnterior;
     private HashMap<String, Object> tablaActual;
     private String nombre;
 
-    public tablaSimbolos getTablaAneterior() {
-        return tablaAneterior;
+    public tablaSimbolos getTablaAnterior() {
+        return this.tablaAnterior;
     }
 
     public tablaSimbolos(){
+        this.tablaActual = new HashMap<>();
+        this.nombre = "";
+    }
+
+    public tablaSimbolos(tablaSimbolos tablaAnterior){
+        this.tablaAnterior = tablaAnterior;
         this.tablaActual = new HashMap<>();
         this.nombre = "";
     }
@@ -60,7 +66,7 @@ public class tablaSimbolos {
     }
 
     public Simbolo getVariable(String id){
-        for (tablaSimbolos tabla = this; tabla != null; tabla = tabla.getTablaAneterior()) {
+        for (tablaSimbolos tabla = this; tabla != null; tabla = tabla.getTablaAnterior()) {
             Simbolo busqueda = (Simbolo) tabla.getTablaActual().get(id.toLowerCase()); //busca si ya existe la variable
             if(busqueda != null){ //si no existe la variable
                 return busqueda;
