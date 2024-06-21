@@ -78,24 +78,24 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                          //entero + entero
+                    case ENTERO -> {                          //entero + entero
                         this.tipo.setTipo(tipoDato.ENTERO);
-                        return (int) op1 + (int) op2;                    //==retorna entero
+                        return Integer.parseInt(op1.toString()) + Integer.parseInt(op2.toString());                    //==retorna entero
                     }
-                    case tipoDato.DECIMAL -> {                        //entero + decimal
+                    case DECIMAL -> {                        //entero + decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 + (double) op2;                 //==retorna decimal 
+                        return Double.parseDouble(op1.toString()) + Double.parseDouble(op2.toString());                 //==retorna decimal 
                     }
-                    case tipoDato.BOOLEANO -> {                       //entero + booleano
+                    case BOOLEANO -> {                       //entero + booleano
                         return new Excepcion("Semantico", "La suma de un entero y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                         //entero + cadena
+                    case CADENA -> {                         //entero + cadena
                         this.tipo.setTipo(tipoDato.CADENA);
                         return String.valueOf(op1) + String.valueOf(op2);       //==retorna cadena
                     }
-                    case tipoDato.CARACTER -> {                       //entero + caracter
+                    case CARACTER -> {                       //entero + caracter
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) op1 + (int) ((String) op2).charAt(0);               //==retorna entero 
                     }
@@ -104,24 +104,24 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //decimal + entero
+                    case ENTERO -> {                            //decimal + entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 + (int) op2;                //==retorna decimal
+                        return Double.parseDouble(op1.toString()) + Double.parseDouble(op2.toString());               //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                          //decimal + decimal
+                    case DECIMAL -> {                          //decimal + decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 + (double) op2;              //==retorna decimal
+                        return Double.parseDouble(op1.toString()) + Double.parseDouble(op2.toString());                //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //decimal + booleano
+                    case BOOLEANO -> {                         //decimal + booleano
                         return new Excepcion("Semantico", "La suma de un decimal y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                            //decimal + cadena
+                    case CADENA -> {                            //decimal + cadena
                         this.tipo.setTipo(tipoDato.CADENA);
                         return String.valueOf((double) op1) + (String) op2; //==retorna cadena
                     }
-                    case tipoDato.CARACTER -> {                          //decimal + caracter
+                    case CARACTER -> {                          //decimal + caracter
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) op1 + (int) ((String) op2).charAt(0);           //==retorna decimal
                     }
@@ -130,22 +130,22 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.BOOLEANO -> {
+            case BOOLEANO -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //booleano + entero
+                    case ENTERO -> {                            //booleano + entero
                         return new Excepcion("Semantico", "La suma de un booleano y un entero no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.DECIMAL -> {                          //booleano + decimal
+                    case DECIMAL -> {                          //booleano + decimal
                         return new Excepcion("Semantico", "La suma de un booleano y un decimal no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.BOOLEANO -> {                         //booleano + booleano
+                    case BOOLEANO -> {                         //booleano + booleano
                         return new Excepcion("Semantico", "La suma de dos booleanos no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                           //booleano + cadena
+                    case CADENA -> {                           //booleano + cadena
                         this.tipo.setTipo(tipoDato.CADENA);
                         return op1.toString() + op2.toString();           //==retorna cadena
                     }
-                    case tipoDato.CARACTER -> {                         //booleano + caracter
+                    case CARACTER -> {                         //booleano + caracter
                         return new Excepcion("Semantico", "La suma de un booleano y un caracter no está permitida", this.linea, this.columna);
                     }
                     default -> {
@@ -153,25 +153,25 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.CADENA -> {
+            case CADENA -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //cadena + entero
+                    case ENTERO -> {                            //cadena + entero
                         this.tipo.setTipo(tipoDato.CADENA);             //==retorna cadena
                         return (String) op1 + String.valueOf((int) op2);
                     }
-                    case tipoDato.DECIMAL -> {                          //cadena + decimal
+                    case DECIMAL -> {                          //cadena + decimal
                         this.tipo.setTipo(tipoDato.CADENA);
                         return (String) op1 + String.valueOf((double) op2); //==retorna cadena
                     }
-                    case tipoDato.BOOLEANO -> {                         //cadena + booleano
+                    case BOOLEANO -> {                         //cadena + booleano
                         this.tipo.setTipo(tipoDato.CADENA);
                         return String.valueOf(op1) + String.valueOf(op2);  //==retorna cadena
                     }
-                    case tipoDato.CADENA -> {                           //cadena + cadena
+                    case CADENA -> {                           //cadena + cadena
                         this.tipo.setTipo(tipoDato.CADENA);
                         return (String) op1 + (String) op2;                 //==retorna cadena
                     }
-                    case tipoDato.CARACTER -> {                          //cadena + caracter
+                    case CARACTER -> {                          //cadena + caracter
                         this.tipo.setTipo(tipoDato.CADENA);
                         return  op1.toString() + op2.toString();                 //==retorna cadena
                     }
@@ -180,24 +180,24 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.CARACTER -> {
+            case CARACTER -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //caracter + entero
+                    case ENTERO -> {                            //caracter + entero
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) ((Character) op1) + (int) op2;                    //==retorna entero
                     }
-                    case tipoDato.DECIMAL -> {                          //caracter + decimal
+                    case DECIMAL -> {                          //caracter + decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) op1 + (double) op2;                //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //caracter + booleano
+                    case BOOLEANO -> {                         //caracter + booleano
                         return new Excepcion("Semantico", "La suma de un caracter y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                               //caracter + cadena
+                    case CADENA -> {                               //caracter + cadena
                         this.tipo.setTipo(tipoDato.CADENA);
                         return op1.toString() + op2.toString();                 //==retorna cadena
                     }
-                    case tipoDato.CARACTER -> {                         //caracter + caracter
+                    case CARACTER -> {                         //caracter + caracter
                         this.tipo.setTipo(tipoDato.CADENA);
                         return  op1.toString() + op2.toString();                   //==retorna cadena
                     }
@@ -217,23 +217,23 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
         
         switch (tipo1) {
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                          //entero - entero
+                    case ENTERO -> {                          //entero - entero
                         this.tipo.setTipo(tipoDato.ENTERO);
-                        return (int) op1 - (int) op2;                    //==retorna entero
+                        return Integer.parseInt(op1.toString()) - Integer.parseInt(op2.toString());                    //==retorna entero
                     }
-                    case tipoDato.DECIMAL -> {                             //entero - decimal
+                    case DECIMAL -> {                             //entero - decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (int) op1 - (double) op2;                 //==retorna decimal 
+                        return Double.parseDouble(op1.toString()) - Double.parseDouble(op2.toString());                 //==retorna decimal 
                     }
-                    case tipoDato.BOOLEANO -> {                       //entero - booleano
+                    case BOOLEANO -> {                       //entero - booleano
                         return new Excepcion("Semantico", "La resta de un entero y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                         //entero - cadena
+                    case CADENA -> {                         //entero - cadena
                         return new Excepcion("Semantico", "La resta de un entero y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                       //entero - caracter
+                    case CARACTER -> {                       //entero - caracter
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) op1 - (int) ((String) op2).charAt(0);                 //==retorna entero
                     }
@@ -242,23 +242,23 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //decimal - entero
+                    case ENTERO -> {                            //decimal - entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 - (int) op2;                   //==retorna decimal
+                        return Double.parseDouble(op1.toString()) - Double.parseDouble(op2.toString());                   //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                          //decimal - decimal
+                    case DECIMAL -> {                          //decimal - decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 - (double) op2;                //==retorna decimal
+                        return Double.parseDouble(op1.toString()) - Double.parseDouble(op2.toString());                //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //decimal - booleano
+                    case BOOLEANO -> {                         //decimal - booleano
                         return new Excepcion("Semantico", "La resta de un decimal y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                            //decimal - cadena
+                    case CADENA -> {                            //decimal - cadena
                         return new Excepcion("Semantico", "La resta de un decimal y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                          //decimal - caracter
+                    case CARACTER -> {                          //decimal - caracter
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) op1 - (int) ((String) op2).charAt(0);      //==retorna decimal
                     }
@@ -267,23 +267,23 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.CARACTER -> {
+            case CARACTER -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //caracter - entero
+                    case ENTERO -> {                            //caracter - entero
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) ((String) op1).charAt(0)- (int) op2 ;                  //==retorna entero
                     }
-                    case tipoDato.DECIMAL -> {                          //caracter - decimal
+                    case DECIMAL -> {                          //caracter - decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (int) ((String) op1).charAt(0) - (double) op2 ;                    //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //caracter - booleano
+                    case BOOLEANO -> {                         //caracter - booleano
                         return new Excepcion("Semantico", "La resta de un caracter y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                           //caracter - cadena
+                    case CADENA -> {                           //caracter - cadena
                         return new Excepcion("Semantico", "La resta de un caracter y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                         //caracter - caracter
+                    case CARACTER -> {                         //caracter - caracter
                         return new Excepcion("Semantico", "La resta de un caracter y un caracter no está permitida", this.linea, this.columna);
                     }
                     default -> {
@@ -304,23 +304,23 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                          //entero * entero
+                    case ENTERO -> {                          //entero * entero
                         this.tipo.setTipo(tipoDato.ENTERO);
-                        return (int) op1 * (int) op2;                    //==retorna entero
+                        return Integer.parseInt(op1.toString()) * Integer.parseInt(op2.toString());                    //==retorna entero
                     }
-                    case tipoDato.DECIMAL -> {                        //entero * decimal
+                    case DECIMAL -> {                        //entero * decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (int) op1 * (double) op2;                 //==retorna decimal 
+                        return Double.parseDouble(op1.toString()) * Double.parseDouble(op2.toString());                 //==retorna decimal 
                     }
-                    case tipoDato.BOOLEANO -> {                       //entero * booleano
+                    case BOOLEANO -> {                       //entero * booleano
                         return new Excepcion("Semantico", "La multiplicacion de un entero y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                         //entero * cadena
+                    case CADENA -> {                         //entero * cadena
                         return new Excepcion("Semantico", "La multiplicacion de un entero y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                       //entero * caracter
+                    case CARACTER -> {                       //entero * caracter
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) op1 * (int) ((String) op2).charAt(0); //==retorna entero
                     }
@@ -329,23 +329,23 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //decimal * entero
+                    case ENTERO -> {                            //decimal * entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 * (double) op2;                   //==retorna decimal
+                        return Double.parseDouble(op1.toString()) * Double.parseDouble(op2.toString());                   //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                          //decimal * decimal
+                    case DECIMAL -> {                          //decimal * decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 * (double) op2;                //==retorna decimal
+                        return Double.parseDouble(op1.toString()) * Double.parseDouble(op2.toString());                //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //decimal * booleano
+                    case BOOLEANO -> {                         //decimal * booleano
                         return new Excepcion("Semantico", "La multiplicacion de un decimal y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                            //decimal * cadena
+                    case CADENA -> {                            //decimal * cadena
                         return new Excepcion("Semantico", "La multiplicacion de un decimal y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                          //decimal * caracter
+                    case CARACTER -> {                          //decimal * caracter
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) op1 * (int) ((String) op2).charAt(0);   //==retorna decimal
                     }
@@ -354,23 +354,23 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.CARACTER -> {
+            case CARACTER -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //caracter * entero
+                    case ENTERO -> {                            //caracter * entero
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return (int) ((String) op1).charAt(0) * (int) op2 ;                     //==retorna entero
                     }
-                    case tipoDato.DECIMAL -> {                          //caracter * decimal
+                    case DECIMAL -> {                          //caracter * decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (int) ((String) op1).charAt(0)* (double) op2 ;                      //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //caracter * booleano
+                    case BOOLEANO -> {                         //caracter * booleano
                         return new Excepcion("Semantico", "La multiplicacion de un caracter y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                           //caracter * cadena
+                    case CADENA -> {                           //caracter * cadena
                         return new Excepcion("Semantico", "La multiplicacion de un caracter y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                         //caracter * caracter
+                    case CARACTER -> {                         //caracter * caracter
                         return new Excepcion("Semantico", "La multiplicacion de un caracter y un caracter no está permitida", this.linea, this.columna);
                     }
                     default -> {
@@ -390,48 +390,48 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                          //entero / entero
+                    case ENTERO -> {                          //entero / entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) (int) op1 / (int) op2;         //==retorna decimal
+                        return Double.parseDouble(op1.toString()) / Double.parseDouble(op2.toString());         //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                        //entero / decimal
+                    case DECIMAL -> {                        //entero / decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (int) op1 / (double) op2;              //==retorna decimal 
+                        return Double.parseDouble(op1.toString()) / Double.parseDouble(op2.toString());              //==retorna decimal 
                     }
-                    case tipoDato.BOOLEANO -> {                       //entero / booleano
+                    case BOOLEANO -> {                       //entero / booleano
                         return new Excepcion("Semantico", "La division de un entero y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                         //entero / cadena
+                    case CADENA -> {                         //entero / cadena
                         return new Excepcion("Semantico", "La division de un entero y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                       //entero / caracter
+                    case CARACTER -> {                       //entero / caracter
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return  (int) op1 * (double) ((String) op2).charAt(0);        //==retorna decimal
+                        return  (double) op1 / (double) ((String) op2).charAt(0);        //==retorna decimal
                     }
                     default -> {
                         return new Excepcion("Semantico", "Tipo de dato no valido para la division", this.linea, this.columna);
                     }
                 }
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //decimal / entero
+                    case ENTERO -> {                            //decimal / entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 / (int) op2;                 //==retorna decimal
+                        return Double.parseDouble(op1.toString()) / Double.parseDouble(op2.toString());                 //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                          //decimal / decimal
+                    case DECIMAL -> {                          //decimal / decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 / (double) op2;             //==retorna decimal
+                        return Double.parseDouble(op1.toString()) / Double.parseDouble(op2.toString());             //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //decimal / booleano
+                    case BOOLEANO -> {                         //decimal / booleano
                         return new Excepcion("Semantico", "La division de un decimal y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                            //decimal / cadena
+                    case CADENA -> {                            //decimal / cadena
                         return new Excepcion("Semantico", "La division de un decimal y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                          //decimal / caracter
+                    case CARACTER -> {                          //decimal / caracter
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) op1 / (int) ((String) op2).charAt(0);     //==retorna decimal
                     }
@@ -440,23 +440,23 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.CARACTER->{
+            case CARACTER->{
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //caracter / entero
+                    case ENTERO -> {                            //caracter / entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) ((String) op1).charAt(0)/ (int) op2 ;           //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                          //caracter / decimal
+                    case DECIMAL -> {                          //caracter / decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return (double) ((String) op1).charAt(0)/ (double) op2 ;               //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //caracter / booleano
+                    case BOOLEANO -> {                         //caracter / booleano
                         return new Excepcion("Semantico", "La division de un caracter y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                           //caracter / cadena
+                    case CADENA -> {                           //caracter / cadena
                         return new Excepcion("Semantico", "La division de un caracter y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                         //caracter / caracter
+                    case CARACTER -> {                         //caracter / caracter
                         return new Excepcion("Semantico", "La division de un caracter y un caracter no está permitida", this.linea, this.columna);
                     }
                     default -> {
@@ -475,23 +475,23 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                          //entero ^ entero
+                    case ENTERO -> {                          //entero ^ entero
                         this.tipo.setTipo(tipoDato.ENTERO);
-                        return Math.pow((int) op1, (int) op2);         //==retorna entero
+                        return Math.pow(Integer.parseInt(op1.toString()), Integer.parseInt(op2.toString()));         //==retorna entero
                     }
-                    case tipoDato.DECIMAL -> {                        //entero ^ decimal
+                    case DECIMAL -> {                        //entero ^ decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return Math.pow((int) op1, (double) op2);      //==retorna decimal 
                     }
-                    case tipoDato.BOOLEANO -> {                       //entero ^ booleano
+                    case BOOLEANO -> {                       //entero ^ booleano
                         return new Excepcion("Semantico", "La potencia de un entero y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                         //entero ^ cadena
+                    case CADENA -> {                         //entero ^ cadena
                         return new Excepcion("Semantico", "La potencia de un entero y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                        //entero ^ caracter
+                    case CARACTER -> {                        //entero ^ caracter
                         this.tipo.setTipo(tipoDato.ENTERO);
                         return Math.pow((int) op1, ((String) op2).charAt(0));         //==retorna entero
                     }
@@ -501,23 +501,23 @@ public class Aritmeticas extends Instruccion {
                 }
 
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //decimal ^ entero
+                    case ENTERO -> {                            //decimal ^ entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return Math.pow((double) op1, (int) op2);       //==retorna decimal
+                        return Math.pow((double) op1, (double) op2);       //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                          //decimal ^ decimal
+                    case DECIMAL -> {                          //decimal ^ decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
                         return Math.pow((double) op1, (double) op2);    //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //decimal ^ booleano
+                    case BOOLEANO -> {                         //decimal ^ booleano
                         return new Excepcion("Semantico", "La potencia de un decimal y un booleano no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                            //decimal ^ cadena
+                    case CADENA -> {                            //decimal ^ cadena
                         return new Excepcion("Semantico", "La potencia de un decimal y una cadena no está permitida", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                          //decimal ^ caracter
+                    case CARACTER -> {                          //decimal ^ caracter
                         return new Excepcion("Semantico", "La potencia de un decimal y un caracter no está permitida", this.linea, this.columna);
                     }
                     default -> {
@@ -536,23 +536,23 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         switch (tipo1) {
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                          //entero % entero
+                    case ENTERO -> {                          //entero % entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double)((int) op1 % (int) op2);        //==retorna decimal
+                        return Double.parseDouble(op1.toString()) % Double.parseDouble(op2.toString());        //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                        
+                    case DECIMAL -> {                        
                         this.tipo.setTipo(tipoDato.DECIMAL);           //entero % decimal
-                        return ((int) op1) % ((Double) op2);             //==retorna decimal
+                        return Double.parseDouble(op1.toString()) % Double.parseDouble(op2.toString());             //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                       //entero % booleano
+                    case BOOLEANO -> {                       //entero % booleano
                         return new Excepcion("Semantico", "La operacion modulo no es valida para un entero y un booleano", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                         //entero % cadena
+                    case CADENA -> {                         //entero % cadena
                         return new Excepcion("Semantico", "La operacion modulo no es valida para un entero y una cadena", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                       //entero % caracter
+                    case CARACTER -> {                       //entero % caracter
                         return new Excepcion("Semantico", "La operacion modulo no es valida para un entero y un caracter", this.linea, this.columna);
                     }
                     default -> {
@@ -560,23 +560,23 @@ public class Aritmeticas extends Instruccion {
                     }
                 }
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 switch (tipo2) {
-                    case tipoDato.ENTERO -> {                            //decimal % entero
+                    case ENTERO -> {                            //decimal % entero
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double)((double) op1 % (int) op2);       //==retorna decimal
+                        return Double.parseDouble(op1.toString()) % Double.parseDouble(op2.toString());       //==retorna decimal
                     }
-                    case tipoDato.DECIMAL -> {                          //decimal % decimal
+                    case DECIMAL -> {                          //decimal % decimal
                         this.tipo.setTipo(tipoDato.DECIMAL);
-                        return (double) op1 % (double) op2;              //==retorna decimal
+                        return Double.parseDouble(op1.toString()) % Double.parseDouble(op2.toString());              //==retorna decimal
                     }
-                    case tipoDato.BOOLEANO -> {                         //decimal % booleano
+                    case BOOLEANO -> {                         //decimal % booleano
                         return new Excepcion("Semantico", "La operacion modulo no es valida para un decimal y un booleano", this.linea, this.columna);
                     }
-                    case tipoDato.CADENA -> {                            //decimal % cadena
+                    case CADENA -> {                            //decimal % cadena
                         return new Excepcion("Semantico", "La operacion modulo no es valida para un decimal y una cadena", this.linea, this.columna);
                     }
-                    case tipoDato.CARACTER -> {                          //decimal % caracter
+                    case CARACTER -> {                          //decimal % caracter
                         return new Excepcion("Semantico", "La operacion modulo no es valida para un decimal y un caracter", this.linea, this.columna);
                     }
                     default -> {
@@ -592,11 +592,11 @@ public class Aritmeticas extends Instruccion {
     public Object negacion(Object op1) {
         var tipo1 = this.opUnico.tipo.getTipo();
         switch (tipo1) {
-            case tipoDato.ENTERO -> {
+            case ENTERO -> {
                 this.tipo.setTipo(tipoDato.ENTERO);
                 return (int) op1 * -1;
             }
-            case tipoDato.DECIMAL -> {
+            case DECIMAL -> {
                 this.tipo.setTipo(tipoDato.DECIMAL);
                 return (double) op1 * -1;
             }
@@ -604,6 +604,7 @@ public class Aritmeticas extends Instruccion {
                 return new Excepcion("Semantico", "Tipo de dato no valido para la negacion", this.linea, this.columna);
             }
         }
-    } //fin negacion
+    }
+
 
 }

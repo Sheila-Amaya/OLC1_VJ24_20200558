@@ -60,49 +60,49 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case tipoDato.ENTERO ->
+            case ENTERO ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                     // entero == entero
+                    case ENTERO ->                     // entero == entero
                         (int) comp1 == (int) comp2;
-                    case tipoDato.DECIMAL ->                    // entero == decimal
+                    case DECIMAL ->                    // entero == decimal
                         (int) comp1 == (double) comp2;
-                    case tipoDato.CARACTER ->                   // entero == caracter
+                    case CARACTER ->                   // entero == caracter
                         (int) comp1 == (char)((String) comp2).charAt(0) ;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.DECIMAL ->
+            case DECIMAL ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // decimal == entero
+                    case ENTERO ->                 // decimal == entero
                         (double) comp1 == (int) comp2;
-                    case tipoDato.DECIMAL ->                 // decimal == decimal
+                    case DECIMAL ->                 // decimal == decimal
                         (double) comp1 == (double) comp2;
-                    case tipoDato.CARACTER ->               // decimal == caracter
+                    case CARACTER ->               // decimal == caracter
                         (double) comp1 == (char)((String) comp2).charAt(0) ;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CARACTER ->
+            case CARACTER ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // caracter == entero
+                    case ENTERO ->                 // caracter == entero
                         (char)((String) comp1).charAt(0)  == (int) comp2;
-                    case tipoDato.DECIMAL ->                // caracter == decimal
+                    case DECIMAL ->                // caracter == decimal
                         (char)((String) comp1).charAt(0) == (double) comp2;
-                    case tipoDato.CARACTER ->               // caracter == caracter
+                    case CARACTER ->               // caracter == caracter
                         (char)((String) comp1).charAt(0) == (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CADENA ->
+            case CADENA ->
                 switch (comparando2) {
-                    case tipoDato.CADENA ->                 // cadena == cadena
+                    case CADENA ->                 // cadena == cadena
                         comp1.toString().equals(comp2.toString());
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.BOOLEANO ->
+            case BOOLEANO ->
                 switch (comparando2) {
-                    case tipoDato.BOOLEANO ->                 // booleano == booleano
+                    case BOOLEANO ->                 // booleano == booleano
                         (boolean) comp1 == (boolean) comp2;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
@@ -118,49 +118,49 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case tipoDato.ENTERO ->
+            case ENTERO ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                     // entero != entero                   
+                    case ENTERO ->                     // entero != entero                   
                         (int) comp1 != (int) comp2;
-                    case tipoDato.DECIMAL ->                    // entero != decimal
+                    case DECIMAL ->                    // entero != decimal
                         (int) comp1 != (double) comp2;
-                    case tipoDato.CARACTER ->                   // entero != caracter
+                    case CARACTER ->                   // entero != caracter
                         (int) comp1 != (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.DECIMAL ->
+            case DECIMAL ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // decimal != entero
+                    case ENTERO ->                 // decimal != entero
                         (double) comp1 != (int) comp2;
-                    case tipoDato.DECIMAL ->                 // decimal != decimal
+                    case DECIMAL ->                 // decimal != decimal
                         (double) comp1 != (double) comp2;
-                    case tipoDato.CARACTER ->               // decimal != caracter
+                    case CARACTER ->               // decimal != caracter
                         (double) comp1 != (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CARACTER ->
+            case CARACTER ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // caracter != entero
+                    case ENTERO ->                 // caracter != entero
                         (char)((String) comp1).charAt(0) != (int) comp2;
-                    case tipoDato.DECIMAL ->                // caracter != decimal
+                    case DECIMAL ->                // caracter != decimal
                         (char)((String) comp1).charAt(0) != (double) comp2;
-                    case tipoDato.CARACTER ->               // caracter != caracter
+                    case CARACTER ->               // caracter != caracter
                         (char)((String) comp1).charAt(0) != (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CADENA ->
+            case CADENA ->
                 switch (comparando2) {
-                    case tipoDato.CADENA ->                 // cadena != cadena
+                    case CADENA ->                 // cadena != cadena
                         !comp1.toString().equals(comp2.toString());
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.BOOLEANO ->
+            case BOOLEANO ->
                 switch (comparando2) {
-                    case tipoDato.BOOLEANO ->                 // booleano != booleano
+                    case BOOLEANO ->                 // booleano != booleano
                         (boolean) comp1 != (boolean) comp2;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
@@ -176,42 +176,42 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case tipoDato.ENTERO ->
+            case ENTERO ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                     // entero > entero
+                    case ENTERO ->                     // entero > entero
                         (int) comp1 > (int) comp2;
-                    case tipoDato.DECIMAL ->                    // entero > decimal
+                    case DECIMAL ->                    // entero > decimal
                         (int) comp1 > (double) comp2;
-                    case tipoDato.CARACTER ->                   // entero > caracter
+                    case CARACTER ->                   // entero > caracter
                         (int) comp1 > (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.DECIMAL ->
+            case DECIMAL ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // decimal > entero
+                    case ENTERO ->                 // decimal > entero
                         (double) comp1 > (int) comp2;
-                    case tipoDato.DECIMAL ->                 // decimal > decimal
+                    case DECIMAL ->                 // decimal > decimal
                         (double) comp1 > (double) comp2;
-                    case tipoDato.CARACTER ->               // decimal > caracter
+                    case CARACTER ->               // decimal > caracter
                         (double) comp1 > (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CARACTER ->
+            case CARACTER ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // caracter > entero
+                    case ENTERO ->                 // caracter > entero
                         (char)((String) comp1).charAt(0) > (int) comp2;
-                    case tipoDato.DECIMAL ->                // caracter > decimal
+                    case DECIMAL ->                // caracter > decimal
                         (char)((String) comp1).charAt(0) > (double) comp2;
-                    case tipoDato.CARACTER ->               // caracter > caracter
+                    case CARACTER ->               // caracter > caracter
                         (char)((String) comp1).charAt(0) > (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CADENA ->
+            case CADENA ->
                 switch (comparando2) {
-                    case tipoDato.CADENA ->                 // cadena > cadena
+                    case CADENA ->                 // cadena > cadena
                         comp1.toString().compareTo(comp2.toString()) > 0;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
@@ -227,49 +227,49 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case tipoDato.ENTERO ->
+            case ENTERO ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                     // entero < entero
+                    case ENTERO ->                     // entero < entero
                         (int) comp1 < (int) comp2;
-                    case tipoDato.DECIMAL ->                    // entero < decimal
+                    case DECIMAL ->                    // entero < decimal
                         (int) comp1 < (double) comp2;
-                    case tipoDato.CARACTER ->                   // entero < caracter
+                    case CARACTER ->                   // entero < caracter
                         (int) comp1 < (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.DECIMAL ->
+            case DECIMAL ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // decimal < entero
+                    case ENTERO ->                 // decimal < entero
                         (double) comp1 < (int) comp2;
-                    case tipoDato.DECIMAL ->                 // decimal < decimal
+                    case DECIMAL ->                 // decimal < decimal
                         (double) comp1 < (double) comp2;
-                    case tipoDato.CARACTER ->               // decimal < caracter
+                    case CARACTER ->               // decimal < caracter
                         (double) comp1 < (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CARACTER ->
+            case CARACTER ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // caracter < entero
+                    case ENTERO ->                 // caracter < entero
                         (char)((String) comp1).charAt(0) < (int) comp2;
-                    case tipoDato.DECIMAL ->                // caracter < decimal
+                    case DECIMAL ->                // caracter < decimal
                         (char)((String) comp1).charAt(0) < (double) comp2;
-                    case tipoDato.CARACTER ->               // caracter < caracter
+                    case CARACTER ->               // caracter < caracter
                         (char)((String) comp1).charAt(0) < (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CADENA ->
+            case CADENA ->
                 switch (comparando2) {
-                    case tipoDato.CADENA ->                 // cadena < cadena
+                    case CADENA ->                 // cadena < cadena
                         comp1.toString().compareTo(comp2.toString()) < 0;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.BOOLEANO ->
+            case BOOLEANO ->
                 switch (comparando2) {
-                    case tipoDato.BOOLEANO ->                 // booleano < booleano
+                    case BOOLEANO ->                 // booleano < booleano
                         (boolean) comp1 == (boolean) comp2;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
@@ -284,42 +284,42 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case tipoDato.ENTERO ->
+            case ENTERO ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                     // entero >= entero
+                    case ENTERO ->                     // entero >= entero
                         (int) comp1 >= (int) comp2;
-                    case tipoDato.DECIMAL ->                    // entero >= decimal
+                    case DECIMAL ->                    // entero >= decimal
                         (int) comp1 >= (double) comp2;
-                    case tipoDato.CARACTER ->                   // entero >= caracter
+                    case CARACTER ->                   // entero >= caracter
                         (int) comp1 >= (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.DECIMAL ->
+            case DECIMAL ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // decimal >= entero
+                    case ENTERO ->                 // decimal >= entero
                         (double) comp1 >= (int) comp2;
-                    case tipoDato.DECIMAL ->                 // decimal >= decimal
+                    case DECIMAL ->                 // decimal >= decimal
                         (double) comp1 >= (double) comp2;
-                    case tipoDato.CARACTER ->               // decimal >= caracter
+                    case CARACTER ->               // decimal >= caracter
                         (double) comp1 >= (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CARACTER ->
+            case CARACTER ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // caracter >= entero
+                    case ENTERO ->                 // caracter >= entero
                         (char)((String) comp1).charAt(0) >= (int) comp2;
-                    case tipoDato.DECIMAL ->                // caracter >= decimal
+                    case DECIMAL ->                // caracter >= decimal
                         (char)((String) comp1).charAt(0) >= (double) comp2;
-                    case tipoDato.CARACTER ->               // caracter >= caracter
+                    case CARACTER ->               // caracter >= caracter
                         (char)((String) comp1).charAt(0) >= (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CADENA ->
+            case CADENA ->
                 switch (comparando2) {
-                    case tipoDato.CADENA ->                 // cadena >= cadena
+                    case CADENA ->                 // cadena >= cadena
                         comp1.toString().compareTo(comp2.toString()) >= 0;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
@@ -334,42 +334,42 @@ public class Relacionales extends Instruccion {
         var comparando2 = this.cond2.tipo.getTipo();
 
         return switch (comparando1) {
-            case tipoDato.ENTERO ->
+            case ENTERO ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                     // entero <= entero
+                    case ENTERO ->                     // entero <= entero
                         (int) comp1 <= (int) comp2;
-                    case tipoDato.DECIMAL ->                    // entero <= decimal
+                    case DECIMAL ->                    // entero <= decimal
                         (int) comp1 <= (double) comp2;
-                    case tipoDato.CARACTER ->                   // entero <= caracter
+                    case CARACTER ->                   // entero <= caracter
                         (int) comp1 <= (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.DECIMAL ->
+            case DECIMAL ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // decimal <= entero
+                    case ENTERO ->                 // decimal <= entero
                         (double) comp1 <= (int) comp2;
-                    case tipoDato.DECIMAL ->                 // decimal <= decimal
+                    case DECIMAL ->                 // decimal <= decimal
                         (double) comp1 <= (double) comp2;
-                    case tipoDato.CARACTER ->               // decimal <= caracter
+                    case CARACTER ->               // decimal <= caracter
                         (double) comp1 <= (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CARACTER ->
+            case CARACTER ->
                 switch (comparando2) {
-                    case tipoDato.ENTERO ->                 // caracter <= entero
+                    case ENTERO ->                 // caracter <= entero
                         (char)((String) comp1).charAt(0) <= (int) comp2;
-                    case tipoDato.DECIMAL ->                // caracter <= decimal
+                    case DECIMAL ->                // caracter <= decimal
                         (char)((String) comp1).charAt(0) <= (double) comp2;
-                    case tipoDato.CARACTER ->               // caracter <= caracter
+                    case CARACTER ->               // caracter <= caracter
                         (char)((String) comp1).charAt(0) <= (char)((String) comp2).charAt(0);
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);
                 };
-            case tipoDato.CADENA ->
+            case CADENA ->
                 switch (comparando2) {
-                    case tipoDato.CADENA ->                 // cadena <= cadena
+                    case CADENA ->                 // cadena <= cadena
                         comp1.toString().compareTo(comp2.toString()) <= 0;
                     default ->
                         new Excepcion("Semantico", "No se puede comparar los tipos de datos", this.linea, this.columna);

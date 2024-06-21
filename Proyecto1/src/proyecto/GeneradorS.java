@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package proyecto1;
+package proyecto;
 
 /**
  *
@@ -17,8 +17,8 @@ public class GeneradorS {
         opciones[0] = "-destdir";
         
         //Le damos la dirección, carpeta donde se va a generar el parser.java & el simbolosxxx.java
-        opciones[1] = "src/Analizadores";
-        
+        opciones[1] = "../../Proyecto1/src/Analizadores";
+        //"../../Proyecto1/src/Analizadores"
         //Seleccionamos la opción de nombre de archivo simbolos
         opciones[2] = "-symbols"; 
         
@@ -32,7 +32,8 @@ public class GeneradorS {
         opciones[5] = "Sintactico"; 
         
         //Le decimos donde se encuentra el archivo .cup 
-        opciones[6] = "src/Analizadores/Parser.cup"; 
+        opciones[6] = "../../Proyecto1/src/Analizadores/Parser.cup";
+        //../../Proyecto1/src/Analizadores/Parser.cup"
         try 
         {
             java_cup.Main.main(opciones);

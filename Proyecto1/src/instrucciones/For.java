@@ -7,16 +7,14 @@ package instrucciones;
 import Errores.Excepcion;
 import abstracto.Instruccion;
 import java.util.LinkedList;
-import simbolo.Arbol;
-import simbolo.Tipo;
-import simbolo.tablaSimbolos;
-import simbolo.tipoDato;
+import simbolo.*;
 
 /**
- *
- * @author eliza
+ * 
+ * 
+ * @autor eliza
  */
-public class For extends Instruccion{
+public class For extends Instruccion {
     private Instruccion asignacion;
     private Instruccion condicion;
     private Instruccion actualizacion;
@@ -30,18 +28,15 @@ public class For extends Instruccion{
         this.instrucciones = instrucciones;
     }
 
+    @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        //creamos un nuevo entorno
-        // var newTabla = new tablaSimbolos(tabla);
         var newTabla = new tablaSimbolos(tabla);
 
-        // asignacion/declaracion
         var res1 = this.asignacion.interpretar(arbol, newTabla);
         if (res1 instanceof Excepcion) {
             return res1;
         }
 
-        //validar la condicion -> Booleano
         var cond = this.condicion.interpretar(arbol, newTabla);
         if (cond instanceof Excepcion) {
             return cond;
@@ -52,30 +47,34 @@ public class For extends Instruccion{
         }
 
         while ((boolean) this.condicion.interpretar(arbol, newTabla)) {
-            //nuevo entorno
             var newTabla2 = new tablaSimbolos(newTabla);
 
-            //ejecutar instrucciones
-            /*for (var i : this.instrucciones) {
-                if (i instanceof Break) {
-                    return null;
-                }
-                var resIns = i.interpretar(arbol, newTabla2);
-                if (resIns instanceof Break) {
-                    return null;
-                }
-            }*/
-
+            // Ejecutar instrucciones
+            boolean breakFound = false;
             for (Instruccion ins : this.instrucciones) {
-                ins.interpretar(arbol, newTabla2);
+                var resIns = ins.interpretar(arbol, newTabla2);
+                if (resIns instanceof Excepcion) {
+                    return resIns;
+                }
+                if (resIns instanceof Break) {
+                    breakFound = true;
+                    break; 
+                }
+                if (resIns instanceof Continue) {
+                    break;
+                }
             }
 
-            //actualizar la variable
+            if (breakFound) {
+                break; 
+            }
+
             var act = this.actualizacion.interpretar(arbol, newTabla);
             if (act instanceof Excepcion) {
                 return act;
             }
         }
+
         return null;
     }
 }

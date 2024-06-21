@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package proyecto1;
+package proyecto;
 
 import java.io.File;
 
@@ -18,6 +18,7 @@ public class GeneradorL {
     public static void main(String[] args) {
         jflex.Main.generate(
                 new File(
-                        "src/Analizadores/Scanner.jflex"));
+                        "../../Proyecto1/src/Analizadores/Scanner.jflex"));
+        //"../Proyecto1/src/Analizadores/Scanner.jflex" para hacer el jar
     }
 }

@@ -8,8 +8,8 @@ import Analizadores.scanner;
 import Errores.Excepcion;
 import java.awt.Desktop;
 import Token.TokenInfo;
-import proyecto1.GeneradorL;
-import proyecto1.GeneradorS;
+import proyecto.GeneradorL;
+import proyecto.GeneradorS;
 
 
 import java.io.BufferedReader;
@@ -115,11 +115,13 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setText("Entrada");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
         jTextArea2.setBackground(new java.awt.Color(0, 0, 0));
         jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Monospaced", 1, 12)); // NOI18N
         jTextArea2.setForeground(new java.awt.Color(255, 255, 255));
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
@@ -287,10 +289,10 @@ public class principal extends javax.swing.JFrame {
         // TODO add your handling code here:
             try {
         // Especifica la ruta completa al archivo HTML de la tabla de errores
-        String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Reportes/ReporteTokens.html";
-
+        //String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Proyecto1/Reportes/ReporteTokens.html";
+        String relativePath = "." + File.separator + "Reportes" + File.separator + "ReporteTokens.html";
         // Verifica si el archivo existe antes de intentar abrirlo
-        File file = new File(path);
+        File file = new File(relativePath);
         if (file.exists()) {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(file);
@@ -308,10 +310,10 @@ public class principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     try {
         // Especifica la ruta completa al archivo HTML de la tabla de errores
-        String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Reportes/ReporteErrores.html";
-
+        //String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Proyecto1/Reportes/ReporteErrores.html";
+        String relativePath = "." + File.separator + "Reportes" + File.separator + "ReporteErrores.html";
         // Verifica si el archivo existe antes de intentar abrirlo
-        File file = new File(path);
+        File file = new File(relativePath);
         if (file.exists()) {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(file);
@@ -382,10 +384,10 @@ public class principal extends javax.swing.JFrame {
         //boton tabla de simbolos
         try {
             // Especifica la ruta completa al archivo HTML de la tabla de errores
-            String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Reportes/ReporteTabla.html";
-    
+            //String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Proyecto1/Reportes/ReporteTabla.html";
+            String relativePath = "." + File.separator + "Reportes" + File.separator + "ReporteTabla.html";
             // Verifica si el archivo existe antes de intentar abrirlo
-            File file = new File(path);
+            File file = new File(relativePath);
             if (file.exists()) {
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(file);
@@ -409,7 +411,7 @@ public class principal extends javax.swing.JFrame {
         //------EJECUTAR------
         Analizadores.scanner scanner; //.java
         Analizadores.Sintactico parse;
-        ArrayList<Excepcion> errores = new ArrayList(); //agregar errores
+        //ArrayList<Excepcion> errores = new ArrayList(); //agregar errores
         ArrayList<TokenInfo> tokens = new ArrayList();
 
         try {
@@ -417,9 +419,9 @@ public class principal extends javax.swing.JFrame {
             parse = new Sintactico(scanner);
             var resultado = parse.parse(); 
 
-            errores.addAll(scanner.Errores); //errores lexicos
-            errores.addAll(parse.getErrores()); //errores sintacticos
-            generarReporteHTML(errores);   //generar reporte de errores lexicos y sintacticos
+            //errores.addAll(scanner.Errores); //errores lexicos
+            //errores.addAll(parse.getErrores()); //errores sintacticos
+            //generarReporteHTML(errores);   //generar reporte de errores lexicos y sintacticos
             tokens.addAll(scanner.getTokens()); 
             generarReporteTokensHTML(tokens); //generar reporte de tokens
 
@@ -444,6 +446,9 @@ public class principal extends javax.swing.JFrame {
 
                 StringBuilder result = new StringBuilder();
                 result.append(ast.getConsola()).append("\n");
+                
+                generarReporteHTML(lista); //html de errores
+                
                 for (var i : lista) {
                     result.append(i.toString()).append("\n");
                 }
@@ -460,32 +465,38 @@ public class principal extends javax.swing.JFrame {
 
 
 
-    public static void generarReporteHTML(ArrayList<Excepcion> errores) throws IOException {
-        FileWriter fichero = null; //escribir el archivo
-        PrintWriter pw = null; //escribir texto dentro del archivo
+    public static void generarReporteHTML(LinkedList<Excepcion> errores) throws IOException {
+        FileWriter fichero = null;
+        PrintWriter pw = null;
 
         try {
+            // Define la ruta relativa usando el separador de archivos del sistema
+            String relativePath = "." + File.separator + "Reportes" + File.separator + "ReporteErrores.html";
             
-            String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Reportes/ReporteErrores.html";
-            fichero = new FileWriter(path);
+            // Crear directorios si no existen
+            File file = new File(relativePath);
+            file.getParentFile().mkdirs();
+            
+            // Inicializa el FileWriter con la ruta relativa
+            fichero = new FileWriter(file);
             pw = new PrintWriter(fichero);
-            
-            //Comenzamos a escribir el html
+
+            // Comienza a escribir el HTML
             pw.println("<html>");
             pw.println("<head>");
             pw.println("<title>REPORTE DE ERRORES</title>");
             pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">");
             pw.println("</head>");
             pw.println("<body>");
-            pw.println("<div class=\"container\">"); // Agregamos una clase container de Bootstrap
-            pw.println("<h1 class=\"mt-5\">Reporte de Errores</h1>"); // Agregamos clases de margen superior (mt-5) de Bootstrap
+            pw.println("<div class=\"container\">");
+            pw.println("<h1 class=\"mt-5\">Reporte de Errores</h1>");
             pw.println("<br></br>");
 
-            // Agregamos la tabla con clases de Bootstrap
+            // Agrega la tabla con clases de Bootstrap
             pw.println("<table class=\"table\">");
-            pw.println("<thead class=\"thead-dark\">"); // Aplicamos la clase thead-dark para el encabezado oscuro
+            pw.println("<thead class=\"thead-dark\">");
             pw.println("<tr>");
-            pw.println("<th scope=\"col\">#</th>"); // New column for numbering
+            pw.println("<th scope=\"col\">#</th>");
             pw.println("<th scope=\"col\">ERROR</th>");
             pw.println("<th scope=\"col\">DESCRIPCION</th>");
             pw.println("<th scope=\"col\">FILA</th>");
@@ -494,105 +505,111 @@ public class principal extends javax.swing.JFrame {
             pw.println("</thead>");
             pw.println("<tbody>");
 
-            // Iteramos sobre la lista de errores y los agregamos a la tabla
-            int count = 1; // Initialize counter
+            // Itera sobre la lista de errores y los agrega a la tabla
+            int count = 1;
             for (Excepcion err : errores) {
                 pw.println("<tr>");
-                pw.println("<td>" + count + "</td>"); // Print counter value
+                pw.println("<td>" + count + "</td>");
                 pw.println("<td>" + err.tipo + "</td>");
                 pw.println("<td>" + err.descripcion + "</td>");
                 pw.println("<td>" + err.linea + "</td>");
                 pw.println("<td>" + err.columna + "</td>");
                 pw.println("</tr>");
-                count++; // Increment counter
+                count++;
             }
 
             pw.println("</tbody>");
             pw.println("</table>");
 
-            // Continuamos con el resto del contenido HTML
+            // Continúa con el resto del contenido HTML
             pw.println("</div>");
             pw.println("</body>");
             pw.println("</html>");
-            //Desktop.getDesktop().open(new File(path));  //abrir archivo despues de generalo
-            
             
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
+            if (pw != null) {
+                pw.close();
+            }
             if (fichero != null) {
                 fichero.close();
             }
         }
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
     
 
-    public void generarReporteTokensHTML(ArrayList<TokenInfo> tokens) throws IOException {
-    FileWriter fichero = null;
-    PrintWriter pw = null;
+    public static void generarReporteTokensHTML(ArrayList<TokenInfo> tokens) throws IOException {
+        FileWriter fichero = null;
+        PrintWriter pw = null;
 
-    try {
-        String path = "C:/Users/eliza/OneDrive/Documentos/GitHub/OLC1_VJ24_20200558/Reportes/ReporteTokens.html";
-        fichero = new FileWriter(path);
-        pw = new PrintWriter(fichero);
+        try {
+            // Define la ruta relativa usando el separador de archivos del sistema
+            String relativePath = "." + File.separator + "Reportes" + File.separator + "ReporteTokens.html";
+            
+            // Crear directorios si no existen
+            File file = new File(relativePath);
+            file.getParentFile().mkdirs();
+            
+            // Inicializa el FileWriter con la ruta relativa
+            fichero = new FileWriter(file);
+            pw = new PrintWriter(fichero);
 
-        pw.println("<html>");
-        pw.println("<head>");
-        pw.println("<title>REPORTE DE TOKENS</title>");
-        pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">");
-        pw.println("</head>");
-        pw.println("<body>");
-        pw.println("<div class=\"container\">"); // Agregamos una clase container de Bootstrap
-        pw.println("<h1 class=\"mt-5\">Reporte de Tokens</h1>"); // Agregamos clases de margen superior (mt-5) de Bootstrap
-        pw.println("<br></br>");
+            // Comienza a escribir el HTML
+            pw.println("<html>");
+            pw.println("<head>");
+            pw.println("<title>REPORTE DE TOKENS</title>");
+            pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">");
+            pw.println("</head>");
+            pw.println("<body>");
+            pw.println("<div class=\"container\">");
+            pw.println("<h1 class=\"mt-5\">Reporte de Tokens</h1>");
+            pw.println("<br></br>");
 
-        // Agregamos la tabla con clases de Bootstrap
-        pw.println("<table class=\"table\">");
-        pw.println("<thead class=\"thead-dark\">"); // Aplicamos la clase thead-dark para el encabezado oscuro
-        pw.println("<tr>");
-        pw.println("<th scope=\"col\">#</th>"); // Agregamos la columna de numeración
-        pw.println("<th scope=\"col\">LEXEMA</th>");
-        pw.println("<th scope=\"col\">TOKEN</th>");
-        pw.println("<th scope=\"col\">LÍNEA</th>");
-        pw.println("<th scope=\"col\">COLUMNA</th>");
-        pw.println("</tr>");
-        pw.println("</thead>");
-        pw.println("<tbody>");
-
-        // Iteramos sobre la lista de tokens y los agregamos a la tabla
-        for (int i = 0; i < tokens.size(); i++) {
-            TokenInfo token = tokens.get(i);
+            // Agrega la tabla con clases de Bootstrap
+            pw.println("<table class=\"table\">");
+            pw.println("<thead class=\"thead-dark\">");
             pw.println("<tr>");
-            pw.println("<td>" + (i + 1) + "</td>"); // Imprimimos el número de la fila
-            pw.println("<td>" + token.getLexema() + "</td>");
-            pw.println("<td>" + token.getToken() + "</td>");
-            pw.println("<td>" + token.getLinea() + "</td>");
-            pw.println("<td>" + token.getColumna() + "</td>");
+            pw.println("<th scope=\"col\">#</th>");
+            pw.println("<th scope=\"col\">LEXEMA</th>");
+            pw.println("<th scope=\"col\">TOKEN</th>");
+            pw.println("<th scope=\"col\">LÍNEA</th>");
+            pw.println("<th scope=\"col\">COLUMNA</th>");
             pw.println("</tr>");
+            pw.println("</thead>");
+            pw.println("<tbody>");
+
+            // Itera sobre la lista de tokens y los agrega a la tabla
+            for (int i = 0; i < tokens.size(); i++) {
+                TokenInfo token = tokens.get(i);
+                pw.println("<tr>");
+                pw.println("<td>" + (i + 1) + "</td>");
+                pw.println("<td>" + token.getLexema() + "</td>");
+                pw.println("<td>" + token.getToken() + "</td>");
+                pw.println("<td>" + token.getLinea() + "</td>");
+                pw.println("<td>" + token.getColumna() + "</td>");
+                pw.println("</tr>");
+            }
+
+            pw.println("</tbody>");
+            pw.println("</table>");
+
+            // Continúa con el resto del contenido HTML
+            pw.println("</div>");
+            pw.println("</body>");
+            pw.println("</html>");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (pw != null) {
+                pw.close();
+            }
+            if (fichero != null) {
+                fichero.close();
+            }
         }
-
-        pw.println("</tbody>");
-        pw.println("</table>");
-
-        // Continuamos con el resto del contenido HTML
-        pw.println("</div>");
-        pw.println("</body>");
-        pw.println("</html>");
-        //Desktop.getDesktop().open(new File(path));
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (fichero != null) {
-            fichero.close();
-        }
-
-}
-}
+    }
     
     /**
      * @param args the command line arguments

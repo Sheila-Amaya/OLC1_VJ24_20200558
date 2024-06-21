@@ -14,15 +14,16 @@ import simbolo.tipoDato;
  *
  * @author eliza
  */
-public class Break extends Instruccion {
 
-    public Break(int linea, int columna) {
+public class Continue extends Instruccion {
+
+    public Continue(int linea, int columna) {
         super(new Tipo(tipoDato.VOID), linea, columna);
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        return null;
+        return this;
     }
 
 }

@@ -50,7 +50,6 @@ import Token.TokenInfo;
 EVITAR=[ \r\t]+
 DECIMAL = [0-9]+\.[0-9]+
 ENTERO = [0-9]+
-BOOLEANO = "true"|"false"
 ID = (\_)*[a-zA-Z][a-zA-Z0-9\_]* //dentificadores (nombres de variables, funciones, etc.) 
 CADENA =  \"(([^\n\"\\]|\\.)*)\"
 CHAR = \'[^\']\'
@@ -175,7 +174,6 @@ MENORIGUAL = "<="
 {ENTERO}  {TokenInfo token = new TokenInfo(yytext(), "ENTERO", yyline, yychar); tokens.add(token);return new Symbol(sym.ENTERO,yyline,yychar,yytext());}
 {DECIMAL} {TokenInfo token = new TokenInfo(yytext(), "DECIMAL", yyline, yychar); tokens.add(token);return new Symbol(sym.DECIMAL,yyline,yychar,yytext());}
 {ID}      {TokenInfo token = new TokenInfo(yytext(), "ID", yyline, yychar); tokens.add(token); return new Symbol(sym.ID,yyline,yychar,yytext());}
-{BOOLEANO}   {TokenInfo token = new TokenInfo(yytext(),"BOOLEANO", yyline, yychar); tokens.add(token); return new Symbol(sym.BOOLEANO,yyline,yychar,yytext());}
 
 
 \n {yychar=1;}

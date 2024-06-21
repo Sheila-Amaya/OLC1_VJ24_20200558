@@ -10,20 +10,22 @@ import java.util.LinkedList;
 import simbolo.*;
 
 /**
- * Clase que representa la instrucción 'if' en el lenguaje de programación.
+ * Clase que representa la instrucción 'if-else' en el lenguaje de programación.
  * Extiende de la clase base Instruccion.
  * 
  * @autor eliza
  */
-public class SentenciaIf extends Instruccion {
+public class SentenciaIfElse extends Instruccion {
 
     private Instruccion condicion;
-    private LinkedList<Instruccion> instrucciones;
+    private LinkedList<Instruccion> instruccionesIf;
+    private LinkedList<Instruccion> instruccionesElse;
 
-    public SentenciaIf(Instruccion condicion, LinkedList<Instruccion> instrucciones, int linea, int col) {
+    public SentenciaIfElse(Instruccion condicion, LinkedList<Instruccion> instruccionesIf, LinkedList<Instruccion> instruccionesElse, int linea, int col) {
         super(new Tipo(condicion.tipo.getTipo()), linea, col);
         this.condicion = condicion;
-        this.instrucciones = instrucciones;
+        this.instruccionesIf = instruccionesIf;
+        this.instruccionesElse = instruccionesElse;
     }
 
     @Override
@@ -40,16 +42,26 @@ public class SentenciaIf extends Instruccion {
         }
 
         var newTabla = new tablaSimbolos(tabla);
-        if ((boolean) cond) {   // Si la condición es verdadera, se recorren todas las instrucciones
-            for (var i : this.instrucciones) {
+        if ((boolean) cond) {   // Si la condición es verdadera, se recorren todas las instrucciones del if
+            for (var i : this.instruccionesIf) {
                 if (i instanceof Break) {
                     return i;
                 }
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break) {
+                if (resultado instanceof Break || resultado instanceof Continue) {
                     return resultado;
                 }
-                if (resultado instanceof Continue) {
+                if (resultado instanceof Excepcion) {
+                    return resultado;
+                }
+            }
+        } else { 
+            for (var i : this.instruccionesElse) {
+                if (i instanceof Break) {
+                    return i;
+                }
+                var resultado = i.interpretar(arbol, newTabla);
+                if (resultado instanceof Break || resultado instanceof Continue) {
                     return resultado; 
                 }
                 if (resultado instanceof Excepcion) {
@@ -59,5 +71,4 @@ public class SentenciaIf extends Instruccion {
         }
         return null;
     }
-
 }
