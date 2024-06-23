@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package instrucciones;
 
 import Errores.Excepcion;
@@ -9,10 +5,6 @@ import abstracto.Instruccion;
 import java.util.LinkedList;
 import simbolo.*;
 
-/**
- * 
- * @autor eliza
- */
 public class SentenciaIfElseIf extends Instruccion {
 
     private Instruccion condicion;
@@ -31,47 +23,52 @@ public class SentenciaIfElseIf extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var cond = this.condicion.interpretar(arbol, tabla);
+
+        // Validar si la condición es una excepción
         if (cond instanceof Excepcion) {
             return cond;
         }
 
-        // verificar condicion sea booleano
+        // Verificar que la condición sea booleana
         if (this.condicion.tipo.getTipo() != tipoDato.BOOLEANO) {
-            return new Excepcion("Semantico", "Expresion invalida", this.linea, this.columna);
+            return new Excepcion("Semantico", "La expresión debe ser booleana", this.linea, this.columna);
         }
 
         var newTabla = new tablaSimbolos(tabla);
-        if ((boolean) cond) {   // si la condición es verdadera se recorren todas las instrucciones del if
+
+        // Evaluar la condición del primer if
+        if ((boolean) cond) {
             for (var i : this.instruccionesIf) {
-                if (i instanceof Break || i instanceof Continue) {
-                    return i;
-                }
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Excepcion) {
+                if (resultado instanceof Break || resultado instanceof Continue) {
+                    return resultado;
+                }
+                if (resultado instanceof Excepcion) {
                     return resultado;
                 }
             }
-        } else if (this.elseIf != null) { // si la condición es falsa, se evalúa el else if
+        } else if (this.elseIf != null) {
+            // Evaluar el else if si la condición del primer if es falsa
             var resultadoElseIf = this.elseIf.interpretar(arbol, newTabla);
-            if (resultadoElseIf instanceof Excepcion) {
-                return resultadoElseIf;
-            }
             if (resultadoElseIf instanceof Break || resultadoElseIf instanceof Continue) {
                 return resultadoElseIf;
             }
-        } else { // si la condición else if es falsa, se recorren las instrucciones del else
-            if (this.instruccionesElse != null) {
-                for (var i : this.instruccionesElse) {
-                    if (i instanceof Break || i instanceof Continue) {
-                        return i;
-                    }
-                    var resultado = i.interpretar(arbol, newTabla);
-                    if (resultado instanceof Break || resultado instanceof Continue || resultado instanceof Excepcion) {
-                        return resultado;
-                    }
+            if (resultadoElseIf instanceof Excepcion) {
+                return resultadoElseIf;
+            }
+        } else if (this.instruccionesElse != null) {
+            // Ejecutar las instrucciones del else si todos los anteriores son falsos
+            for (var i : this.instruccionesElse) {
+                var resultado = i.interpretar(arbol, newTabla);
+                if (resultado instanceof Break || resultado instanceof Continue) {
+                    return resultado;
+                }
+                if (resultado instanceof Excepcion) {
+                    return resultado;
                 }
             }
         }
+
         return null;
     }
 }

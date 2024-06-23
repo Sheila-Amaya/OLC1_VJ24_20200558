@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package instrucciones;
 
 import Errores.Excepcion;
@@ -61,6 +57,7 @@ public class For extends Instruccion {
                     break; 
                 }
                 if (resIns instanceof Continue) {
+                    // Encontramos un continue, salta a la siguiente iteración
                     break;
                 }
             }

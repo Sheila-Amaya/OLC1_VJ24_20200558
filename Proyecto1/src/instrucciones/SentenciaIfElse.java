@@ -10,8 +10,6 @@ import java.util.LinkedList;
 import simbolo.*;
 
 /**
- * Clase que representa la instrucción 'if-else' en el lenguaje de programación.
- * Extiende de la clase base Instruccion.
  * 
  * @autor eliza
  */

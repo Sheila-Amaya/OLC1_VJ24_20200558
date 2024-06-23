@@ -51,7 +51,6 @@ parser code
     //========================
 
 
-
 :}
 
 /* 3. terminales */
@@ -288,8 +287,12 @@ tipo_datos ::= INT   :a     {: RESULT = new Tipo(tipoDato.ENTERO);   :}
 ;
 
 // ===== VECTORES ===== 
-vectores_id ::= mutabilidad ID DOS_PT tipo_datos COR_IZQ COR_DER IGUAL COR_IZQ lista_valores COR_DER PT_COMA
-            |   mutabilidad ID DOS_PT tipo_datos COR_IZQ COR_DER COR_IZQ COR_DER IGUAL COR_IZQ lista_valores COR_DER PT_COMA
-;
 
+// ===== LISTAS =====
+
+// ===== STRUCT =====
+
+// ===== FUNCIONES =====
+
+// ===== METODOS  =====
 

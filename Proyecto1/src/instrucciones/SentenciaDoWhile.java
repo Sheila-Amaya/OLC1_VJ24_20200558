@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package instrucciones;
 
 import abstracto.Instruccion;
@@ -34,11 +30,16 @@ public class SentenciaDoWhile extends Instruccion {
 
             // Ejecutar instrucciones
             boolean breakFound = false;
+            boolean continueFound = false;
             for (Instruccion ins : this.instrucciones) {
                 var resIns = ins.interpretar(arbol, newTabla2);
                 if (resIns instanceof Break) {
                     breakFound = true;
                     break; 
+                }
+                if (resIns instanceof Continue) {
+                    continueFound = true;
+                    break;
                 }
             }
 
@@ -47,7 +48,12 @@ public class SentenciaDoWhile extends Instruccion {
             }
 
             // Evaluar la condición
-            cond = (boolean) this.condicion.interpretar(arbol, newTabla);
+            if (!continueFound) {
+                cond = (boolean) this.condicion.interpretar(arbol, newTabla);
+            } else {
+                cond = true; 
+            }
+
             if (cond) {
                 newTabla = new tablaSimbolos(tabla);
             }
@@ -56,3 +62,4 @@ public class SentenciaDoWhile extends Instruccion {
         return null;
     }
 }
+

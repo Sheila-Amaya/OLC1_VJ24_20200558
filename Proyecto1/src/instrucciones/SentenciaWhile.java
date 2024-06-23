@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package instrucciones;
 
 import Errores.Excepcion;
@@ -13,7 +9,7 @@ import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
 
 /**
- *
+ * 
  * @author eliza
  */
 public class SentenciaWhile extends Instruccion {
@@ -44,20 +40,29 @@ public class SentenciaWhile extends Instruccion {
             }
 
             if (!(boolean) cond) {
-                break;
+                break; // Si la condición es falsa, se rompe el bucle while
             }
 
             var newTabla2 = new tablaSimbolos(newTabla);
+            boolean continueFound = false;
 
-            // instrucciones
+            // Ejecutar las instrucciones del while
             for (var instruccion : this.instrucciones) {
                 var resultado = instruccion.interpretar(arbol, newTabla2);
                 if (resultado instanceof Break) {
-                    return null; 
+                    return null; // Si se encuentra una instrucción 'break', se termina el bucle
+                }
+                if (resultado instanceof Continue) {
+                    continueFound = true;
+                    break; // Si se encuentra una instrucción 'continue', se salta a la siguiente iteración
                 }
                 if (resultado instanceof Excepcion) {
                     return resultado;
                 }
+            }
+
+            if (continueFound) {
+                continue; 
             }
         }
 
