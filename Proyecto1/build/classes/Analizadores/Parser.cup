@@ -51,11 +51,10 @@ parser code
     //========================
 
 
-
 :}
 
 /* 3. terminales */
-terminal String PT_COMA, DOS_PT, PAR_IZQ, PAR_DER, LLAV_DER, LLAV_IZQ, PUNTO, COMA, COR_IZQ, COR_DER, ASIGNACION;
+terminal String PT_COMA, DOS_PT, PAR_IZQ, PAR_DER, LLAV_DER, LLAV_IZQ, PUNTO, COMA, COR_IZQ, COR_DER;
 terminal String AND, OR, NOT, XOR;
 terminal String MAS, MENOS, POR, DIV, MOD, POTENCIA, UMENOS, INC, DEC;
 terminal String DISTINTO, IGUAL, IGUALIGUAL, MAYOR, MENOR, MAYORIGUAL, MENORIGUAL;
@@ -74,7 +73,6 @@ terminal String CONST;
 
 terminal String IF;
 terminal String ELSE;
-terminal String ELSEIF;
 
 terminal String MATCH;
 terminal String WHILE;
@@ -124,13 +122,40 @@ non terminal Instruccion default;
 non terminal Instruccion sentencia_while;
 non terminal Instruccion sentencia_for;
 non terminal Instruccion sentencia_do_while;
-non terminal Instruccion entorno;
 non terminal String mutabilidad;
 non terminal Instruccion aritmeticos;
 non terminal Instruccion relacionales;
 non terminal Instruccion logicos;
 non terminal Instruccion casteo;
 non terminal Instruccion inc_dec;
+
+non terminal String declaracion_vector;
+non terminal String lista_valores;
+non terminal String lista_valores2;
+non terminal String acceso_vl;
+non terminal String asignacion_vl;
+non terminal String declaracion_listas;
+non terminal String append;
+non terminal String remove;
+non terminal String struct;
+non terminal String lista_structs;
+non terminal String campos;
+non terminal String instanciar_struct;
+non terminal String valores_struct;
+non terminal String valor_struc;
+non terminal String acceso_struct;
+non terminal String asignacion_struct;
+non terminal String funcion;
+non terminal String parametros;
+non terminal String metodo;
+non terminal String llamada;
+non terminal String parametros_llamada;
+non terminal String round;
+non terminal String length;
+non terminal String toString;
+non terminal String find;
+non terminal String start_with;
+
 
 /* 5. precedencias operadores */
 precedence left OR;
@@ -163,6 +188,20 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | sentencia_do_while:a PT_COMA      {: RESULT = a; :}
                 | inc_dec:a PT_COMA                 {: RESULT = a; :}
                 | imprimir:a                        {: RESULT = a; :}
+                | declaracion_vector PT_COMA
+                | asignacion_vl PT_COMA
+                | declaracion_listas PT_COMA
+                | append PT_COMA
+                | struct PT_COMA
+                | instanciar_struct PT_COMA
+                | asignacion_struct PT_COMA
+                | funcion 
+                | metodo
+                | llamada PT_COMA
+                | round 
+                | length
+                | toString
+                | start_with PT_COMA
                 | RETURN expresion PT_COMA          
                 | RETURN PT_COMA
                 | CONTINUE:a PT_COMA                {: RESULT = new Continue(aleft, aright); :} 
@@ -172,7 +211,7 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
 
 // ===== DECLARACION =====
 declaracion_id ::= mutabilidad:a ID:b DOS_PT tipo_datos:c IGUAL expresion:d  {: RESULT = new Declaracion(a,b,c,d,aleft, aright); :}
-                    | mutabilidad:a ID:b DOS_PT tipo_datos:c                 {: RESULT = new Declaracion(a,b,c,null,aleft, aright); :}
+                | mutabilidad:a ID:b DOS_PT tipo_datos:c                 {: RESULT = new Declaracion(a,b,c,null,aleft, aright); :}
 ;
 
 mutabilidad ::= VAR                 {: RESULT = "var"; :}
@@ -235,8 +274,8 @@ imprimir ::=  PRINTLN PAR_IZQ expresion:a PAR_DER PT_COMA     {: RESULT = new Pr
 // ===== EXPRESIONES =====
 expresion ::= aritmeticos:a                {: RESULT = a; :}        
             | relacionales:a               {: RESULT = a; :}
-            | logicos:a                    {: RESULT = a; :}
-            | casteo:a                     {: RESULT = a; :}
+            | logicos   :a                 {: RESULT = a; :}
+            | casteo    :a                 {: RESULT = a; :}
             | ID        :a                 {: RESULT = new AccesoVariables(a,aleft, aright); :}
             | ENTERO    :a                 {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO),aleft, aright  ); :}
             | DECIMAL   :a                 {: RESULT = new Nativo(Double.parseDouble(a), new Tipo(tipoDato.DECIMAL),aleft, aright  ); :}
@@ -245,6 +284,10 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | CADENA    :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
             | CARACTER  :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
             | PAR_IZQ expresion:a PAR_DER  {: RESULT = a; :}
+            | acceso_vl
+            | remove 
+            | acceso_struct 
+            | find
 ;
 
 aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.SUMA,aleft, aright); :}
@@ -285,4 +328,111 @@ tipo_datos ::= INT   :a     {: RESULT = new Tipo(tipoDato.ENTERO);   :}
             | BOOL   :a     {: RESULT = new Tipo(tipoDato.BOOLEANO); :}
             | STRING :a     {: RESULT = new Tipo(tipoDato.CADENA);   :}
             | CHAR   :a     {: RESULT = new Tipo(tipoDato.CARACTER); :}
+;
+
+// ===== VECTORES ===== 
+// ===== declaracion de vectores =====
+declaracion_vector ::= mutabilidad ID DOS_PT tipo_datos COR_IZQ COR_DER IGUAL COR_IZQ lista_valores COR_DER 
+                    |  mutabilidad ID DOS_PT tipo_datos COR_IZQ COR_DER COR_IZQ COR_DER IGUAL COR_IZQ lista_valores2 COR_DER
+;
+
+lista_valores ::= lista_valores COMA expresion
+                | expresion
+;
+
+lista_valores2 ::= lista_valores2 COMA COR_IZQ lista_valores COR_DER
+                | COR_IZQ lista_valores COR_DER
+;
+
+//======= acceso vectores, listas =======
+acceso_vl ::= ID COR_IZQ expresion COR_DER 
+                | ID COR_IZQ expresion COR_DER COR_IZQ expresion COR_DER
+;
+
+//======= asignacion vectores, listas =======
+asignacion_vl ::= ID COR_IZQ expresion COR_DER IGUAL expresion
+                    |   ID COR_IZQ expresion COR_DER COR_IZQ expresion COR_DER IGUAL expresion
+;
+
+// ===== LISTAS DINAMICAS=====
+// ===== declaracion de listas =====
+declaracion_listas ::= LIST MENOR tipo_datos MAYOR ID IGUAL NEW LIST PAR_IZQ PAR_DER
+;
+
+append ::= ID PUNTO APPEND PAR_IZQ expresion PAR_DER
+;
+
+remove ::= ID PUNTO REMOVE PAR_IZQ expresion PAR_DER
+;
+
+// ===== STRUCT =====
+struct ::= STRUCT LLAV_IZQ lista_structs LLAV_DER ID 
+;
+
+lista_structs ::= lista_structs campos
+                | campos
+;
+
+campos ::= ID DOS_PT tipo_datos PT_COMA
+;
+
+// ===== instancia de struct =====
+instanciar_struct ::= mutabilidad ID DOS_PT ID IGUAL LLAV_IZQ valores_struct LLAV_DER
+;
+
+valores_struct ::= valores_struct COMA valor_struc
+                | valor_struc
+;
+
+valor_struc ::= ID DOS_PT expresion
+;
+
+// ===== acceso a strucs =====
+acceso_struct ::= ID PUNTO ID
+;
+
+// ===== asignacion a strucs =====
+asignacion_struct ::= ID PUNTO ID IGUAL expresion
+;
+
+// ===== FUNCIONES =====
+funcion ::= tipo_datos ID PAR_IZQ parametros PAR_DER LLAV_IZQ instrucciones LLAV_DER
+;
+
+parametros ::= parametros COMA tipo_datos ID
+                | tipo_datos ID
+;
+
+// ===== METODOS  =====
+metodo ::= VOID ID PAR_IZQ parametros PAR_DER LLAV_IZQ instrucciones LLAV_DER
+;
+
+// ===== llamadas a metodos =====
+llamada ::= ID PAR_IZQ parametros_llamada PAR_DER
+        | ID PAR_IZQ PAR_DER 
+;
+
+parametros_llamada ::= parametros_llamada COMA expresion
+                    | expresion
+;
+
+// ===== funcion round =====
+round ::= ROUND PAR_IZQ expresion PAR_DER
+;
+
+// ===== funcion length =====
+length ::= LENGTH PAR_IZQ expresion PAR_DER
+;
+
+// ===== funcion toString =====
+toString ::= TOSTRING PAR_IZQ expresion PAR_DER
+;
+
+// ===== funcion find =====
+find ::= ID PUNTO FIND PAR_IZQ expresion PAR_DER
+;
+
+// ===== funcion startWith =====
+start_with ::= START_WITH ID PAR_DER PAR_DER
+            | START_WITH ID PAR_IZQ parametros_llamada PAR_DER
 ;

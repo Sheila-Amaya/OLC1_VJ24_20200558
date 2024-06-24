@@ -57,7 +57,6 @@ public class For extends Instruccion {
                     break; 
                 }
                 if (resIns instanceof Continue) {
-                    // Encontramos un continue, salta a la siguiente iteración
                     break;
                 }
             }
