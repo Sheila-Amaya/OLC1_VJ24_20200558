@@ -605,6 +605,10 @@ public class Aritmeticas extends Instruccion {
             }
         }
     }
+    
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
+    }
 
 
 }

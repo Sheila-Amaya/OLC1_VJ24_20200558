@@ -119,5 +119,7 @@ public class Logicos extends Instruccion {
             return this.cond1.toString() + " " + this.logico + " " + this.cond2.toString();
         }
 
-
+        public RetornoAST ast(AST ast){
+            return new RetornoAST("", 0);
+        }
 }

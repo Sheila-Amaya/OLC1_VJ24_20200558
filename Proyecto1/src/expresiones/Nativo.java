@@ -5,7 +5,9 @@
 package expresiones;
 
 import abstracto.Instruccion;
+import simbolo.AST;
 import simbolo.Arbol;
+import simbolo.RetornoAST;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 
@@ -37,6 +39,12 @@ public class Nativo extends Instruccion{
             default:
                 return this.valor;
         }
+    }
+    
+    public RetornoAST ast(AST ast){
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"" + this.valor + "\"];";
+        return new RetornoAST(dot, id);
     }
 
 }

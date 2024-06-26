@@ -4,9 +4,11 @@
  */
 package abstracto;
 
+import simbolo.AST;
 import simbolo.Arbol;
+import simbolo.RetornoAST;
 import simbolo.Tipo;
-import simbolo.tablaSimbolos; //
+import simbolo.tablaSimbolos;
 
 /**
  *
@@ -24,4 +26,5 @@ public abstract class Instruccion {
     }
 
     public abstract Object interpretar(Arbol arbol, tablaSimbolos tabla);
+    public abstract RetornoAST ast(AST ast);
 }

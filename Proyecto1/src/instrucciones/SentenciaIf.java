@@ -59,5 +59,9 @@ public class SentenciaIf extends Instruccion {
         }
         return null;
     }
+    
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
+    }
 
 }

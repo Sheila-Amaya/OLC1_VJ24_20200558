@@ -5,37 +5,35 @@
 package instrucciones;
 
 import abstracto.Instruccion;
+import java.util.LinkedList;
 import simbolo.AST;
 import simbolo.Arbol;
 import simbolo.RetornoAST;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
-import simbolo.tipoDato;
+
 /**
  *
  * @author eliza
  */
-public class Return extends Instruccion {
-    private Instruccion valorRetorno;
+public class Metodo extends Instruccion{
+    public String id;
+    public LinkedList<Instruccion> instrucciones;
 
-    public Return(Instruccion valorRetorno, int linea, int columna) {
-        super(new Tipo(tipoDato.VOID), linea, columna);
-        this.valorRetorno = valorRetorno;
+    public Metodo(String id, LinkedList<Instruccion> instrucciones, Tipo tipo, int linea, int columna) {
+        super(tipo, linea, columna);
+        this.id = id;
+        this.instrucciones = instrucciones;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        if (valorRetorno != null) {
-            return valorRetorno.interpretar(arbol, tabla);
-        }
-        return this;
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Instruccion getValorRetorno() {
-        return valorRetorno;
-    }
     
     public RetornoAST ast(AST ast){
         return new RetornoAST("", 0);
     }
+
 }

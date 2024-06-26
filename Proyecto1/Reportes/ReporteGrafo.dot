@@ -1,0 +1,11 @@
+digraph G {
+nodo_r[label="INSTRUCCIONES"];
+nodo_0[label="DECLARACION"];
+nodo_0_muta[label="var"];
+nodo_0_id[label="factorial"];
+nodo_0 -> nodo_0_id
+nodo_0 -> nodo_0_muta
+nodo_1[label="100"];
+nodo_0 -> nodo_1;
+nodo_r -> nodo_0;
+}

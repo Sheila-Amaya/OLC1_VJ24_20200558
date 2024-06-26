@@ -8,7 +8,6 @@ import Errores.Excepcion;
 import abstracto.Instruccion;
 import simbolo.*;
 
-
 /**
  *
  * @author eliza
@@ -379,11 +378,9 @@ public class Relacionales extends Instruccion {
         };
     }
     
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
+    }
+    
 }
-    
-
-
-    
-    
-
-    
+  

@@ -6,7 +6,9 @@ package instrucciones;
 
 import Errores.Excepcion;
 import abstracto.Instruccion;
+import simbolo.AST;
 import simbolo.Arbol;
+import simbolo.RetornoAST;
 import simbolo.Simbolo;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
@@ -114,5 +116,18 @@ public class Declaracion extends Instruccion{
         }
 
         return null;
+    }
+    
+    public RetornoAST ast(AST ast){
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"DECLARACION\"];";
+        RetornoAST valor = this.Valor.ast(ast);
+        dot += "\nnodo_" + id + "_muta[label=\"" + this.mutabilidad + "\"];";
+        dot += "\nnodo_" + id + "_id[label=\"" + this.Identificador + "\"];";
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_id";
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_muta";
+        dot += "\n" + valor.dot;
+        dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";
+        return new RetornoAST(dot, id);
     }
 }

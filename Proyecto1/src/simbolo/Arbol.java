@@ -17,12 +17,17 @@ public class Arbol {
     private String consola;
     private tablaSimbolos tablaGlobal;
     public LinkedList<Exception> errores;
+    private LinkedList<Instruccion> funciones;
+    // struc hashmap  
+    // metodo linkedlist
 
+    
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
         this.consola = "";
         this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
+        this.funciones = new LinkedList<>();
         
     }
 
@@ -60,5 +65,21 @@ public class Arbol {
 
     public void Print(String valor) {
         this.consola += valor + "\n";
+    }
+
+    public LinkedList<Instruccion> getFunciones() {
+        return funciones;
+    }
+
+    public void setFunciones(LinkedList<Instruccion> funciones) {
+        this.funciones = funciones;
+    }
+    
+    public void addFuncion(Instruccion funcion){
+        this.funciones.add(funcion);
+    }
+
+    public Instruccion getFuncion(String id){ //busca una funcion por su id
+        return null;
     }
 }

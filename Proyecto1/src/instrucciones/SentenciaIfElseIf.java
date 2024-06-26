@@ -71,4 +71,8 @@ public class SentenciaIfElseIf extends Instruccion {
 
         return null;
     }
+    
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
+    }
 }

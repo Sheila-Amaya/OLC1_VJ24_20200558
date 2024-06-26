@@ -31,8 +31,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import abstracto.Instruccion;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
+import simbolo.AST;
 import simbolo.Arbol;
+import simbolo.RetornoAST;
 import simbolo.tablaSimbolos;
 
 /**
@@ -119,6 +122,7 @@ public class principal extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jTextArea2.setEditable(false);
         jTextArea2.setBackground(new java.awt.Color(0, 0, 0));
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Monospaced", 1, 12)); // NOI18N
@@ -250,8 +254,6 @@ public class principal extends javax.swing.JFrame {
                     .addComponent(jScrollPane2))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
-
-        getAccessibleContext().setAccessibleName("DataForge");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -404,6 +406,26 @@ public class principal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
+        //===== BOTON======= abrir AST
+        // Obtener la ruta base para los reportes
+        String basePath = "." + File.separator + "Reportes" + File.separator;
+
+        // Ruta del archivo PNG
+        String pngFilePath = basePath + "ReporteGrafo.png";
+
+        // Abrir el archivo PNG
+        File pngFile = new File(pngFilePath);
+        if (pngFile.exists()) {
+            try {
+                Desktop.getDesktop().open(pngFile);
+                JOptionPane.showMessageDialog(null, "Archivo PNG abierto con éxito.");
+           } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al abrir el archivo PNG.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "El archivo PNG no existe: " + pngFilePath, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
@@ -428,26 +450,78 @@ public class principal extends javax.swing.JFrame {
             if (resultado.value instanceof LinkedList) {
                 var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
                 var tabla = new tablaSimbolos();
+                var ast_ = new AST();
+                
                 tabla.setNombre("GLOBAL");
                 ast.setConsola("");
                 LinkedList<Excepcion> lista = new LinkedList<>();
                 lista.addAll(scanner.Errores);
                 lista.addAll(parse.Errores);
+                
+                RetornoAST resultadoAST;
+                StringBuilder grafo = new StringBuilder();
+                grafo.append("digraph G {");
+                grafo.append("\nnodo_r[label=\"INSTRUCCIONES\"];");
+
+                
                 for (var a : ast.getInstrucciones()) {
                     if (a == null) {
                         continue;
                     }
 
                     var res = a.interpretar(ast, tabla);
+                    
+                    resultadoAST = a.ast(ast_);
+                    grafo.append("\n").append(resultadoAST.dot);
+                    grafo.append("\nnodo_r -> nodo_").append(resultadoAST.id).append(";");
+
                     if (res instanceof Excepcion) {
                         lista.add((Excepcion) res); //errores semanticos
                     }
                 }
+                grafo.append("\n}");
+                
+                System.out.println("=== AST ===");
+                System.out.println(grafo);
+
+                //generar AST
+                // Obtener la ruta base para los reportes
+                String basePath = "." + File.separator + "Reportes" + File.separator;
+
+                // Asegurarse de que el directorio existe
+                File dir = new File(basePath);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                // Rutas para los archivos DOT y PNG
+                String dotFilePath = basePath + "ReporteGrafo.dot";
+                String pngFilePath = basePath + "ReporteGrafo.png";
+
+                // Generar y guardar el archivo DOT
+                try (FileWriter fileWriter = new FileWriter(dotFilePath)) {
+                    fileWriter.write(grafo.toString());
+                    System.out.println("Archivo DOT generado con éxito en: " + dotFilePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Error al generar el archivo DOT.");
+                }
+
+                // Verificar que el archivo DOT se generó correctamente
+                File dotFile = new File(dotFilePath);
+                if (dotFile.exists()) {
+                    // Generar el archivo PNG
+                    generatePngFile(dotFilePath, pngFilePath);
+                } else {
+                    System.out.println("El archivo DOT no se generó correctamente.");
+                }
+
 
                 StringBuilder result = new StringBuilder();
                 result.append(ast.getConsola()).append("\n");
                 
                 generarReporteHTML(lista); //html de errores
+                
                 
                 for (var i : lista) {
                     result.append(i.toString()).append("\n");
@@ -463,6 +537,29 @@ public class principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+
+    // Método para generar el archivo PNG a partir del archivo DOT
+    public static void generatePngFile(String dotFilePath, String pngFilePath) {
+        try {
+            String command = "dot -Tpng " + dotFilePath + " -o " + pngFilePath;
+            //System.out.println("Ejecutando comando: " + command);
+            Process process = Runtime.getRuntime().exec(command);
+            int exitVal = process.waitFor();
+            if (exitVal == 0) {
+                System.out.println("Archivo PNG generado con exito en: " + pngFilePath);
+            } else {
+                System.out.println("Error al generar el archivo PNG. Codigo de salida: " + exitVal);
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                }
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public static void generarReporteHTML(LinkedList<Excepcion> errores) throws IOException {

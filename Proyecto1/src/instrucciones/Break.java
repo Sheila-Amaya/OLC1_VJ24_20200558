@@ -5,7 +5,9 @@
 package instrucciones;
 
 import abstracto.Instruccion;
+import simbolo.AST;
 import simbolo.Arbol;
+import simbolo.RetornoAST;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
@@ -23,6 +25,10 @@ public class Break extends Instruccion {
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         return null;
+    }
+    
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
     }
 
 }

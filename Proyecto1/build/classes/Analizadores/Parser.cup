@@ -284,10 +284,10 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | CADENA    :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
             | CARACTER  :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
             | PAR_IZQ expresion:a PAR_DER  {: RESULT = a; :}
-            | acceso_vl
-            | remove 
-            | acceso_struct 
-            | find
+            //| acceso_vl
+            //| remove 
+            //| acceso_struct 
+            //| find
 ;
 
 aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.SUMA,aleft, aright); :}

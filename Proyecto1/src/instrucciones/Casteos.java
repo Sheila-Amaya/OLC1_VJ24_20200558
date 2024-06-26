@@ -9,10 +9,13 @@ package instrucciones;
  */
 import Errores.Excepcion;
 import abstracto.Instruccion;
+import simbolo.AST;
 import simbolo.Arbol;
+import simbolo.RetornoAST;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
+
 
 public class Casteos extends Instruccion {
 
@@ -58,4 +61,10 @@ public class Casteos extends Instruccion {
 
         return new Excepcion("Semantico", "No se puede castear el valor de tipo " + tipoActual + " a tipo " + tipoDestino, this.linea, this.columna);  
     }
+    
+
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
+    }
+
 }

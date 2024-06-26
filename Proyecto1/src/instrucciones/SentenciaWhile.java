@@ -3,7 +3,9 @@ package instrucciones;
 import Errores.Excepcion;
 import abstracto.Instruccion;
 import java.util.LinkedList;
+import simbolo.AST;
 import simbolo.Arbol;
+import simbolo.RetornoAST;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
@@ -67,5 +69,9 @@ public class SentenciaWhile extends Instruccion {
         }
 
         return null;
+    }
+    
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
     }
 }

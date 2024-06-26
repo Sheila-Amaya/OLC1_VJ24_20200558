@@ -6,10 +6,7 @@ package expresiones;
 
 import Errores.*;
 import abstracto.Instruccion;
-import simbolo.Arbol;
-import simbolo.Tipo;
-import simbolo.tablaSimbolos;
-import simbolo.tipoDato;
+import simbolo.*;
 
 /**
  *
@@ -33,4 +30,7 @@ public class AccesoVariables extends Instruccion{
         return valor.getValor();
     }
     
+    public RetornoAST ast(AST ast){
+        return new RetornoAST("", 0);
+    }
 }
