@@ -52,16 +52,16 @@ public class AsignacionVariables extends Instruccion{
         return null;
     }
     
-        public RetornoAST ast(AST ast){
-            int id = ast.getNewID();
-            String dot = "nodo_" + id + "[label=\"ASIGNACION\"];";
-            
-            RetornoAST valor = this.valor.ast(ast);
-            dot += "\nnodo_" + id + "_id[label=\"" + this.id + "\"]";
-            dot += "\nnodo_" + id + " -> nodo_" + id + "_id";
-            dot += "\n" + valor.dot;
-            dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";
-            return new RetornoAST(dot, id);
+    public RetornoAST ast(AST ast) {
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"ASIGNACION\"];";
+        
+        RetornoAST valor = this.valor.ast(ast);
+        dot += "\nnodo_" + id + "_id[label=\"" + this.id + "\"]";
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_id";
+        dot += "\n" + valor.dot;
+        dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";
+        return new RetornoAST(dot, id);
     }
 
 

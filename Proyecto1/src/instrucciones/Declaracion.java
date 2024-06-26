@@ -117,17 +117,29 @@ public class Declaracion extends Instruccion{
 
         return null;
     }
-    
-    public RetornoAST ast(AST ast){
+
+    public RetornoAST ast(AST ast) {
         int id = ast.getNewID();
         String dot = "nodo_" + id + "[label=\"DECLARACION\"];";
-        RetornoAST valor = this.Valor.ast(ast);
-        dot += "\nnodo_" + id + "_muta[label=\"" + this.mutabilidad + "\"];";
-        dot += "\nnodo_" + id + "_id[label=\"" + this.Identificador + "\"];";
-        dot += "\nnodo_" + id + " -> nodo_" + id + "_id";
-        dot += "\nnodo_" + id + " -> nodo_" + id + "_muta";
-        dot += "\n" + valor.dot;
-        dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";
+
+        if (this.Identificador != null) {
+            dot += "\nnodo_" + id + "_id[label=\"" + this.Identificador + "\"];";
+            dot += "\nnodo_" + id + " -> nodo_" + id + "_id;";
+
+            dot += "\nnodo_" + id + "_muta[label=\"" + this.mutabilidad + "\"];";
+            dot += "\nnodo_" + id + " -> nodo_" + id + "_muta;";
+
+            if (this.Valor != null) {
+                RetornoAST valor = this.Valor.ast(ast);
+                dot += "\n" + valor.dot;
+                dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";
+            }
+        } else {
+            // si Identificador es nulo
+            dot += "\nnodo_" + id + "_id[label=\"NULL\"];";
+            dot += "\nnodo_" + id + " -> nodo_" + id + "_id;";
+        }
+
         return new RetornoAST(dot, id);
     }
 }

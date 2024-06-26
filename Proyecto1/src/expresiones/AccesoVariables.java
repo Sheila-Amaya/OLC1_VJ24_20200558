@@ -30,7 +30,9 @@ public class AccesoVariables extends Instruccion{
         return valor.getValor();
     }
     
-    public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+    public RetornoAST ast(AST ast) {
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"" + this.id + "\"];";
+        return new RetornoAST(dot, id);
     }
 }

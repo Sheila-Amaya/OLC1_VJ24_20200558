@@ -28,7 +28,9 @@ public class Continue extends Instruccion {
     }
     
     public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"CONTINUE\"];";
+        return new RetornoAST(dot, id);
     }
 
 }

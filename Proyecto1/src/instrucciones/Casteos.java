@@ -64,7 +64,17 @@ public class Casteos extends Instruccion {
     
 
     public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"CASTEO\"];\n";
+
+        RetornoAST valor = this.expresion.ast(ast);
+        dot += valor.dot;
+        dot += "nodo_" + id + " -> nodo_" + valor.id + ";\n";
+
+        dot += "nodo_" + id + "_tipoDestino[label=\"" + tipoDestino.getTipo().name() + "\"];\n";
+        dot += "nodo_" + id + " -> nodo_" + id + "_tipoDestino;\n";
+
+        return new RetornoAST(dot, id);
     }
 
 }

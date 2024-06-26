@@ -69,8 +69,35 @@ public class SentenciaIfElse extends Instruccion {
         }
         return null;
     }
-    
-    public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+
+    public RetornoAST ast(AST ast) {
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"IF_ELSE\"];";
+
+
+        RetornoAST astCondicion = condicion.ast(ast);
+        dot += "\nnodo_" + id + "_cond[label=\"CONDICION\"];";
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_cond;";
+        dot += "\nnodo_" + id + "_cond -> nodo_" + astCondicion.id + ";";
+        dot += astCondicion.dot;
+
+
+        String dotInstruccionesIf = "";
+        for (Instruccion ins : instruccionesIf) {
+            RetornoAST astIns = ins.ast(ast);
+            dotInstruccionesIf += "\nnodo_" + id + " -> nodo_" + astIns.id + ";";
+            dot += astIns.dot;
+        }
+
+ 
+        String dotInstruccionesElse = "";
+        for (Instruccion ins : instruccionesElse) {
+            RetornoAST astIns = ins.ast(ast);
+            dotInstruccionesElse += "\nnodo_" + id + "_else -> nodo_" + astIns.id + ";";
+            dot += astIns.dot;
+        }
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_else[label=\"ELSE\"];";
+
+        return new RetornoAST(dot + dotInstruccionesIf + dotInstruccionesElse, id);
     }
 }

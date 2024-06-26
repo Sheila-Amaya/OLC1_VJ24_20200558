@@ -36,6 +36,12 @@ public class Print extends Instruccion{
     }
     
     public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"PRINTLN\"];";
+        RetornoAST valor = this.expresion.ast(ast);
+        dot += "\n" + valor.dot;
+        dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";
+        return new RetornoAST(dot, id);
     }
 }
+

@@ -378,9 +378,24 @@ public class Relacionales extends Instruccion {
         };
     }
     
-    public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+    public RetornoAST ast(AST ast) {
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"" + this.relacional + "\"];";
+        
+        if (this.cond1 != null) {
+            RetornoAST value1 = this.cond1.ast(ast);
+            dot += "\n" + value1.dot;
+            dot += "\nnodo_" + id + " -> nodo_" + value1.id + ";";
+        }
+        
+        if (this.cond2 != null) {
+            RetornoAST value2 = this.cond2.ast(ast);
+            dot += "\n" + value2.dot;
+            dot += "\nnodo_" + id + " -> nodo_" + value2.id + ";";
+        }   
+        
+        return new RetornoAST(dot, id);
     }
     
 }
-  
+

@@ -63,7 +63,24 @@ public class SentenciaDoWhile extends Instruccion {
     }
     
     public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"DO-WHILE\"];";
+        
+
+        String dotInstrucciones = "";
+        for (Instruccion ins : instrucciones) {
+            RetornoAST astIns = ins.ast(ast);
+            dotInstrucciones += "\nnodo_" + id + " -> nodo_" + astIns.id + ";";
+            dot += astIns.dot;
+        }
+        
+        RetornoAST astCondicion = condicion.ast(ast);
+        dot += "\nnodo_" + id + "_cond[label=\"CONDICION\"];";
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_cond;";
+        dot += "\nnodo_" + id + "_cond -> nodo_" + astCondicion.id + ";";
+        dot += astCondicion.dot;
+
+        return new RetornoAST(dot + dotInstrucciones, id);
     }
 }
 

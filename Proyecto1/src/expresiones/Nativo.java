@@ -41,10 +41,18 @@ public class Nativo extends Instruccion{
         }
     }
     
-    public RetornoAST ast(AST ast){
+
+    public RetornoAST ast(AST ast) {
         int id = ast.getNewID();
-        String dot = "nodo_" + id + "[label=\"" + this.valor + "\"];";
+        String valorParaDot = this.valor.toString();
+        
+        // Escapar comillas dobles y barras invertidas para el dot
+        String dot = "nodo_" + id + "[label=\"" + escapeDotString(valorParaDot) + "\"];";
         return new RetornoAST(dot, id);
+}
+
+    private String escapeDotString(String input) {
+        return input.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
 }

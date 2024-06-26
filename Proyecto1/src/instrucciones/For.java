@@ -74,7 +74,29 @@ public class For extends Instruccion {
         return null;
     }
     
-    public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+    public RetornoAST ast(AST ast) {
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"FOR\"];";
+
+        RetornoAST asignacionAST = asignacion.ast(ast);
+        dot += "\n" + asignacionAST.dot;
+        dot += "\nnodo_" + id + " -> nodo_" + asignacionAST.id + ";";
+
+        RetornoAST condicionAST = condicion.ast(ast);
+        dot += "\n" + condicionAST.dot;
+        dot += "\nnodo_" + id + " -> nodo_" + condicionAST.id + ";";
+
+        RetornoAST actualizacionAST = actualizacion.ast(ast);
+        dot += "\n" + actualizacionAST.dot;
+        dot += "\nnodo_" + id + " -> nodo_" + actualizacionAST.id + ";";
+
+        for (Instruccion instruccion : instrucciones) {
+            RetornoAST instruccionAST = instruccion.ast(ast);
+            dot += "\n" + instruccionAST.dot;
+            dot += "\nnodo_" + id + " -> nodo_" + instruccionAST.id + ";";
+        }
+
+        return new RetornoAST(dot, id);
     }
 }
+    

@@ -28,7 +28,9 @@ public class Break extends Instruccion {
     }
     
     public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"Break\"]";
+        return new RetornoAST(dot, id);
     }
 
 }

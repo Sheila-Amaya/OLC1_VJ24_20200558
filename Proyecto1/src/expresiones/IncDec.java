@@ -49,7 +49,13 @@ public class IncDec extends Instruccion {
         return null;
     }
     
-    public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+    public RetornoAST ast(AST ast) {
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"" + this.signo + "\"];";
+
+        dot += "\nnodo_" + id + "_id[label=\"" + this.id + "\"];";
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_id;";
+
+        return new RetornoAST(dot, id);
     }
 }
