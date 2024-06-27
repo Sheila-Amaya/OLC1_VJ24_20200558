@@ -5,12 +5,14 @@
 package instrucciones;
 
 import abstracto.Instruccion;
+import java.util.HashMap;
 import java.util.LinkedList;
 import simbolo.AST;
 import simbolo.Arbol;
 import simbolo.RetornoAST;
 import simbolo.Tipo;
 import simbolo.tablaSimbolos;
+import simbolo.tipoDato;
 
 /**
  *
@@ -18,20 +20,26 @@ import simbolo.tablaSimbolos;
  */
 public class Metodo extends Instruccion{
     public String id;
+    public LinkedList<HashMap> parametros;
     public LinkedList<Instruccion> instrucciones;
 
-    public Metodo(String id, LinkedList<Instruccion> instrucciones, Tipo tipo, int linea, int columna) {
-        super(tipo, linea, columna);
+    public Metodo(String id,LinkedList<HashMap> parametros, LinkedList<Instruccion> instrucciones, int linea, int columna) {
+        super(new Tipo(tipoDato.VOID), linea, columna);
         this.id = id;
+        this.parametros = parametros;
         this.instrucciones = instrucciones;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for(var i: this.instrucciones){
+            var resultado = i.interpretar(arbol, tabla);
+            //resultado instancia de errores
+            //resultado o i es instancia de break/continue
+            // return;
+            }return null;
     }
 
-    
     public RetornoAST ast(AST ast){
         return new RetornoAST("", 0);
     }

@@ -31,12 +31,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import abstracto.Instruccion;
+import instrucciones.Metodo;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import simbolo.AST;
 import simbolo.Arbol;
 import simbolo.RetornoAST;
 import simbolo.tablaSimbolos;
+import instrucciones.*;
 
 /**
  *
@@ -431,110 +433,119 @@ public class principal extends javax.swing.JFrame {
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // TODO add your handling code here:
         //------EJECUTAR------
-        Analizadores.scanner scanner; //.java
+        Analizadores.scanner scanner;
         Analizadores.Sintactico parse;
-        //ArrayList<Excepcion> errores = new ArrayList(); //agregar errores
-        ArrayList<TokenInfo> tokens = new ArrayList();
+        ArrayList<TokenInfo> tokens = new ArrayList<>();
 
         try {
-            scanner = new scanner(new BufferedReader(new StringReader(jTextArea1.getText())));
-            parse = new Sintactico(scanner);
-            var resultado = parse.parse(); 
+            scanner = new Analizadores.scanner(new BufferedReader(new StringReader(jTextArea1.getText())));
+            parse = new Analizadores.Sintactico(scanner);
+            var resultado = parse.parse();
 
-            //errores.addAll(scanner.Errores); //errores lexicos
-            //errores.addAll(parse.getErrores()); //errores sintacticos
-            //generarReporteHTML(errores);   //generar reporte de errores lexicos y sintacticos
-            tokens.addAll(scanner.getTokens()); 
-            generarReporteTokensHTML(tokens); //generar reporte de tokens
+            tokens.addAll(scanner.getTokens());
+            generarReporteTokensHTML(tokens); // Generar reporte de tokens
 
             if (resultado.value instanceof LinkedList) {
                 var ast = new Arbol((LinkedList<Instruccion>) resultado.value);
                 var tabla = new tablaSimbolos();
                 var ast_ = new AST();
-                
+
                 tabla.setNombre("GLOBAL");
                 ast.setConsola("");
+                ast.setTablaGlobal(tabla);
+
                 LinkedList<Excepcion> lista = new LinkedList<>();
                 lista.addAll(scanner.Errores);
                 lista.addAll(parse.Errores);
-                
-                RetornoAST resultadoAST;
+
+                // Variable para almacenar el grafo DOT
                 StringBuilder grafo = new StringBuilder();
-                grafo.append("digraph G {");
-                grafo.append("\nnodo_r[label=\"INSTRUCCIONES\"];");
+                grafo.append("digraph G {\n");
+                grafo.append("nodo_r[label=\"INSTRUCCIONES\"];\n");
 
-                
+                // Almacenar funciones, métodos o structs
                 for (var a : ast.getInstrucciones()) {
-                    if (a == null) {
-                        continue;
-                    }
-
-                    var res = a.interpretar(ast, tabla);
-                    
-                    resultadoAST = a.ast(ast_);
-                    grafo.append("\n").append(resultadoAST.dot);
-                    grafo.append("\nnodo_r -> nodo_").append(resultadoAST.id).append(";");
-
-                    if (res instanceof Excepcion) {
-                        lista.add((Excepcion) res); //errores semanticos
+                    if (a instanceof Metodo) {
+                        ast.addFunciones(a);
                     }
                 }
-                grafo.append("\n}");
-                
-                System.out.println("=== AST ===");
-                System.out.println(grafo);
 
-                //generar AST
-                // Obtener la ruta base para los reportes
+                // Declaraciones o asignaciones globales
+                for (var a : ast.getInstrucciones()) {
+                    if (a instanceof Declaracion || a instanceof AsignacionVariables) {
+                        var res = a.interpretar(ast, tabla);
+                        if (res instanceof Excepcion) {
+                            lista.add((Excepcion) res);
+                        }
+                    }
+                }
+
+                Start_W e = null;
+                for (var a : ast.getInstrucciones()) {
+                    if (a instanceof Start_W) {
+                        e = (Start_W) a;
+                        var res = e.interpretar(ast, tabla);
+                        if (res instanceof Excepcion) {
+                            lista.add((Excepcion) res);
+                        }
+
+                    }
+                }
+
+
+                for (var a : ast.getInstrucciones()) {
+                    if (a == null || a instanceof Start_W) {
+                        continue; 
+                    }
+
+                    // Generar nodo para el grafo DOT
+                    var resultadoAST = a.ast(ast_);
+                    grafo.append(resultadoAST.dot).append("\n");
+                    grafo.append("nodo_r -> nodo_").append(resultadoAST.id).append(";\n");
+                }
+                grafo.append("}");
+
+                // Generar archivo DOT
                 String basePath = "." + File.separator + "Reportes" + File.separator;
-
-                // Asegurarse de que el directorio existe
                 File dir = new File(basePath);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
 
-                // Rutas para los archivos DOT y PNG
                 String dotFilePath = basePath + "ReporteGrafo.dot";
                 String pngFilePath = basePath + "ReporteGrafo.png";
 
-                // Generar y guardar el archivo DOT
                 try (FileWriter fileWriter = new FileWriter(dotFilePath)) {
                     fileWriter.write(grafo.toString());
                     System.out.println("Archivo DOT generado con éxito en: " + dotFilePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                    // Generar archivo PNG
+                    generatePngFile(dotFilePath, pngFilePath);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                     System.out.println("Error al generar el archivo DOT.");
                 }
 
-                // Verificar que el archivo DOT se generó correctamente
-                File dotFile = new File(dotFilePath);
-                if (dotFile.exists()) {
-                    // Generar el archivo PNG
-                    generatePngFile(dotFilePath, pngFilePath);
-                } else {
-                    System.out.println("El archivo DOT no se generó correctamente.");
-                }
-
-
+                // Actualizar resultados en la interfaz de usuario
                 StringBuilder result = new StringBuilder();
                 result.append(ast.getConsola()).append("\n");
-                
-                generarReporteHTML(lista); //html de errores
-                
-                
-                for (var i : lista) {
-                    result.append(i.toString()).append("\n");
+                generarReporteHTML(lista); // Generar reporte de errores
+
+                for (var error : lista) {
+                    result.append(error.toString()).append("\n");
                 }
-                this.jTextArea2.setText(result.toString());
+                jTextArea2.setText(result.toString());
+
             } else {
-                throw new Exception("El resultado del análisis no es una lista de instrucciones");
+                throw new Exception("El resultado del analisis no es una lista de instrucciones");
             }
 
         } catch (Exception ex) {
             Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error fatal en compilación de entrada: " + ex.getMessage());
+            System.out.println("Error fatal en compilacion de entrada: " + ex.getMessage());
         }
+
+
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
 

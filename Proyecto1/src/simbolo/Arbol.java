@@ -5,6 +5,7 @@
 package simbolo;
 
 import abstracto.Instruccion;
+import instrucciones.Metodo;
 import java.util.LinkedList;
 
 /**
@@ -18,7 +19,7 @@ public class Arbol {
     private tablaSimbolos tablaGlobal;
     public LinkedList<Exception> errores;
     private LinkedList<Instruccion> funciones;
-    // struc hashmap  
+    //private LinkedList<HashMap> structs;              // struc hashmap  
     // metodo linkedlist
 
     
@@ -75,11 +76,19 @@ public class Arbol {
         this.funciones = funciones;
     }
     
-    public void addFuncion(Instruccion funcion){
+    public void addFunciones(Instruccion funcion){
         this.funciones.add(funcion);
     }
 
-    public Instruccion getFuncion(String id){ //busca una funcion por su id
+    public Instruccion getFuncion(String id) { //obtener una funcion por su id
+        for (var i : this.funciones) {
+            if (i instanceof Metodo metodo) {
+                if (metodo.id.equalsIgnoreCase(id)) {
+                    return i;
+                }
+            }
+        }
         return null;
     }
+
 }

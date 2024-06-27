@@ -89,7 +89,6 @@ public class SentenciaIfElse extends Instruccion {
             dot += astIns.dot;
         }
 
- 
         String dotInstruccionesElse = "";
         for (Instruccion ins : instruccionesElse) {
             RetornoAST astIns = ins.ast(ast);
