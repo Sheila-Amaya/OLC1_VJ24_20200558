@@ -149,7 +149,7 @@ non terminal String asignacion_struct;
 non terminal String funcion;
 non terminal LinkedList<Instruccion> parametros_llamada;
 non terminal Instruccion metodo;
-non terminal String llamada;
+non terminal Instruccion llamada;
 non terminal LinkedList<HashMap> parametros ;
 non terminal String round;
 non terminal String length;
@@ -198,7 +198,7 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | asignacion_struct PT_COMA
                 | funcion 
                 | metodo:a                          {: RESULT = a; :}
-                | llamada PT_COMA                   
+                | llamada:a PT_COMA                   {: RESULT = a; :}               
                 | round 
                 | length
                 | toString
@@ -285,10 +285,11 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | CADENA    :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
             | CARACTER  :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
             | PAR_IZQ expresion:a PAR_DER  {: RESULT = a; :}
-            //| acceso_vl
-            //| remove 
-            //| acceso_struct 
-            //| find
+            | llamada:a PT_COMA            {: RESULT = a; :}
+            | acceso_vl
+            | remove 
+            | acceso_struct 
+            | find
 ;
 
 aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.SUMA,aleft, aright); :}
@@ -414,8 +415,8 @@ parametros_llamada ::= parametros_llamada:a COMA expresion:b                    
 ;
 
 // ===== llamadas a metodos ===== 
-llamada ::= ID PAR_IZQ parametros_llamada PAR_DER
-        | ID PAR_IZQ PAR_DER 
+llamada ::= ID:a PAR_IZQ parametros_llamada:b PAR_DER       {: RESULT = new Llamada(a,b,aleft,aright); :}
+        | ID:a PAR_IZQ PAR_DER                              {: RESULT = new Llamada(a,new LinkedList(),aleft,aright); :}
 ;
 // ===== funcion round =====
 round ::= ROUND PAR_IZQ expresion PAR_DER

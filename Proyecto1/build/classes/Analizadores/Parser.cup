@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import Errores.Excepcion;
+import java.util.HashMap;
 
 import abstracto.*;
 import simbolo.*;
@@ -146,15 +147,15 @@ non terminal String valor_struc;
 non terminal String acceso_struct;
 non terminal String asignacion_struct;
 non terminal String funcion;
-non terminal String parametros;
-non terminal String metodo;
-non terminal String llamada;
-non terminal String parametros_llamada;
+non terminal LinkedList<Instruccion> parametros_llamada;
+non terminal Instruccion metodo;
+non terminal Instruccion llamada;
+non terminal LinkedList<HashMap> parametros ;
 non terminal String round;
 non terminal String length;
 non terminal String toString;
 non terminal String find;
-non terminal String start_with;
+non terminal Instruccion start_with;
 
 
 /* 5. precedencias operadores */
@@ -196,12 +197,12 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | instanciar_struct PT_COMA
                 | asignacion_struct PT_COMA
                 | funcion 
-                | metodo
-                | llamada PT_COMA
+                | metodo:a                          {: RESULT = a; :}
+                | llamada:a PT_COMA                   {: RESULT = a; :}               
                 | round 
                 | length
                 | toString
-                | start_with PT_COMA
+                | start_with:a PT_COMA              {: RESULT = a; :}
                 | RETURN expresion PT_COMA          
                 | RETURN PT_COMA
                 | CONTINUE:a PT_COMA                {: RESULT = new Continue(aleft, aright); :} 
@@ -284,10 +285,11 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | CADENA    :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
             | CARACTER  :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
             | PAR_IZQ expresion:a PAR_DER  {: RESULT = a; :}
-            //| acceso_vl
-            //| remove 
-            //| acceso_struct 
-            //| find
+            | llamada:a PT_COMA            {: RESULT = a; :}
+            | acceso_vl
+            | remove 
+            | acceso_struct 
+            | find
 ;
 
 aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.SUMA,aleft, aright); :}
@@ -399,23 +401,23 @@ asignacion_struct ::= ID PUNTO ID IGUAL expresion
 funcion ::= tipo_datos ID PAR_IZQ parametros PAR_DER LLAV_IZQ instrucciones LLAV_DER
 ;
 
-parametros ::= parametros COMA tipo_datos ID
-                | tipo_datos ID
+parametros ::= parametros:a COMA tipo_datos:b ID:c              {: RESULT = a; var l2 = new HashMap<String, Object>(); l2.put("id",c); l2.put("tipo",b); RESULT.add(l2); :}
+                | tipo_datos:a ID:b                             {: RESULT = new LinkedList<HashMap>(); var l = new HashMap<String, Object>(); l.put("id",b); l.put("tipo",a); RESULT.add(l); :}
 ;
 
 // ===== METODOS  =====
-metodo ::= VOID ID PAR_IZQ parametros PAR_DER LLAV_IZQ instrucciones LLAV_DER
+metodo ::= VOID ID:a PAR_IZQ parametros:b PAR_DER LLAV_IZQ instrucciones:c LLAV_DER    {: RESULT = new Metodo(a,b,c,aleft,aright); :}
+        |  VOID ID:a PAR_IZQ PAR_DER LLAV_IZQ instrucciones:b LLAV_DER                 {: RESULT = new Metodo(a,new LinkedList<HashMap>(),b,aleft,aright); :}
 ;
 
-// ===== llamadas a metodos =====
-llamada ::= ID PAR_IZQ parametros_llamada PAR_DER
-        | ID PAR_IZQ PAR_DER 
+parametros_llamada ::= parametros_llamada:a COMA expresion:b                           {: RESULT = a; RESULT.add(b); :}
+                    | expresion:a                                                      {: RESULT = new LinkedList(); RESULT.add(a); :}
 ;
 
-parametros_llamada ::= parametros_llamada COMA expresion
-                    | expresion
+// ===== llamadas a metodos ===== 
+llamada ::= ID:a PAR_IZQ parametros_llamada:b PAR_DER       {: RESULT = new Llamada(a,b,aleft,aright); :}
+        | ID:a PAR_IZQ PAR_DER                              {: RESULT = new Llamada(a,new LinkedList(),aleft,aright); :}
 ;
-
 // ===== funcion round =====
 round ::= ROUND PAR_IZQ expresion PAR_DER
 ;
@@ -433,6 +435,6 @@ find ::= ID PUNTO FIND PAR_IZQ expresion PAR_DER
 ;
 
 // ===== funcion startWith =====
-start_with ::= START_WITH ID PAR_DER PAR_DER
-            | START_WITH ID PAR_IZQ parametros_llamada PAR_DER
+start_with ::= START_WITH ID:a PAR_IZQ parametros_llamada:b PAR_DER            {: RESULT = new Start_W(a,b,aleft,aright); :}
+            |  START_WITH ID:a PAR_IZQ PAR_DER                                 {: RESULT = new Start_W(a,new LinkedList(),aleft,aright); :}
 ;
