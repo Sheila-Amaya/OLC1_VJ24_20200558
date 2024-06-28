@@ -24,6 +24,8 @@ public abstract class Instruccion {
         this.linea = linea;
         this.columna = columna;
     }
+    
+    
 
     public abstract Object interpretar(Arbol arbol, tablaSimbolos tabla);
     public abstract RetornoAST ast(AST ast);

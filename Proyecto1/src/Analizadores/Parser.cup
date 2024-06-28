@@ -155,7 +155,7 @@ non terminal LinkedList<HashMap> parametros ;
 non terminal Instruccion round;
 non terminal Instruccion length;
 non terminal Instruccion toString;
-non terminal String find;
+non terminal Instruccion find;
 non terminal Instruccion start_with;
 
 
@@ -287,7 +287,7 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | acceso_vl:a                  {: RESULT = a; :}
             | remove 
             | acceso_struct 
-            | find
+            | find:a                       {: RESULT = a; :}
             | round:a                      {: RESULT = a; :}
             | length:a                     {: RESULT = a; :}
             | toString:a                   {: RESULT = a; :}
@@ -335,36 +335,26 @@ tipo_datos ::= INT   :a     {: RESULT = new Tipo(tipoDato.ENTERO);   :}
 
 // ===== VECTORES ===== 
 // ===== declaracion de vectores =====
-declaracion_vector ::= mutabilidad:a ID:b DOS_PT tipo_datos:c COR_IZQ COR_DER IGUAL COR_IZQ lista_valores:d COR_DER                   
-                      {: RESULT = new DeclaracionVector1D(a, b, c, d, aleft, aright); :}     
-                    | mutabilidad:a ID:b DOS_PT tipo_datos:c COR_IZQ COR_DER COR_IZQ COR_DER IGUAL COR_IZQ lista_valores2:d COR_DER  
-                      {: RESULT = new DeclaracionVector2D(a, b, c, d, aleft, aright); :}
+declaracion_vector ::= mutabilidad:a ID:b DOS_PT tipo_datos:c COR_IZQ COR_DER IGUAL COR_IZQ lista_valores:d COR_DER                   {: RESULT = new DeclaracionVector1D(a, b, c, d, aleft, aright); :}     
+                    | mutabilidad:a ID:b DOS_PT tipo_datos:c COR_IZQ COR_DER COR_IZQ COR_DER IGUAL COR_IZQ lista_valores2:d COR_DER   {: RESULT = new DeclaracionVector2D(a, b, c, d, aleft, aright); :}
 ;
 
-lista_valores ::= lista_valores:a COMA expresion:b    
-                   {: a.add(b); RESULT = a; :}
-                | expresion:a                         
-                   {: RESULT = new LinkedList<Instruccion>(); RESULT.add(a); :}
+lista_valores ::= lista_valores:a COMA expresion:b    {: a.add(b); RESULT = a; :}
+                | expresion:a                         {: RESULT = new LinkedList<Instruccion>(); RESULT.add(a); :}
 ;
 
-lista_valores2 ::= lista_valores2:a COMA COR_IZQ lista_valores:b COR_DER    
-                   {: a.add(b); RESULT = a; :}
-                | COR_IZQ lista_valores:a COR_DER                           
-                   {: RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(a); :}  
+lista_valores2 ::= lista_valores2:a COMA COR_IZQ lista_valores:b COR_DER    {: a.add(b); RESULT = a; :}
+                | COR_IZQ lista_valores:a COR_DER                           {: RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(a); :}  
 ;
 
 //======= acceso vectores, listas =======
-acceso_vl ::= ID:a COR_IZQ expresion:b COR_DER                                      
-               {: RESULT = new AccesoVector(a,b,aleft,aright); :}
-            | ID:a COR_IZQ expresion:b COR_DER COR_IZQ expresion:c COR_DER      
-               {: RESULT = new AccesoVector2D(a,b,c,aleft,aright); :}
+acceso_vl ::= ID:a COR_IZQ expresion:b COR_DER                                 {: RESULT = new AccesoVector(a,b,aleft,aright); :}
+            | ID:a COR_IZQ expresion:b COR_DER COR_IZQ expresion:c COR_DER     {: RESULT = new AccesoVector2D(a,b,c,aleft,aright); :}
 ;
 
 //======= asignacion vectores, listas =======
-asignacion_vl ::= ID:a COR_IZQ expresion:b COR_DER IGUAL expresion:c                                    
-                   {: RESULT = new AsignacionVector1D(a,b,c,aleft,aright); :}
-                | ID:a COR_IZQ expresion:b COR_DER COR_IZQ expresion:c COR_DER IGUAL expresion:d  
-                   {: RESULT = new AsignacionVector2D(a,b,c,d,aleft,aright); :}
+asignacion_vl ::= ID:a COR_IZQ expresion:b COR_DER IGUAL expresion:c                                    {: RESULT = new AsignacionVector1D(a,b,c,aleft,aright); :}                
+                | ID:a COR_IZQ expresion:b COR_DER COR_IZQ expresion:c COR_DER IGUAL expresion:d        {: RESULT = new AsignacionVector2D(a,b,c,d,aleft,aright); :}
 ;
 
 // ===== LISTAS DINAMICAS=====
@@ -442,7 +432,7 @@ toString ::= TOSTRING PAR_IZQ expresion:a PAR_DER           {: RESULT = new ToSt
 ;
 
 // ===== funcion find =====
-find ::= ID PUNTO FIND PAR_IZQ expresion PAR_DER
+find ::= ID:a PUNTO FIND PAR_IZQ expresion:b PAR_DER        {: RESULT = new Find(a,b,aleft,aright); :}
 ;
 
 // ===== funcion startWith =====
