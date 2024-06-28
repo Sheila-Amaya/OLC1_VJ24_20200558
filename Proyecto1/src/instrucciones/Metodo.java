@@ -40,8 +40,29 @@ public class Metodo extends Instruccion{
             }return null;
     }
 
-    public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
-    }
+    public RetornoAST ast(AST ast) {
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"METODO\"];";
 
+        dot += "\nnodo_" + id + "_id[label=\"" + this.id + "\"]";
+        dot += "\nnodo_" + id + " -> nodo_" + id + "_id";
+
+
+        for (HashMap<String, Object> parametro : parametros) {
+            int paramId = ast.getNewID();
+            dot += "\nnodo_" + paramId + "[label=\"PARAMETRO\"];";
+            dot += "\nnodo_" + id + " -> nodo_" + paramId;
+            dot += "\nnodo_" + paramId + "_id[label=\"" + parametro.get("id") + "\"]";
+            dot += "\nnodo_" + paramId + " -> nodo_" + paramId + "_id";
+        }
+
+
+        for (Instruccion instruccion : instrucciones) {
+            RetornoAST instruccionAST = instruccion.ast(ast);
+            dot += "\nnodo_" + id + " -> nodo_" + instruccionAST.id + ";";
+            dot += "\n" + instruccionAST.dot;
+        }
+
+        return new RetornoAST(dot, id);
+    }
 }

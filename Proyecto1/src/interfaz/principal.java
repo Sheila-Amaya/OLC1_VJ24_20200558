@@ -515,15 +515,22 @@ public class principal extends javax.swing.JFrame {
                 String dotFilePath = basePath + "ReporteGrafo.dot";
                 String pngFilePath = basePath + "ReporteGrafo.png";
 
+                // Generar y guardar el archivo DOT
                 try (FileWriter fileWriter = new FileWriter(dotFilePath)) {
                     fileWriter.write(grafo.toString());
                     System.out.println("Archivo DOT generado con éxito en: " + dotFilePath);
-
-                    // Generar archivo PNG
-                    generatePngFile(dotFilePath, pngFilePath);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                } catch (IOException f) {
+                    f.printStackTrace();
                     System.out.println("Error al generar el archivo DOT.");
+                }
+
+                // Verificar que el archivo DOT se generó correctamente
+                File dotFile = new File(dotFilePath);
+                if (dotFile.exists()) {
+                    // Generar el archivo PNG
+                    generatePngFile(dotFilePath, pngFilePath);
+                } else {
+                    System.out.println("El archivo DOT no se generó correctamente.");
                 }
 
                 // Actualizar resultados en la interfaz de usuario

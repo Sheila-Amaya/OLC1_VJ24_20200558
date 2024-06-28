@@ -151,9 +151,9 @@ non terminal LinkedList<Instruccion> parametros_llamada;
 non terminal Instruccion metodo;
 non terminal Instruccion llamada;
 non terminal LinkedList<HashMap> parametros ;
-non terminal String round;
-non terminal String length;
-non terminal String toString;
+non terminal Instruccion round;
+non terminal Instruccion length;
+non terminal Instruccion toString;
 non terminal String find;
 non terminal Instruccion start_with;
 
@@ -191,17 +191,14 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | imprimir:a                        {: RESULT = a; :}
                 | declaracion_vector PT_COMA
                 | asignacion_vl PT_COMA
-                | declaracion_listas PT_COMA
+                | declaracion_listas PT_COMA 
                 | append PT_COMA
                 | struct PT_COMA
                 | instanciar_struct PT_COMA
                 | asignacion_struct PT_COMA
                 | funcion 
                 | metodo:a                          {: RESULT = a; :}
-                | llamada:a PT_COMA                   {: RESULT = a; :}               
-                | round 
-                | length
-                | toString
+                | llamada:a PT_COMA                 {: RESULT = a; :}               
                 | start_with:a PT_COMA              {: RESULT = a; :}
                 | RETURN expresion PT_COMA          
                 | RETURN PT_COMA
@@ -212,7 +209,7 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
 
 // ===== DECLARACION =====
 declaracion_id ::= mutabilidad:a ID:b DOS_PT tipo_datos:c IGUAL expresion:d  {: RESULT = new Declaracion(a,b,c,d,aleft, aright); :}
-                | mutabilidad:a ID:b DOS_PT tipo_datos:c                 {: RESULT = new Declaracion(a,b,c,null,aleft, aright); :}
+                | mutabilidad:a ID:b DOS_PT tipo_datos:c                     {: RESULT = new Declaracion(a,b,c,null,aleft, aright); :}
 ;
 
 mutabilidad ::= VAR                 {: RESULT = "var"; :}
@@ -290,6 +287,9 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | remove 
             | acceso_struct 
             | find
+            | round:a                      {: RESULT = a; :}
+            | length:a                     {: RESULT = a; :}
+            | toString:a                   {: RESULT = a; :}
 ;
 
 aritmeticos ::=   expresion:a MAS expresion:b         {: RESULT = new Aritmeticas(a,b , OperadoresAritmeticos.SUMA,aleft, aright); :}
@@ -358,7 +358,7 @@ asignacion_vl ::= ID COR_IZQ expresion COR_DER IGUAL expresion
 
 // ===== LISTAS DINAMICAS=====
 // ===== declaracion de listas =====
-declaracion_listas ::= LIST MENOR tipo_datos MAYOR ID IGUAL NEW LIST PAR_IZQ PAR_DER
+declaracion_listas ::= LIST MENOR tipo_datos:a MAYOR ID:b IGUAL NEW LIST PAR_IZQ PAR_DER 
 ;
 
 append ::= ID PUNTO APPEND PAR_IZQ expresion PAR_DER
@@ -419,15 +419,15 @@ llamada ::= ID:a PAR_IZQ parametros_llamada:b PAR_DER       {: RESULT = new Llam
         | ID:a PAR_IZQ PAR_DER                              {: RESULT = new Llamada(a,new LinkedList(),aleft,aright); :}
 ;
 // ===== funcion round =====
-round ::= ROUND PAR_IZQ expresion PAR_DER
+round ::= ROUND PAR_IZQ expresion:a PAR_DER                 {: RESULT = new Round(a,aleft,aright); :}
 ;
 
 // ===== funcion length =====
-length ::= LENGTH PAR_IZQ expresion PAR_DER
+length ::= LENGTH PAR_IZQ expresion:a PAR_DER               {: RESULT = new Length(a,aleft,aright); :}
 ;
 
 // ===== funcion toString =====
-toString ::= TOSTRING PAR_IZQ expresion PAR_DER
+toString ::= TOSTRING PAR_IZQ expresion:a PAR_DER           {: RESULT = new ToString(a,aleft,aright); :}
 ;
 
 // ===== funcion find =====
