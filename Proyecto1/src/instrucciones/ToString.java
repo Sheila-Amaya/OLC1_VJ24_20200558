@@ -6,6 +6,7 @@ package instrucciones;
 
 import Errores.Excepcion;
 import abstracto.Instruccion;
+import java.util.LinkedList;
 import simbolo.AST;
 import simbolo.Arbol;
 import simbolo.RetornoAST;
@@ -27,19 +28,38 @@ public class ToString extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        // Evaluar la expresión para obtener el valor
         Object valor = expresion.interpretar(arbol, tabla);
-        if (valor instanceof Integer || valor instanceof Double || valor instanceof Character || valor instanceof Boolean) {
+        if (valor instanceof Integer || valor instanceof Double || valor instanceof Character || valor instanceof Boolean || valor instanceof String) {
             return valor.toString();
+        } else if (valor instanceof LinkedList) {
+            return convertirListaATexto((LinkedList<?>) valor);
         } else {
-            return new Excepcion("Semántico", "El parámetro para la función toString no es un número, caracter o booleano.", linea, columna);
+            return new Excepcion("Semántico", "El parámetro para la función toString no es un tipo de dato compatible.", linea, columna);
         }
+    }
+
+    private String convertirListaATexto(LinkedList<?> lista) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Object elemento : lista) {
+            if (elemento instanceof LinkedList) {
+                sb.append(convertirListaATexto((LinkedList<?>) elemento));
+            } else {
+                sb.append(elemento.toString());
+            }
+            sb.append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // Eliminar la última coma y espacio
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override
     public RetornoAST ast(AST ast) {
         int id = ast.getNewID();
-        String dot = "nodo_" + id + "[label=\"TOSTRING\"];";
+        String dot = "nodo_" + id + "[label=\"TO_STRING\"];";
         
         RetornoAST valor = this.expresion.ast(ast);
         dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";

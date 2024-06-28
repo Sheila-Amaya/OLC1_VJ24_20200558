@@ -1339,7 +1339,10 @@ class CUP$Sintactico$actions {
           case 13: // instruccion ::= declaracion_vector PT_COMA 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1348,7 +1351,10 @@ class CUP$Sintactico$actions {
           case 14: // instruccion ::= asignacion_vl PT_COMA 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1930,7 +1936,10 @@ class CUP$Sintactico$actions {
           case 64: // expresion ::= acceso_vl 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",4, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2355,8 +2364,20 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 96: // declaracion_vector ::= mutabilidad ID DOS_PT tipo_datos COR_IZQ COR_DER IGUAL COR_IZQ lista_valores COR_DER 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
+		Tipo c = (Tipo)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		LinkedList<Instruccion> d = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new DeclaracionVector1D(a, b, c, d, aleft, aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("declaracion_vector",24, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2364,8 +2385,20 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 97: // declaracion_vector ::= mutabilidad ID DOS_PT tipo_datos COR_IZQ COR_DER COR_IZQ COR_DER IGUAL COR_IZQ lista_valores2 COR_DER 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-11)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-11)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-11)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-10)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-10)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-10)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).right;
+		Tipo c = (Tipo)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		LinkedList<LinkedList<Instruccion>> d = (LinkedList<LinkedList<Instruccion>>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new DeclaracionVector2D(a, b, c, d, aleft, aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("declaracion_vector",24, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-11)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2373,8 +2406,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 98: // lista_valores ::= lista_valores COMA expresion 
             {
-              String RESULT =null;
-
+              LinkedList<Instruccion> RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		LinkedList<Instruccion> a = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 a.add(b); RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("lista_valores",25, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2382,8 +2421,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 99: // lista_valores ::= expresion 
             {
-              String RESULT =null;
-
+              LinkedList<Instruccion> RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 RESULT = new LinkedList<Instruccion>(); RESULT.add(a); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("lista_valores",25, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2391,8 +2433,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 100: // lista_valores2 ::= lista_valores2 COMA COR_IZQ lista_valores COR_DER 
             {
-              String RESULT =null;
-
+              LinkedList<LinkedList<Instruccion>> RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
+		LinkedList<LinkedList<Instruccion>> a = (LinkedList<LinkedList<Instruccion>>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		LinkedList<Instruccion> b = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 a.add(b); RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("lista_valores2",26, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2400,8 +2448,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 101: // lista_valores2 ::= COR_IZQ lista_valores COR_DER 
             {
-              String RESULT =null;
-
+              LinkedList<LinkedList<Instruccion>> RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		LinkedList<Instruccion> a = (LinkedList<Instruccion>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(a); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("lista_valores2",26, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2409,8 +2460,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 102: // acceso_vl ::= ID COR_IZQ expresion COR_DER 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new AccesoVector(a,b,aleft,aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("acceso_vl",27, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2418,8 +2475,17 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 103: // acceso_vl ::= ID COR_IZQ expresion COR_DER COR_IZQ expresion COR_DER 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
+		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion c = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new AccesoVector2D(a,b,c,aleft,aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("acceso_vl",27, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2427,8 +2493,17 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 104: // asignacion_vl ::= ID COR_IZQ expresion COR_DER IGUAL expresion 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Instruccion c = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 RESULT = new AsignacionVector1D(a,b,c,aleft,aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("asignacion_vl",28, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2436,8 +2511,20 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 105: // asignacion_vl ::= ID COR_IZQ expresion COR_DER COR_IZQ expresion COR_DER IGUAL expresion 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
+		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		Instruccion c = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Instruccion d = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 RESULT = new AsignacionVector2D(a,b,c,d,aleft,aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("asignacion_vl",28, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;

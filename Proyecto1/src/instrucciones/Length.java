@@ -7,6 +7,7 @@ package instrucciones;
 import Errores.Excepcion;
 import abstracto.Instruccion;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import simbolo.AST;
 import simbolo.Arbol;
 import simbolo.RetornoAST;
@@ -32,8 +33,8 @@ public class Length extends Instruccion {
         Object valor = expresion.interpretar(arbol, tabla);
         if (valor instanceof String) {
             return ((String) valor).length();
-        } else if (valor instanceof ArrayList) {
-            return ((ArrayList<?>) valor).size();
+        } else if (valor instanceof LinkedList) {
+            return ((LinkedList<?>) valor).size();
         } else if (valor.getClass().isArray()) {
             return java.lang.reflect.Array.getLength(valor);
         } else {

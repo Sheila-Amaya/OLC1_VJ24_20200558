@@ -472,7 +472,7 @@ public class principal extends javax.swing.JFrame {
 
                 // Declaraciones o asignaciones globales
                 for (var a : ast.getInstrucciones()) {
-                    if (a instanceof Declaracion || a instanceof AsignacionVariables) {
+                    if (a instanceof Declaracion || a instanceof AsignacionVariables || a instanceof DeclaracionVector1D || a instanceof DeclaracionVector2D || a instanceof AsignacionVector1D || a instanceof AsignacionVector2D) {
                         var res = a.interpretar(ast, tabla);
                         if (res instanceof Excepcion) {
                             lista.add((Excepcion) res);
