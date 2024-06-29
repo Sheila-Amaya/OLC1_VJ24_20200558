@@ -31,6 +31,7 @@ public class SentenciaDoWhile extends Instruccion {
             // Ejecutar instrucciones
             boolean breakFound = false;
             boolean continueFound = false;
+            
             for (Instruccion ins : this.instrucciones) {
                 var resIns = ins.interpretar(arbol, newTabla2);
                 if (resIns instanceof Break) {
@@ -40,6 +41,9 @@ public class SentenciaDoWhile extends Instruccion {
                 if (resIns instanceof Continue) {
                     continueFound = true;
                     break;
+                }
+                if (resIns instanceof Return) {
+                    return resIns; 
                 }
             }
 

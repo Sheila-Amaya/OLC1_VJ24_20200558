@@ -1453,7 +1453,10 @@ class CUP$Sintactico$actions {
           case 24: // instruccion ::= RETURN expresion PT_COMA 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new Return(a, aleft, aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1462,7 +1465,10 @@ class CUP$Sintactico$actions {
           case 25: // instruccion ::= RETURN PT_COMA 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new Return(null, aleft, aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;

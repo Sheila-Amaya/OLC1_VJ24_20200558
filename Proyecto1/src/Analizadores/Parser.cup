@@ -201,8 +201,8 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | metodo:a                          {: RESULT = a; :}
                 | llamada:a PT_COMA                 {: RESULT = a; :}               
                 | start_with:a PT_COMA              {: RESULT = a; :}
-                | RETURN expresion PT_COMA          
-                | RETURN PT_COMA
+                | RETURN expresion:a PT_COMA        {: RESULT = new Return(a, aleft, aright); :}
+                | RETURN:a PT_COMA                  {: RESULT = new Return(null, aleft, aright); :}
                 | CONTINUE:a PT_COMA                {: RESULT = new Continue(aleft, aright); :} 
                 | BREAK:a PT_COMA                   {: RESULT = new Break(aleft, aright); :}
                 | error PT_COMA

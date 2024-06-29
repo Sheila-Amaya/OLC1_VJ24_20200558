@@ -53,6 +53,9 @@ public class SentenciaIfElseIf extends Instruccion {
             if (resultadoElseIf instanceof Break || resultadoElseIf instanceof Continue) {
                 return resultadoElseIf;
             }
+            if (resultadoElseIf instanceof Return) {
+                 return resultadoElseIf;
+            }
             if (resultadoElseIf instanceof Excepcion) {
                 return resultadoElseIf;
             }
@@ -61,6 +64,9 @@ public class SentenciaIfElseIf extends Instruccion {
             for (var i : this.instruccionesElse) {
                 var resultado = i.interpretar(arbol, newTabla);
                 if (resultado instanceof Break || resultado instanceof Continue) {
+                    return resultado;
+                }
+                if (resultado instanceof Return) {
                     return resultado;
                 }
                 if (resultado instanceof Excepcion) {

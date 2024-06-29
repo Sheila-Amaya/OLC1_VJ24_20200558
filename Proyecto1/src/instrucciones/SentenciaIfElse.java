@@ -49,6 +49,9 @@ public class SentenciaIfElse extends Instruccion {
                 if (resultado instanceof Break || resultado instanceof Continue) {
                     return resultado;
                 }
+                if (resultado instanceof Return) {
+                    return resultado;
+                }
                 if (resultado instanceof Excepcion) {
                     return resultado;
                 }

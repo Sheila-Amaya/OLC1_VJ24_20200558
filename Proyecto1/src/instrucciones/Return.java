@@ -34,8 +34,10 @@ public class Return extends Instruccion {
     public Instruccion getValorRetorno() {
         return valorRetorno;
     }
-    
-    public RetornoAST ast(AST ast){
-        return new RetornoAST("", 0);
+
+        public RetornoAST ast(AST ast){
+        int id = ast.getNewID();
+        String dot = "nodo_" + id + "[label=\"RETURN\"];";
+        return new RetornoAST(dot, id);
     }
 }

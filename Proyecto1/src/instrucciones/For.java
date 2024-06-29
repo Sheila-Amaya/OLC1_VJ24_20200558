@@ -59,6 +59,9 @@ public class For extends Instruccion {
                 if (resIns instanceof Continue) {
                     break;
                 }
+                if(resIns instanceof Return){
+                break;
+            }
             }
 
             if (breakFound) {

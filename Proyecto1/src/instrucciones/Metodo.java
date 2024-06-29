@@ -4,6 +4,7 @@
  */
 package instrucciones;
 
+import Errores.Excepcion;
 import abstracto.Instruccion;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,12 +33,19 @@ public class Metodo extends Instruccion{
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        for(var i: this.instrucciones){
-            var resultado = i.interpretar(arbol, tabla);
-            //resultado instancia de errores
-            //resultado o i es instancia de break/continue
-            // return;
-            }return null;
+        for (Instruccion i : this.instrucciones) {
+            Object resultado = i.interpretar(arbol, tabla);
+            if (resultado instanceof Excepcion) {
+                return resultado; 
+            }
+            if (resultado instanceof Return) {
+                return resultado; 
+            }
+            if (resultado instanceof Break || resultado instanceof Continue) {
+                return resultado; 
+            }
+        }
+        return null; 
     }
 
     public RetornoAST ast(AST ast) {

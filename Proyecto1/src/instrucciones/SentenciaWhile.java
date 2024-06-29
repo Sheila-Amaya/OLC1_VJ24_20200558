@@ -58,6 +58,9 @@ public class SentenciaWhile extends Instruccion {
                     continueFound = true;
                     break; // Si se encuentra una instrucción 'continue', se salta a la siguiente iteración
                 }
+                if (resultado instanceof Return) {
+                    return resultado;
+                }
                 if (resultado instanceof Excepcion) {
                     return resultado;
                 }
