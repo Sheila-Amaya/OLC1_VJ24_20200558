@@ -16,7 +16,7 @@ import simbolo.tipoDato;
 import java.util.LinkedList;
 
 /**
- *
+ * vector y lista
  * @author eliza
  */
 public class DeclaracionVector1D extends Instruccion {

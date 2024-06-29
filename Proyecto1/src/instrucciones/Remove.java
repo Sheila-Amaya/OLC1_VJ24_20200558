@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package expresiones;
+package instrucciones;
 
 import Errores.Excepcion;
 import abstracto.Instruccion;
@@ -15,59 +15,58 @@ import simbolo.Tipo;
 import simbolo.tablaSimbolos;
 import simbolo.tipoDato;
 
-
 /**
- * vector y lista
+ *
  * @author eliza
  */
-public class AccesoVector extends Instruccion {
+public class Remove extends Instruccion {
     private String id;
-    private Instruccion indice;
+    private Instruccion index;
 
-    public AccesoVector(String id, Instruccion indice, int linea, int columna) {
+    public Remove(String id, Instruccion index, int linea, int columna) {
         super(new Tipo(tipoDato.ENTERO), linea, columna);
         this.id = id;
-        this.indice = indice;
+        this.index = index;
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         Simbolo simbolo = tabla.getVariable(this.id);
         if (simbolo == null) {
-            return new Excepcion("Semántico", "El vector " + this.id + " no existe.", this.linea, this.columna);
+            return new Excepcion("Semántico", "La lista " + this.id + " no existe.", this.linea, this.columna);
         }
-        
-        Object valorIndice = this.indice.interpretar(arbol, tabla);
+
+        Object valorIndice = this.index.interpretar(arbol, tabla);
         if (valorIndice instanceof Excepcion) {
             return valorIndice;
         }
-        
+
         if (!(valorIndice instanceof Integer)) {
-            return new Excepcion("Semántico", "El índice del vector debe ser un entero.", this.linea, this.columna);
+            return new Excepcion("Semántico", "El índice de la lista debe ser un entero.", this.linea, this.columna);
         }
-        
-        int index = (Integer) valorIndice;
-        LinkedList<Object> vector = (LinkedList<Object>) simbolo.getValor();
-        
-        if (index < 0 || index >= vector.size()) {
-            return new Excepcion("Semántico", "Índice fuera de los límites del vector.", this.linea, this.columna);
+
+        int indice = (Integer) valorIndice;
+        LinkedList<Object> lista = (LinkedList<Object>) simbolo.getValor();
+
+        if (indice < 0 || indice >= lista.size()) {
+            return new Excepcion("Semántico", "Índice fuera de los límites de la lista.", this.linea, this.columna);
         }
-        
-        return vector.get(index);
+
+        return lista.remove(indice);
     }
 
     @Override
     public RetornoAST ast(AST ast) {
         int id = ast.getNewID();
-        String dot = "nodo_" + id + "[label=\"ACCESO_VECTOR\"];";
-        
+        String dot = "nodo_" + id + "[label=\"REMOVE\"];";
+
         dot += "\nnodo_" + id + "_id[label=\"" + this.id + "\"];";
         dot += "\nnodo_" + id + " -> nodo_" + id + "_id;";
-        
-        RetornoAST indiceAST = this.indice.ast(ast);
-        dot += "\n" + indiceAST.dot;
-        dot += "\nnodo_" + id + " -> nodo_" + indiceAST.id + ";";
-        
+
+        RetornoAST indexAST = this.index.ast(ast);
+        dot += "\n" + indexAST.dot;
+        dot += "\nnodo_" + id + " -> nodo_" + indexAST.id + ";";
+
         return new RetornoAST(dot, id);
     }
 }

@@ -136,9 +136,10 @@ non terminal LinkedList<LinkedList<Instruccion>> lista_valores2;
 non terminal Instruccion acceso_vl;
 non terminal Instruccion asignacion_vl;
 
-non terminal String declaracion_listas;
-non terminal String append;
-non terminal String remove;
+non terminal Instruccion declaracion_listas;
+non terminal Instruccion append;
+non terminal Instruccion remove;
+
 non terminal String struct;
 non terminal String lista_structs;
 non terminal String campos;
@@ -148,6 +149,7 @@ non terminal String valor_struc;
 non terminal String acceso_struct;
 non terminal String asignacion_struct;
 non terminal String funcion;
+
 non terminal LinkedList<Instruccion> parametros_llamada;
 non terminal Instruccion metodo;
 non terminal Instruccion llamada;
@@ -192,8 +194,8 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | imprimir:a                        {: RESULT = a; :}
                 | declaracion_vector:a PT_COMA      {: RESULT = a; :}      
                 | asignacion_vl:a PT_COMA           {: RESULT = a; :}
-                | declaracion_listas PT_COMA 
-                | append PT_COMA
+                | declaracion_listas:a PT_COMA      {: RESULT = a; :}
+                | append:a PT_COMA                  {: RESULT = a; :}
                 | struct PT_COMA
                 | instanciar_struct PT_COMA
                 | asignacion_struct PT_COMA
@@ -285,7 +287,7 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | PAR_IZQ expresion:a PAR_DER  {: RESULT = a; :}
             | llamada:a PT_COMA            {: RESULT = a; :}
             | acceso_vl:a                  {: RESULT = a; :}
-            | remove 
+            | remove:a                     {: RESULT = a; :}
             | acceso_struct 
             | find:a                       {: RESULT = a; :}
             | round:a                      {: RESULT = a; :}
@@ -339,12 +341,12 @@ declaracion_vector ::= mutabilidad:a ID:b DOS_PT tipo_datos:c COR_IZQ COR_DER IG
                     | mutabilidad:a ID:b DOS_PT tipo_datos:c COR_IZQ COR_DER COR_IZQ COR_DER IGUAL COR_IZQ lista_valores2:d COR_DER   {: RESULT = new DeclaracionVector2D(a, b, c, d, aleft, aright); :}
 ;
 
-lista_valores ::= lista_valores:a COMA expresion:b    {: a.add(b); RESULT = a; :}
-                | expresion:a                         {: RESULT = new LinkedList<Instruccion>(); RESULT.add(a); :}
+lista_valores ::= lista_valores:a COMA expresion:b                            {: a.add(b); RESULT = a; :}
+                | expresion:a                                                 {: RESULT = new LinkedList<Instruccion>(); RESULT.add(a); :}
 ;
 
-lista_valores2 ::= lista_valores2:a COMA COR_IZQ lista_valores:b COR_DER    {: a.add(b); RESULT = a; :}
-                | COR_IZQ lista_valores:a COR_DER                           {: RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(a); :}  
+lista_valores2 ::= lista_valores2:a COMA COR_IZQ lista_valores:b COR_DER      {: a.add(b); RESULT = a; :}
+                | COR_IZQ lista_valores:a COR_DER                             {: RESULT = new LinkedList<LinkedList<Instruccion>>(); RESULT.add(a); :}  
 ;
 
 //======= acceso vectores, listas =======
@@ -359,13 +361,14 @@ asignacion_vl ::= ID:a COR_IZQ expresion:b COR_DER IGUAL expresion:c            
 
 // ===== LISTAS DINAMICAS=====
 // ===== declaracion de listas =====
-declaracion_listas ::= LIST MENOR tipo_datos:a MAYOR ID:b IGUAL NEW LIST PAR_IZQ PAR_DER 
+declaracion_listas ::= LIST MENOR tipo_datos:a MAYOR ID:b IGUAL NEW LIST PAR_IZQ PAR_DER {: RESULT = new DeclaracionLista(a,b,aleft,aright); :}
 ;
 
-append ::= ID PUNTO APPEND PAR_IZQ expresion PAR_DER
+
+append ::= ID:a PUNTO APPEND PAR_IZQ expresion:b PAR_DER    {: RESULT = new Append(a,b,aleft,aright); :}
 ;
 
-remove ::= ID PUNTO REMOVE PAR_IZQ expresion PAR_DER
+remove ::= ID:a PUNTO REMOVE PAR_IZQ expresion:b PAR_DER    {: RESULT = new Remove(a,b,aleft,aright); :}
 ;
 
 // ===== STRUCT =====

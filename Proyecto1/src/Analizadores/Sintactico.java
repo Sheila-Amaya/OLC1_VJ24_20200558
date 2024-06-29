@@ -1363,7 +1363,10 @@ class CUP$Sintactico$actions {
           case 15: // instruccion ::= declaracion_listas PT_COMA 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1372,7 +1375,10 @@ class CUP$Sintactico$actions {
           case 16: // instruccion ::= append PT_COMA 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1954,7 +1960,10 @@ class CUP$Sintactico$actions {
           case 65: // expresion ::= remove 
             {
               Instruccion RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Instruccion a = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 RESULT = a; 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",4, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2541,14 +2550,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 106: // declaracion_listas ::= LIST MENOR tipo_datos MAYOR ID IGUAL NEW LIST PAR_IZQ PAR_DER 
             {
-              String RESULT =null;
+              Instruccion RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)).right;
 		Tipo a = (Tipo)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).value;
-
+		 RESULT = new DeclaracionLista(a,b,aleft,aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("declaracion_listas",29, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2556,8 +2565,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 107: // append ::= ID PUNTO APPEND PAR_IZQ expresion PAR_DER 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new Append(a,b,aleft,aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("append",30, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2565,8 +2580,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 108: // remove ::= ID PUNTO REMOVE PAR_IZQ expresion PAR_DER 
             {
-              String RESULT =null;
-
+              Instruccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Instruccion b = (Instruccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		 RESULT = new Remove(a,b,aleft,aright); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("remove",31, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
