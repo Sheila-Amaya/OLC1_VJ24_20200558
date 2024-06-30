@@ -148,12 +148,14 @@ non terminal String valores_struct;
 non terminal String valor_struc;
 non terminal String acceso_struct;
 non terminal String asignacion_struct;
-non terminal String funcion;
 
+non terminal Instruccion funcion;
 non terminal LinkedList<Instruccion> parametros_llamada;
 non terminal Instruccion metodo;
 non terminal Instruccion llamada;
+non terminal Instruccion llamadaFunciones;
 non terminal LinkedList<HashMap> parametros ;
+
 non terminal Instruccion round;
 non terminal Instruccion length;
 non terminal Instruccion toString;
@@ -199,7 +201,7 @@ instruccion ::= declaracion_id:a PT_COMA            {: RESULT = a; :}
                 | struct PT_COMA
                 | instanciar_struct PT_COMA
                 | asignacion_struct PT_COMA
-                | funcion 
+                | funcion:a                         {: RESULT = a; :} 
                 | metodo:a                          {: RESULT = a; :}
                 | llamada:a PT_COMA                 {: RESULT = a; :}               
                 | start_with:a PT_COMA              {: RESULT = a; :}
@@ -285,7 +287,7 @@ expresion ::= aritmeticos:a                {: RESULT = a; :}
             | CADENA    :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CADENA),aleft, aright  ); :}
             | CARACTER  :a                 {: RESULT = new Nativo(a, new Tipo(tipoDato.CARACTER),aleft, aright  ); :}
             | PAR_IZQ expresion:a PAR_DER  {: RESULT = a; :}
-            | llamada:a PT_COMA            {: RESULT = a; :}
+            | llamadaFunciones:a           {: RESULT = a; :}
             | acceso_vl:a                  {: RESULT = a; :}
             | remove:a                     {: RESULT = a; :}
             | acceso_struct 
@@ -402,7 +404,8 @@ asignacion_struct ::= ID PUNTO ID IGUAL expresion
 ;
 
 // ===== FUNCIONES =====
-funcion ::= tipo_datos ID PAR_IZQ parametros PAR_DER LLAV_IZQ instrucciones LLAV_DER
+funcion  ::= tipo_datos:a ID:b PAR_IZQ parametros:c PAR_DER LLAV_IZQ instrucciones:d LLAV_DER    {: RESULT = new Funcion(a,b,c,d,aleft,aright); :}
+        |    tipo_datos:a ID:b PAR_IZQ PAR_DER LLAV_IZQ instrucciones:c LLAV_DER                 {: RESULT = new Funcion(a,b,new LinkedList<HashMap>(),c,aleft,aright); :}
 ;
 
 parametros ::= parametros:a COMA tipo_datos:b ID:c              {: RESULT = a; var l2 = new HashMap<String, Object>(); l2.put("id",c); l2.put("tipo",b); RESULT.add(l2); :}
@@ -422,6 +425,13 @@ parametros_llamada ::= parametros_llamada:a COMA expresion:b                    
 llamada ::= ID:a PAR_IZQ parametros_llamada:b PAR_DER       {: RESULT = new Llamada(a,b,aleft,aright); :}
         | ID:a PAR_IZQ PAR_DER                              {: RESULT = new Llamada(a,new LinkedList(),aleft,aright); :}
 ;
+
+// ===== llamada a funciones =====
+llamadaFunciones ::= ID:a PAR_IZQ parametros_llamada:b PAR_DER         {: RESULT = new llamadaFunciones(a,b,aleft,aright); :}
+                    |ID:a PAR_IZQ PAR_DER                              {: RESULT = new llamadaFunciones(a,new LinkedList(),aleft,aright); :}
+;
+
+
 // ===== funcion round =====
 round ::= ROUND PAR_IZQ expresion:a PAR_DER                 {: RESULT = new Round(a,aleft,aright); :}
 ;

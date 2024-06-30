@@ -465,7 +465,7 @@ public class principal extends javax.swing.JFrame {
 
                 // Almacenar funciones, métodos o structs
                 for (var a : ast.getInstrucciones()) {
-                    if (a instanceof Metodo ) {
+                    if (a instanceof Metodo || a instanceof Funcion ) {
                         ast.addFunciones(a);
                     }
                 }

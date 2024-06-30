@@ -6,6 +6,7 @@ package simbolo;
 
 import abstracto.Instruccion;
 import instrucciones.Metodo;
+import instrucciones.Funcion;
 import java.util.LinkedList;
 
 /**
@@ -80,15 +81,21 @@ public class Arbol {
         this.funciones.add(funcion);
     }
 
-    public Instruccion getFuncion(String id) { //obtener una funcion por su id
+    public Instruccion getFuncion(String id) { 
+        // Obtener una función o método por su id
         for (var i : this.funciones) {
             if (i instanceof Metodo metodo) {
                 if (metodo.id.equalsIgnoreCase(id)) {
+                    return i;
+                }
+            } else if (i instanceof Funcion funcion) {
+                if (funcion.id.equalsIgnoreCase(id)) {
                     return i;
                 }
             }
         }
         return null;
     }
+    
 
 }
