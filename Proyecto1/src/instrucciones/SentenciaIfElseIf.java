@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package instrucciones;
 
 import Errores.Excepcion;
@@ -5,6 +9,10 @@ import abstracto.Instruccion;
 import java.util.LinkedList;
 import simbolo.*;
 
+/**
+ * 
+ * @autor eliza
+ */
 public class SentenciaIfElseIf extends Instruccion {
 
     private Instruccion condicion;
@@ -40,36 +48,27 @@ public class SentenciaIfElseIf extends Instruccion {
         if ((boolean) cond) {
             for (var i : this.instruccionesIf) {
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break || resultado instanceof Continue) {
-                    return resultado;
+                if (i instanceof Break) {
+                    return i;
                 }
-                if (resultado instanceof Excepcion) {
+                if (resultado != null) {
                     return resultado;
                 }
             }
         } else if (this.elseIf != null) {
             // Evaluar el else if si la condición del primer if es falsa
             var resultadoElseIf = this.elseIf.interpretar(arbol, newTabla);
-            if (resultadoElseIf instanceof Break || resultadoElseIf instanceof Continue) {
-                return resultadoElseIf;
-            }
-            if (resultadoElseIf instanceof Return) {
-                 return resultadoElseIf;
-            }
-            if (resultadoElseIf instanceof Excepcion) {
+            if (resultadoElseIf != null) {
                 return resultadoElseIf;
             }
         } else if (this.instruccionesElse != null) {
             // Ejecutar las instrucciones del else si todos los anteriores son falsos
             for (var i : this.instruccionesElse) {
                 var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break || resultado instanceof Continue) {
-                    return resultado;
+                if (i instanceof Break) {
+                    return i;
                 }
-                if (resultado instanceof Return) {
-                    return resultado;
-                }
-                if (resultado instanceof Excepcion) {
+                if (resultado != null) {
                     return resultado;
                 }
             }
@@ -82,22 +81,25 @@ public class SentenciaIfElseIf extends Instruccion {
         int id = ast.getNewID();
         String dot = "nodo_" + id + "[label=\"IF_ELSE_IF\"];";
 
-        
+        // Nodo de la condición
         RetornoAST astCondicion = condicion.ast(ast);
         dot += "\nnodo_" + id + "_cond[label=\"CONDICION\"];";
         dot += "\nnodo_" + id + " -> nodo_" + id + "_cond;";
         dot += "\nnodo_" + id + "_cond -> nodo_" + astCondicion.id + ";";
         dot += astCondicion.dot;
 
-
+        // Nodos de las instrucciones del if
+        int ifId = ast.getNewID();
+        dot += "\nnodo_" + ifId + "[label=\"IF\"];";
+        dot += "\nnodo_" + id + " -> nodo_" + ifId + ";";
         String dotInstruccionesIf = "";
         for (Instruccion ins : instruccionesIf) {
             RetornoAST astIns = ins.ast(ast);
-            dotInstruccionesIf += "\nnodo_" + id + " -> nodo_" + astIns.id + ";";
+            dotInstruccionesIf += "\nnodo_" + ifId + " -> nodo_" + astIns.id + ";";
             dot += astIns.dot;
         }
 
-        
+        // Nodos de las instrucciones del else if
         if (elseIf != null) {
             RetornoAST astElseIf = elseIf.ast(ast);
             dot += "\nnodo_" + id + "_elseif[label=\"ELSE_IF\"];";
@@ -106,16 +108,20 @@ public class SentenciaIfElseIf extends Instruccion {
             dot += astElseIf.dot;
         }
 
-        String dotInstruccionesElse = "";
+        // Nodos de las instrucciones del else
         if (instruccionesElse != null) {
+            int elseId = ast.getNewID();
+            dot += "\nnodo_" + elseId + "[label=\"ELSE\"];";
+            dot += "\nnodo_" + id + " -> nodo_" + elseId + ";";
+            String dotInstruccionesElse = "";
             for (Instruccion ins : instruccionesElse) {
                 RetornoAST astIns = ins.ast(ast);
-                dotInstruccionesElse += "\nnodo_" + id + "_else -> nodo_" + astIns.id + ";";
+                dotInstruccionesElse += "\nnodo_" + elseId + " -> nodo_" + astIns.id + ";";
                 dot += astIns.dot;
             }
-            dot += "\nnodo_" + id + " -> nodo_" + id + "_else[label=\"ELSE\"];";
+            dot += dotInstruccionesElse;
         }
 
-        return new RetornoAST(dot + dotInstruccionesIf + dotInstruccionesElse, id);
+        return new RetornoAST(dot + dotInstruccionesIf, id);
     }
 }

@@ -62,9 +62,9 @@ public class Relacionales extends Instruccion {
             case ENTERO ->
                 switch (comparando2) {
                     case ENTERO ->                     // entero == entero
-                        (int) comp1 == (int) comp2;
+                        Integer.parseInt(comp1.toString()) == Integer.parseInt(comp2.toString());
                     case DECIMAL ->                    // entero == decimal
-                        (int) comp1 == (double) comp2;
+                        Double.parseDouble(comp1.toString()) == Double.parseDouble(comp2.toString());
                     case CARACTER ->                   // entero == caracter
                         (int) comp1 == (char)((String) comp2).charAt(0) ;
                     default ->
@@ -73,9 +73,10 @@ public class Relacionales extends Instruccion {
             case DECIMAL ->
                 switch (comparando2) {
                     case ENTERO ->                 // decimal == entero
-                        (double) comp1 == (int) comp2;
+                        Double.parseDouble(comp1.toString()) == Double.parseDouble(comp2.toString());
                     case DECIMAL ->                 // decimal == decimal
-                        (double) comp1 == (double) comp2;
+                        // (double) comp1 == (double) comp2;
+                        Double.parseDouble(comp1.toString()) == Double.parseDouble(comp2.toString());
                     case CARACTER ->               // decimal == caracter
                         (double) comp1 == (char)((String) comp2).charAt(0) ;
                     default ->

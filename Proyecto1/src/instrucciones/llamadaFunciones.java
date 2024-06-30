@@ -23,7 +23,7 @@ public class llamadaFunciones extends Instruccion {
     private LinkedList<Instruccion> parametros;
 
     public llamadaFunciones(String id, LinkedList<Instruccion> parametros, int linea, int columna) {
-        super(tipo, linea, columna);
+        super(new Tipo(tipoDato.VOID), linea, columna);
         this.id = id;
         this.parametros = parametros;
     }
@@ -35,6 +35,7 @@ public class llamadaFunciones extends Instruccion {
             return new Exception("Error semantico: la funcion " + this.id + " no existe");
         }
         if (busqueda instanceof Funcion metodo) {
+            this.tipo.setTipo(metodo.tipo.getTipo());
             var newTabla = new tablaSimbolos(arbol.getTablaGlobal());
             newTabla.setNombre("llamada funciones " + this.id);
             if (metodo.parametros.size() != this.parametros.size()) {
@@ -68,7 +69,7 @@ public class llamadaFunciones extends Instruccion {
             }
 
             var resultadoMetodo = metodo.interpretar(arbol, newTabla);
-            if (resultadoMetodo instanceof Exception) {
+            if (resultadoMetodo != null || resultadoMetodo instanceof Exception) {
                 return resultadoMetodo;
             }
 

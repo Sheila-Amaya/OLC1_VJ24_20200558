@@ -71,15 +71,15 @@ public class Declaracion extends Instruccion {
 
     private Object obtenerValorInicial() {
         switch (this.tipo.getTipo()) {
-            case tipoDato.ENTERO:
+            case ENTERO:
                 return 0;
-            case tipoDato.DECIMAL:
+            case DECIMAL:
                 return 0.0;
-            case tipoDato.BOOLEANO:
+            case BOOLEANO:
                 return false;
-            case tipoDato.CARACTER:
+            case CARACTER:
                 return '\0';
-            case tipoDato.CADENA:
+            case CADENA:
                 return "";
             default:
                 return null; // En caso de otros tipos de datos o errores

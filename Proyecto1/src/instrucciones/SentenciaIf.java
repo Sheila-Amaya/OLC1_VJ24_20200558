@@ -42,38 +42,28 @@ public class SentenciaIf extends Instruccion {
         var newTabla = new tablaSimbolos(tabla);
         if ((boolean) cond) {   // Si la condición es verdadera, se recorren todas las instrucciones
             for (var i : this.instrucciones) {
+                var resultado = i.interpretar(arbol, newTabla);
                 if (i instanceof Break) {
                     return i;
                 }
-                var resultado = i.interpretar(arbol, newTabla);
-                if (resultado instanceof Break) {
-                    return resultado;
-                }
-                if (resultado instanceof Continue) {
-                    return resultado; 
-                }
-                if (resultado instanceof Return) {
-                    return resultado;
-                }
-                if (resultado instanceof Excepcion) {
-                    return resultado;
-                }
+                if(resultado != null) return resultado;
             }
         }
         return null;
     }
     
-    public RetornoAST ast(AST ast){
+    public RetornoAST ast(AST ast) {
         int id = ast.getNewID();
         String dot = "nodo_" + id + "[label=\"IF\"];";
 
+        // Nodo de la condición
         RetornoAST astCondicion = condicion.ast(ast);
         dot += "\nnodo_" + id + "_cond[label=\"CONDICION\"];";
         dot += "\nnodo_" + id + " -> nodo_" + id + "_cond;";
         dot += "\nnodo_" + id + "_cond -> nodo_" + astCondicion.id + ";";
         dot += astCondicion.dot;
 
-
+        // Nodos de las instrucciones del if
         String dotInstrucciones = "";
         for (Instruccion ins : instrucciones) {
             RetornoAST astIns = ins.ast(ast);
@@ -83,5 +73,4 @@ public class SentenciaIf extends Instruccion {
 
         return new RetornoAST(dot + dotInstrucciones, id);
     }
-
 }

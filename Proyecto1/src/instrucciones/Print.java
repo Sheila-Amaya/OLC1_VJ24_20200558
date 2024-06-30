@@ -28,10 +28,12 @@ public class Print extends Instruccion{
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         var resultado = this.expresion.interpretar(arbol, tabla);
-        if (resultado instanceof Exception) {
-            return resultado;
+        if (resultado != null) {
+            if (resultado instanceof Exception) {
+                return resultado;
+            }
+            arbol.Print(resultado.toString());
         }
-        arbol.Print(resultado.toString());
         return null;
     }
     

@@ -28,7 +28,7 @@ public class Funcion extends Instruccion{
     public LinkedList<Instruccion> instrucciones;
 
     public Funcion(Tipo tipo,String id,LinkedList<HashMap> parametros, LinkedList<Instruccion> instrucciones, int linea, int columna) {
-        super(tipo, linea, columna);
+        super(new Tipo(tipo.getTipo()), linea, columna);
         this.id = id;
         this.parametros = parametros;
         this.instrucciones = instrucciones;
@@ -38,13 +38,7 @@ public class Funcion extends Instruccion{
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         for (Instruccion i : this.instrucciones) {
             Object resultado = i.interpretar(arbol, tabla);
-            if (resultado instanceof Excepcion) {
-                return resultado; 
-            }
-            if (resultado instanceof Return) {
-                return resultado; 
-            }
-            if (resultado instanceof Break || resultado instanceof Continue) {
+            if (resultado != null) {
                 return resultado; 
             }
         }

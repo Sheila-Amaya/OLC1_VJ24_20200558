@@ -1,63 +1,352 @@
 digraph G {
 nodo_r[label="INSTRUCCIONES"];
 nodo_0[label="DECLARACION"];
-nodo_0_id[label="global"];
+nodo_0_id[label="var1"];
 nodo_0 -> nodo_0_id;
 nodo_0_muta[label="var"];
 nodo_0 -> nodo_0_muta;
-nodo_1[label="10"];
+nodo_1[label="0"];
 nodo_0 -> nodo_1;
 nodo_r -> nodo_0;
-nodo_2[label="METODO"];
-nodo_2_id[label="main"]
-nodo_2 -> nodo_2_id
+nodo_2[label="DECLARACION_VECTOR1D"];
+nodo_2_id[label="arreglo2"];
+nodo_2 -> nodo_2_id;
+nodo_2_muta[label="const"];
+nodo_2 -> nodo_2_muta;
+nodo_3[label="0"];
 nodo_2 -> nodo_3;
-nodo_3[label="PRINTLN"];
-nodo_4[label="Archivo de prueba 2 - Fase 2"];
-nodo_3 -> nodo_4;
+nodo_4[label="0"];
+nodo_2 -> nodo_4;
+nodo_5[label="1"];
 nodo_2 -> nodo_5;
-nodo_5[label="PRINTLN"];
-nodo_6[label=""];
-nodo_5 -> nodo_6;
+nodo_6[label="2"];
+nodo_2 -> nodo_6;
+nodo_7[label="0"];
 nodo_2 -> nodo_7;
-nodo_7[label="DECLARACION"];
-nodo_7_id[label="a"];
-nodo_7 -> nodo_7_id;
-nodo_7_muta[label="var"];
-nodo_7 -> nodo_7_muta;
-nodo_8[label="LLAMADA"];
-nodo_8_id[label="suma"]
-nodo_8 -> nodo_8_id
-nodo_8 -> nodo_9;
-nodo_9[label="1"];
-nodo_8 -> nodo_10;
-nodo_10[label="global"];
-nodo_7 -> nodo_8;
+nodo_8[label="0"];
+nodo_2 -> nodo_8;
+nodo_9[label="5"];
+nodo_2 -> nodo_9;
+nodo_10[label="1"];
+nodo_2 -> nodo_10;
+nodo_11[label="0"];
 nodo_2 -> nodo_11;
-nodo_11[label="PRINTLN"];
-nodo_12[label="SUMA"];
-nodo_13[label="El resultado de la suma es: "];
-nodo_12 -> nodo_13;
-nodo_14[label="a"];
-nodo_12 -> nodo_14;
-nodo_11 -> nodo_12;
+nodo_12[label="0"];
+nodo_2 -> nodo_12;
+nodo_13[label="8"];
+nodo_2 -> nodo_13;
+nodo_14[label="0"];
+nodo_2 -> nodo_14;
+nodo_15[label="0"];
 nodo_2 -> nodo_15;
-nodo_15[label="PRINTLN"];
-nodo_16[label=""];
-nodo_15 -> nodo_16;
 nodo_r -> nodo_2;
-nodo_17[label="METODO"];
-nodo_17_id[label="suma"]
-nodo_17 -> nodo_17_id
-nodo_18[label="PARAMETRO"];
-nodo_17 -> nodo_18
-nodo_18_id[label="a"]
-nodo_18 -> nodo_18_id
-nodo_19[label="PARAMETRO"];
-nodo_17 -> nodo_19
-nodo_19_id[label="b"]
-nodo_19 -> nodo_19_id
-nodo_17 -> nodo_20;
-nodo_20[label="RETURN"];
-nodo_r -> nodo_17;
+nodo_16[label="METODO"];
+nodo_16_id[label="main"]
+nodo_16 -> nodo_16_id
+nodo_16 -> nodo_17;
+nodo_17[label="PRINTLN"];
+nodo_18[label="Archivo de prueba"];
+nodo_17 -> nodo_18;
+nodo_16 -> nodo_19;
+nodo_19[label="PRINTLN"];
+nodo_20[label="Si sale compi1"];
+nodo_19 -> nodo_20;
+nodo_16 -> nodo_21;
+nodo_21[label="DECLARACION"];
+nodo_21_id[label="var1"];
+nodo_21 -> nodo_21_id;
+nodo_21_muta[label="var"];
+nodo_21 -> nodo_21_muta;
+nodo_22[label="10"];
+nodo_21 -> nodo_22;
+nodo_16 -> nodo_23;
+nodo_23[label="IF_ELSE"];
+nodo_23_cond[label="CONDICION"];
+nodo_23 -> nodo_23_cond;
+nodo_23_cond -> nodo_24;nodo_24[label="EQUALS"];
+nodo_25[label="var1"];
+nodo_24 -> nodo_25;
+nodo_26[label="0"];
+nodo_24 -> nodo_26;
+nodo_27[label="IF"];
+nodo_23 -> nodo_27;nodo_28[label="PRINTLN"];
+nodo_29[label="Manejo de ambitos erroneo :'("];
+nodo_28 -> nodo_29;
+nodo_30[label="ELSE"];
+nodo_23 -> nodo_30;nodo_31[label="PRINTLN"];
+nodo_32[label="Manejo de ambitos correcto"];
+nodo_31 -> nodo_32;
+nodo_30 -> nodo_31;
+nodo_27 -> nodo_28;
+nodo_16 -> nodo_33;
+nodo_33[label="LLAMADA"];
+nodo_33_id[label="tablaMultiplicar"]
+nodo_33 -> nodo_33_id
+nodo_33 -> nodo_34;
+nodo_34[label="5"];
+nodo_16 -> nodo_35;
+nodo_35[label="LLAMADA"];
+nodo_35_id[label="recursividadBasica"]
+nodo_35 -> nodo_35_id
+nodo_16 -> nodo_36;
+nodo_36[label="LLAMADA"];
+nodo_36_id[label="AnalizarArreglo"]
+nodo_36 -> nodo_36_id
+nodo_16 -> nodo_37;
+nodo_37[label="PRINTLN"];
+nodo_38[label="Fin de la prueba"];
+nodo_37 -> nodo_38;
+nodo_r -> nodo_16;
+nodo_39[label="METODO"];
+nodo_39_id[label="tablaMultiplicar"]
+nodo_39 -> nodo_39_id
+nodo_40[label="PARAMETRO"];
+nodo_39 -> nodo_40
+nodo_40_id[label="valor"]
+nodo_40 -> nodo_40_id
+nodo_39 -> nodo_41;
+nodo_41[label="DECLARACION"];
+nodo_41_id[label="cadenaSalida"];
+nodo_41 -> nodo_41_id;
+nodo_41_muta[label="const"];
+nodo_41 -> nodo_41_muta;
+nodo_42[label="Final de la tabla de multiplicar"];
+nodo_41 -> nodo_42;
+nodo_39 -> nodo_43;
+nodo_43[label="DECLARACION"];
+nodo_43_id[label="i"];
+nodo_43 -> nodo_43_id;
+nodo_43_muta[label="var"];
+nodo_43 -> nodo_43_muta;
+nodo_44[label="0"];
+nodo_43 -> nodo_44;
+nodo_39 -> nodo_45;
+nodo_45[label="FOR"];
+nodo_46[label="ASIGNACION"];
+nodo_46_id[label="i"]
+nodo_46 -> nodo_46_id
+nodo_47[label="1"];
+nodo_46 -> nodo_47;
+nodo_45 -> nodo_46;
+nodo_48[label="LESS_THAN_OR_EQUALS"];
+nodo_49[label="i"];
+nodo_48 -> nodo_49;
+nodo_50[label="11"];
+nodo_48 -> nodo_50;
+nodo_45 -> nodo_48;
+nodo_51[label="++"];
+nodo_51_id[label="i"];
+nodo_51 -> nodo_51_id;
+nodo_45 -> nodo_51;
+nodo_52[label="PRINTLN"];
+nodo_53[label="SUMA"];
+nodo_54[label="SUMA"];
+nodo_55[label="SUMA"];
+nodo_56[label="SUMA"];
+nodo_57[label="valor"];
+nodo_56 -> nodo_57;
+nodo_58[label=" x "];
+nodo_56 -> nodo_58;
+nodo_55 -> nodo_56;
+nodo_59[label="i"];
+nodo_55 -> nodo_59;
+nodo_54 -> nodo_55;
+nodo_60[label=" = "];
+nodo_54 -> nodo_60;
+nodo_53 -> nodo_54;
+nodo_61[label="MULTIPLICACION"];
+nodo_62[label="valor"];
+nodo_61 -> nodo_62;
+nodo_63[label="i"];
+nodo_61 -> nodo_63;
+nodo_53 -> nodo_61;
+nodo_52 -> nodo_53;
+nodo_45 -> nodo_52;
+nodo_64[label="IF"];
+nodo_64_cond[label="CONDICION"];
+nodo_64 -> nodo_64_cond;
+nodo_64_cond -> nodo_65;nodo_65[label="EQUALS"];
+nodo_66[label="i"];
+nodo_65 -> nodo_66;
+nodo_67[label="10"];
+nodo_65 -> nodo_67;nodo_68[label="PRINTLN"];
+nodo_69[label="cadenaSalida"];
+nodo_68 -> nodo_69;nodo_70[label="Break"]
+nodo_64 -> nodo_68;
+nodo_64 -> nodo_70;
+nodo_45 -> nodo_64;
+nodo_r -> nodo_39;
+nodo_71[label="METODO"];
+nodo_71_id[label="mcd"]
+nodo_71 -> nodo_71_id
+nodo_72[label="PARAMETRO"];
+nodo_71 -> nodo_72
+nodo_72_id[label="a"]
+nodo_72 -> nodo_72_id
+nodo_73[label="PARAMETRO"];
+nodo_71 -> nodo_73
+nodo_73_id[label="b"]
+nodo_73 -> nodo_73_id
+nodo_71 -> nodo_74;
+nodo_74[label="IF_ELSE"];
+nodo_74_cond[label="CONDICION"];
+nodo_74 -> nodo_74_cond;
+nodo_74_cond -> nodo_75;nodo_75[label="EQUALS"];
+nodo_76[label="b"];
+nodo_75 -> nodo_76;
+nodo_77[label="0.0"];
+nodo_75 -> nodo_77;
+nodo_78[label="IF"];
+nodo_74 -> nodo_78;nodo_79[label="RETURN"];
+nodo_80[label="ELSE"];
+nodo_74 -> nodo_80;nodo_81[label="RETURN"];
+nodo_80 -> nodo_81;
+nodo_78 -> nodo_79;
+nodo_r -> nodo_71;
+nodo_82[label="METODO"];
+nodo_82_id[label="recursividadBasica"]
+nodo_82 -> nodo_82_id
+nodo_82 -> nodo_83;
+nodo_83[label="DECLARACION"];
+nodo_83_id[label="resultado"];
+nodo_83 -> nodo_83_id;
+nodo_83_muta[label="const"];
+nodo_83 -> nodo_83_muta;
+nodo_84[label="LLAMADA"];
+nodo_84_id[label="mcd"]
+nodo_84 -> nodo_84_id
+nodo_84 -> nodo_85;
+nodo_85[label="48.0"];
+nodo_84 -> nodo_86;
+nodo_86[label="18.0"];
+nodo_83 -> nodo_84;
+nodo_82 -> nodo_87;
+nodo_87[label="IF"];
+nodo_87_cond[label="CONDICION"];
+nodo_87 -> nodo_87_cond;
+nodo_87_cond -> nodo_88;nodo_88[label="EQUALS"];
+nodo_89[label="resultado"];
+nodo_88 -> nodo_89;
+nodo_90[label="6"];
+nodo_88 -> nodo_90;nodo_91[label="PRINTLN"];
+nodo_92[label="Funcion recursiva correcta"];
+nodo_91 -> nodo_92;nodo_93[label="RETURN"];
+nodo_87 -> nodo_91;
+nodo_87 -> nodo_93;
+nodo_82 -> nodo_94;
+nodo_94[label="PRINTLN"];
+nodo_95[label="Funcion recursiva incorrecta"];
+nodo_94 -> nodo_95;
+nodo_r -> nodo_82;
+nodo_96[label="METODO"];
+nodo_96_id[label="AnalizarArreglo"]
+nodo_96 -> nodo_96_id
+nodo_96 -> nodo_97;
+nodo_97[label="DECLARACION"];
+nodo_97_id[label="temporal"];
+nodo_97 -> nodo_97_id;
+nodo_97_muta[label="var"];
+nodo_97 -> nodo_97_muta;
+nodo_98[label="0"];
+nodo_97 -> nodo_98;
+nodo_96 -> nodo_99;
+nodo_99[label="DECLARACION"];
+nodo_99_id[label="suma"];
+nodo_99 -> nodo_99_id;
+nodo_99_muta[label="var"];
+nodo_99 -> nodo_99_muta;
+nodo_100[label="0"];
+nodo_99 -> nodo_100;
+nodo_96 -> nodo_101;
+nodo_101[label="DECLARACION"];
+nodo_101_id[label="ceros"];
+nodo_101 -> nodo_101_id;
+nodo_101_muta[label="var"];
+nodo_101 -> nodo_101_muta;
+nodo_102[label="0"];
+nodo_101 -> nodo_102;
+nodo_96 -> nodo_103;
+nodo_103[label="DECLARACION"];
+nodo_103_id[label="i"];
+nodo_103 -> nodo_103_id;
+nodo_103_muta[label="var"];
+nodo_103 -> nodo_103_muta;
+nodo_104[label="0"];
+nodo_103 -> nodo_104;
+nodo_96 -> nodo_105;
+nodo_105[label="FOR"];
+nodo_106[label="ASIGNACION"];
+nodo_106_id[label="i"]
+nodo_106 -> nodo_106_id
+nodo_107[label="0"];
+nodo_106 -> nodo_107;
+nodo_105 -> nodo_106;
+nodo_108[label="LESS_THAN"];
+nodo_109[label="i"];
+nodo_108 -> nodo_109;
+nodo_110[label="LENGTH"];
+nodo_110 -> nodo_111;
+nodo_111[label="arreglo2"];
+nodo_108 -> nodo_110;
+nodo_105 -> nodo_108;
+nodo_112[label="++"];
+nodo_112_id[label="i"];
+nodo_112 -> nodo_112_id;
+nodo_105 -> nodo_112;
+nodo_113[label="ASIGNACION"];
+nodo_113_id[label="temporal"]
+nodo_113 -> nodo_113_id
+nodo_114[label="ACCESO_VECTOR"];
+nodo_114_id[label="arreglo2"];
+nodo_114 -> nodo_114_id;
+nodo_115[label="i"];
+nodo_114 -> nodo_115;
+nodo_113 -> nodo_114;
+nodo_105 -> nodo_113;
+nodo_116[label="IF"];
+nodo_116_cond[label="CONDICION"];
+nodo_116 -> nodo_116_cond;
+nodo_116_cond -> nodo_117;nodo_117[label="EQUALS"];
+nodo_118[label="temporal"];
+nodo_117 -> nodo_118;
+nodo_119[label="0"];
+nodo_117 -> nodo_119;nodo_120[label="ASIGNACION"];
+nodo_120_id[label="ceros"]
+nodo_120 -> nodo_120_id
+nodo_121[label="SUMA"];
+nodo_122[label="ceros"];
+nodo_121 -> nodo_122;
+nodo_123[label="1"];
+nodo_121 -> nodo_123;
+nodo_120 -> nodo_121;nodo_124[label="CONTINUE"];
+nodo_116 -> nodo_120;
+nodo_116 -> nodo_124;
+nodo_105 -> nodo_116;
+nodo_125[label="ASIGNACION"];
+nodo_125_id[label="suma"]
+nodo_125 -> nodo_125_id
+nodo_126[label="SUMA"];
+nodo_127[label="suma"];
+nodo_126 -> nodo_127;
+nodo_128[label="temporal"];
+nodo_126 -> nodo_128;
+nodo_125 -> nodo_126;
+nodo_105 -> nodo_125;
+nodo_96 -> nodo_129;
+nodo_129[label="PRINTLN"];
+nodo_130[label="SUMA"];
+nodo_131[label="La suma de los elementos del arreglo es: "];
+nodo_130 -> nodo_131;
+nodo_132[label="suma"];
+nodo_130 -> nodo_132;
+nodo_129 -> nodo_130;
+nodo_96 -> nodo_133;
+nodo_133[label="PRINTLN"];
+nodo_134[label="SUMA"];
+nodo_135[label="La cantidad de ceros en el arreglo es: "];
+nodo_134 -> nodo_135;
+nodo_136[label="ceros"];
+nodo_134 -> nodo_136;
+nodo_133 -> nodo_134;
+nodo_r -> nodo_96;
 }
