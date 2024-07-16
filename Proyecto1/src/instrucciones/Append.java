@@ -49,7 +49,7 @@ public class Append extends Instruccion {
 
         LinkedList<Object> lista = (LinkedList<Object>) simbolo.getValor();
         lista.add(valorInterpretado);
-        simbolo.setValor(lista);  // Asegúrate de actualizar el valor en la tabla de símbolos.
+        simbolo.setValor(lista);
 
         return null;
     }

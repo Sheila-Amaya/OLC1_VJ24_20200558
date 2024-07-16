@@ -6,8 +6,8 @@ package instrucciones;
 
 import Errores.Excepcion;
 import abstracto.Instruccion;
-import simbolo.*;
 import java.util.LinkedList;
+import simbolo.*;
 
 /**
  *
@@ -29,7 +29,7 @@ public class DeclaracionLista extends Instruccion {
 
         Simbolo nuevoSimbolo = new Simbolo(this.tipo, this.id, lista);
         nuevoSimbolo.setMutabilidad(true);  // Las listas siempre son mutables
-
+        
         if (!tabla.agregarVariable(nuevoSimbolo)) {
             return new Excepcion("Semántico", "La lista " + this.id + " ya existe.", this.linea, this.columna);
         }

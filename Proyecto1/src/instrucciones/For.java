@@ -17,7 +17,7 @@ public class For extends Instruccion {
     private LinkedList<Instruccion> instrucciones;
 
     public For(Instruccion asignacion, Instruccion condicion, Instruccion actualizacion, LinkedList<Instruccion> instrucciones, int linea, int columna) {
-        super(new Tipo(tipoDato.VOID), linea, columna);
+        super(new Tipo(condicion.tipo.getTipo()), linea, columna);
         this.asignacion = asignacion;
         this.condicion = condicion;
         this.actualizacion = actualizacion;

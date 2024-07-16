@@ -27,14 +27,15 @@ public class Round extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
-        // Evaluar la expresión para obtener el valor a redondear
         Object valor = expresion.interpretar(arbol, tabla);
+        if (valor instanceof Excepcion) {
+            return valor;
+        }
+
         if (valor instanceof Double) {
-            return Math.round((Double) valor);
-        } else if (valor instanceof Integer) {
-            return (Integer) valor; // Si es entero, no necesita redondeo
+            return (int) Math.round((Double) valor);
         } else {
-            return new Excepcion("Semántico", "El parámetro para la función round no es un número.", linea, columna);
+            return new Excepcion("Semantico", "El parámetro para la función round debe ser un número decimal.", linea, columna);
         }
     }
 
@@ -42,11 +43,11 @@ public class Round extends Instruccion {
     public RetornoAST ast(AST ast) {
         int id = ast.getNewID();
         String dot = "nodo_" + id + "[label=\"ROUND\"];";
-        
+
         RetornoAST valor = this.expresion.ast(ast);
         dot += "\nnodo_" + id + " -> nodo_" + valor.id + ";";
         dot += "\n" + valor.dot;
-        
+
         return new RetornoAST(dot, id);
     }
 }
